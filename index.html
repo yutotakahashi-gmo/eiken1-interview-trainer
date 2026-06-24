@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英検1級 面接対策アプリ</title>
+<style>
+:root{
+  color-scheme: light;
+  --bg:#f5f6fa; --card:#ffffff; --ink:#1f2430; --sub:#5b6472;
+  --line:#e3e6ee; --brand:#4f46e5; --brand-soft:#eef0fe;
+  --teal:#0d9488; --teal-soft:#e6f5f3; --amber:#d97706; --amber-soft:#fdf3e3;
+  --red:#dc2626; --green:#16a34a; --shadow:0 1px 3px rgba(20,25,40,.07),0 6px 20px rgba(20,25,40,.05);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.7;}
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px 80px;}
+header.top{text-align:center;margin-bottom:18px;}
+header.top h1{font-size:1.5rem;margin:0 0 4px;letter-spacing:.02em;}
+header.top p{margin:0;color:var(--sub);font-size:.9rem;}
+.tabs{display:flex;gap:6px;background:var(--card);padding:6px;border-radius:14px;
+  box-shadow:var(--shadow);position:sticky;top:8px;z-index:10;margin-bottom:20px;flex-wrap:wrap;}
+.tab{flex:1 1 0;min-width:90px;border:0;background:transparent;color:var(--sub);
+  padding:10px 8px;border-radius:10px;font-size:.9rem;font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap;}
+.tab:hover{background:var(--bg);}
+.tab.active{background:var(--brand);color:#fff;}
+.panel{display:none;animation:fade .25s ease;}
+.panel.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;
+  box-shadow:var(--shadow);margin-bottom:16px;}
+.card h2{margin:0 0 10px;font-size:1.15rem;}
+.card h3{margin:18px 0 6px;font-size:1rem;color:var(--brand);}
+.muted{color:var(--sub);font-size:.88rem;}
+.pill{display:inline-block;background:var(--brand-soft);color:var(--brand);
+  font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;margin-right:6px;}
+.pill.teal{background:var(--teal-soft);color:var(--teal);}
+.pill.amber{background:var(--amber-soft);color:var(--amber);}
+.tpl{background:var(--bg);border-radius:12px;padding:14px 16px;font-size:.95rem;}
+.tpl .slot{background:#fff8d6;border-bottom:2px solid var(--amber);padding:0 4px;border-radius:3px;font-weight:600;font-style:italic;}
+.tpl .conn{color:var(--brand);font-weight:700;}
+label.fld{display:block;font-size:.82rem;font-weight:700;color:var(--sub);margin:12px 0 4px;}
+textarea,input.txt,select{width:100%;border:1px solid var(--line);border-radius:10px;
+  padding:10px 12px;font-size:.95rem;font-family:inherit;background:#fff;color:var(--ink);resize:vertical;}
+textarea:focus,input.txt:focus,select:focus{outline:2px solid var(--brand-soft);border-color:var(--brand);}
+.btn{border:0;border-radius:11px;padding:12px 18px;font-size:.95rem;font-weight:700;cursor:pointer;transition:.15s;}
+.btn.primary{background:var(--brand);color:#fff;}
+.btn.primary:hover{background:#4338ca;}
+.btn.ghost{background:var(--brand-soft);color:var(--brand);}
+.btn.ghost:hover{background:#e0e3fd;}
+.btn.lg{width:100%;padding:14px;font-size:1rem;margin-top:14px;}
+.output{margin-top:16px;background:var(--brand-soft);border-radius:12px;padding:16px;white-space:pre-wrap;font-size:1rem;line-height:1.8;display:none;}
+.output.show{display:block;}
+.wc{font-size:.82rem;color:var(--sub);margin-top:8px;}
+.wc b{color:var(--green);}
+.wc b.warn{color:var(--amber);}
+.wc b.bad{color:var(--red);}
+.timer-stage{text-align:center;padding:8px 0;}
+.phase-label{font-size:1rem;font-weight:700;color:var(--sub);min-height:1.4em;}
+.ring-wrap{position:relative;width:240px;height:240px;margin:14px auto;}
+svg.ring{transform:rotate(-90deg);}
+.ring-bg{stroke:var(--line);}
+.ring-fg{stroke:var(--brand);stroke-linecap:round;transition:stroke-dashoffset 1s linear,stroke .3s;}
+.time-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.time-num .big{font-size:3.4rem;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em;}
+.time-num .small{font-size:.85rem;color:var(--sub);}
+.topic-card{background:var(--teal-soft);border:1px solid #bfe6e0;border-radius:14px;padding:16px 18px;margin-bottom:14px;}
+.topic-card ol{margin:6px 0 0;padding-left:22px;}
+.topic-card li{padding:4px 0;font-size:1.02rem;}
+.topic-card li.chosen{font-weight:800;color:var(--teal);}
+.timer-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px;}
+.model{border-left:4px solid var(--brand);padding:4px 0 4px 16px;margin:18px 0;}
+.model .q{font-weight:700;font-size:1.02rem;margin-bottom:6px;}
+.model .body{font-size:.97rem;}
+.model .meta{font-size:.78rem;color:var(--sub);margin-top:8px;}
+details.qa{margin-top:10px;background:var(--bg);border-radius:10px;padding:4px 14px;}
+details.qa summary{cursor:pointer;font-weight:700;padding:8px 0;font-size:.92rem;}
+details.qa p{margin:0 0 12px;font-size:.93rem;}
+.phrase-group{margin-bottom:16px;}
+.phrase-group .gt{font-weight:700;color:var(--brand);margin-bottom:4px;}
+.phrase-group ul{margin:0;padding-left:20px;}
+.phrase-group li{padding:2px 0;}
+.phrase-group li .en{font-weight:600;}
+.phrase-group li .ja{color:var(--sub);font-size:.85rem;}
+.flow li{padding:5px 0;border-bottom:1px dashed var(--line);}
+.flow li:last-child{border:0;}
+.flow .n{display:inline-block;width:24px;height:24px;line-height:24px;text-align:center;background:var(--brand);color:#fff;border-radius:50%;font-size:.8rem;font-weight:700;margin-right:8px;}
+.flow .t{color:var(--amber);font-weight:700;font-size:.82rem;margin-left:6px;}
+footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <h1>英検1級 面接対策アプリ</h1>
+  <p>二次試験（スピーチ）を、テンプレート × トピック練習 × 模範解答例で攻略</p>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="tpl">テンプレート</button>
+  <button class="tab" data-tab="practice">トピック練習</button>
+  <button class="tab" data-tab="model">模範解答例</button>
+  <button class="tab" data-tab="ref">流れ＆フレーズ</button>
+</nav>
+
+<section class="panel active" id="tpl">
+  <div class="card">
+    <h2>スピーチの型（2分・150〜180語）</h2>
+    <p class="muted">ライティングのテンプレを面接スピーチ用に最適化したものです。面接は <b>立場を即表明 → 理由2〜3個（各3〜4文）→ 結論</b> が黄金パターン。色付き部分を自分の内容に差し替えるだけ。</p>
+    <div class="tpl">
+      <p><span class="pill amber">Opening｜1〜2文</span><br>
+      I <span class="slot">agree / disagree</span> that <span class="slot">topic A</span>. This is a controversial issue, but I am firmly convinced that <span class="slot">my position</span>.</p>
+      <p><span class="pill">Body 1｜3〜4文</span><br>
+      <span class="conn">First,</span> <span class="slot">reason 1</span>. <span class="slot">説明・背景</span>. <span class="conn">For instance,</span> <span class="slot">具体例</span>.</p>
+      <p><span class="pill">Body 2｜3〜4文</span><br>
+      <span class="conn">Another reason is that</span> <span class="slot">reason 2</span>. <span class="slot">説明</span>. <span class="conn">Some may argue</span> <span class="slot">反対意見</span>. <span class="conn">Having said that,</span> <span class="slot">反論</span>.</p>
+      <p><span class="pill">Body 3｜任意</span><br>
+      <span class="conn">Finally,</span> <span class="slot">reason 3</span>. <span class="slot">説明</span>.</p>
+      <p><span class="pill teal">Conclusion｜1〜2文</span><br>
+      <span class="conn">For these reasons,</span> I strongly believe that <span class="slot">my position restated</span>.</p>
+    </div>
+    <p class="muted" style="margin-top:10px">💡 理由は2個でも十分。1分の準備では「立場＋理由のキーワード」だけ決め、各理由を3〜4文で肉付けする練習を。</p>
+  </div>
+
+  <div class="card">
+    <h2>テンプレ・ビルダー</h2>
+    <p class="muted">空欄を埋めると、テンプレに沿ったスピーチ原稿と語数を自動生成します。</p>
+
+    <label class="fld">立場（stance）</label>
+    <select id="b-stance">
+      <option value="agree">agree（賛成）</option>
+      <option value="disagree">disagree（反対）</option>
+    </select>
+
+    <label class="fld">トピック（that 以下・例: the Internet should be censored）</label>
+    <input class="txt" id="b-topic" placeholder="the Internet should be censored">
+
+    <label class="fld">Reason 1 ＋ 説明・例（2〜3文）</label>
+    <textarea id="b-r1" rows="3" placeholder="censorship protects vulnerable people. The Internet is full of harmful content that can damage young minds. For instance, violent images can lead to destructive behavior."></textarea>
+
+    <label class="fld">Reason 2 ＋ 説明（＋反論があれば）</label>
+    <textarea id="b-r2" rows="3" placeholder="it helps eliminate hate speech online. Offensive posts deepen social divisions. Some may argue this limits free speech, but freedom must be balanced against social harm."></textarea>
+
+    <label class="fld">Reason 3（任意）</label>
+    <textarea id="b-r3" rows="2" placeholder="（空欄でもOK）"></textarea>
+
+    <button class="btn primary lg" id="b-build">スピーチを生成 ✍️</button>
+    <div class="output" id="b-out"></div>
+    <div class="wc" id="b-wc"></div>
+  </div>
+</section>
+
+<section class="panel" id="practice">
+  <div class="card">
+    <h2>トピック練習（本番シミュレーション）</h2>
+    <p class="muted">本番と同じ流れ：5トピック提示 → <b>準備1分</b> → <b>スピーチ2分</b>。声に出して、アイコンタクトを意識して練習しましょう。</p>
+
+    <div class="topic-card" id="p-topics">
+      <span class="pill teal">Topic Card</span>
+      <ol id="p-list"></ol>
+    </div>
+
+    <div class="timer-stage">
+      <div class="phase-label" id="p-phase">「練習スタート」を押すと新しいトピックが表示されます</div>
+      <div class="ring-wrap">
+        <svg class="ring" width="240" height="240" viewBox="0 0 240 240">
+          <circle class="ring-bg" cx="120" cy="120" r="108" fill="none" stroke-width="14"/>
+          <circle class="ring-fg" id="p-ring" cx="120" cy="120" r="108" fill="none" stroke-width="14"
+            stroke-dasharray="678.58" stroke-dashoffset="0"/>
+        </svg>
+        <div class="time-num">
+          <div class="big" id="p-time">--:--</div>
+          <div class="small" id="p-sub">ready</div>
+        </div>
+      </div>
+      <div class="timer-btns">
+        <button class="btn primary" id="p-start">練習スタート 🎤</button>
+        <button class="btn ghost" id="p-skip" style="display:none">次のフェーズへ ⏭</button>
+        <button class="btn ghost" id="p-reset" style="display:none">リセット</button>
+      </div>
+      <p class="muted" id="p-hint" style="margin-top:14px"></p>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="model">
+  <div class="card">
+    <h2>模範解答例</h2>
+    <p class="muted">すべてテンプレ（立場→理由→反論→結論）に沿った構成。太字の接続表現に注目して音読してみてください。各例に<b>Q&Aを4問ずつ</b>収録（質問タップで解答例が開きます）。</p>
+    <div class="tpl" style="margin-bottom:8px">
+      <b>Q&A攻略のコツ（4分・5問程度）</b><br>
+      <span class="muted">① 質問の意図を一言で受ける（That's a good point. / Yes, I think so.）→ ② 理由を1つ→ ③ 具体例や言い換えで補強、を <b>3〜4文</b>で。<br>
+      反論・弱点を突かれても、勝ち負けではなく語学の試験。<b>That's a good point, but…</b> と受けてから自分の立場を述べればOK。詰まったら <b>Well, … / Let me see.</b> で間をつなぐ。</span>
+    </div>
+    <div id="model-list"></div>
+  </div>
+</section>
+
+<section class="panel" id="ref">
+  <div class="card">
+    <h2>二次試験の流れ</h2>
+    <ul class="flow" style="list-style:none;padding:0;margin:0" id="flow-list"></ul>
+  </div>
+  <div class="card">
+    <h2>そのまま使えるフレーズ集</h2>
+    <div id="phrase-list"></div>
+    <p class="muted" style="margin-top:8px">※ wanna / gonna / Yeah などの口語は避け、明瞭でフォーマルな話し方を。</p>
+  </div>
+</section>
+
+<footer class="foot">
+  英検®は公益財団法人 日本英語検定協会の登録商標です。本アプリは協会とは無関係の学習用ツールです。<br>
+  参考: 英検公式・旺文社「英語の友」二次試験解説
+</footer>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.add('active');
+  };
+});
+
+function wordCount(s){return (s.trim().match(/[A-Za-z'’-]+/g)||[]).length;}
+document.getElementById('b-build').onclick=()=>{
+  const stance=document.getElementById('b-stance').value;
+  const topic=document.getElementById('b-topic').value.trim()||'[topic A]';
+  const r1=document.getElementById('b-r1').value.trim();
+  const r2=document.getElementById('b-r2').value.trim();
+  const r3=document.getElementById('b-r3').value.trim();
+  let s=`I ${stance} that ${topic}. This is a controversial issue, but I am firmly convinced of my position.\n\n`;
+  if(r1) s+=`First, ${r1}\n\n`;
+  if(r2) s+=`Another reason is that ${r2}\n\n`;
+  if(r3) s+=`Finally, ${r3}\n\n`;
+  s+=`For these reasons, I strongly ${stance==='agree'?'support':'oppose'} the idea that ${topic}.`;
+  const out=document.getElementById('b-out');
+  out.textContent=s; out.classList.add('show');
+  const n=wordCount(s);
+  const wc=document.getElementById('b-wc');
+  let cls='bad',msg='短い（理由や説明を足しましょう）';
+  if(n>=150&&n<=180){cls='';msg='ちょうど良い長さ（2分の目安）';}
+  else if(n>=130&&n<190){cls='warn';msg='ほぼOK（130〜190語が目安）';}
+  else if(n>190){cls='warn';msg='やや長い（2分で収まるか確認）';}
+  wc.innerHTML=`語数: <b class="${cls}">${n} words</b> — ${msg}`;
+};
+
+const TOPICS=[
+"Should the Internet be censored?",
+"Is adopting orphans from other countries a good thing?",
+"How can Japan best provide assistance to less developed countries?",
+"Agree or disagree: It is too late to prevent climate change.",
+"Can Japan's rural communities be revitalized?",
+"Should nuclear power play a key role in our energy future?",
+"Has social media done more harm than good?",
+"Should euthanasia be legalized?",
+"Should capital punishment be abolished?",
+"Should wealthy nations accept more immigrants?",
+"Will artificial intelligence ultimately benefit humanity?",
+"Should the development of AI be strictly regulated?",
+"Are humans becoming too dependent on technology?",
+"Should university education be free for everyone?",
+"Is a university degree still worth the investment?",
+"Will remote work replace the traditional office?",
+"Should English become an official language in Japan?",
+"Does globalization benefit developing countries?",
+"Is nationalism a threat to world peace?",
+"Should voting be made compulsory?",
+"Is economic growth always desirable?",
+"Should governments do more to combat obesity?",
+"Are traditional values disappearing in modern society?",
+"Should companies be required to hire more women in leadership?",
+"Is space exploration a worthwhile use of resources?",
+"Should genetic engineering of humans be permitted?",
+"Can renewable energy realistically replace fossil fuels?",
+"Should we be concerned about the decline of local journalism?",
+"Is privacy possible in the digital age?",
+"Should rich countries forgive the debts of poor nations?"
+];
+function pick5(){
+  const a=[...TOPICS]; for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}
+  return a.slice(0,5);
+}
+function renderTopics(arr){
+  const ol=document.getElementById('p-list'); ol.innerHTML='';
+  arr.forEach(t=>{const li=document.createElement('li');li.textContent=t;ol.appendChild(li);});
+}
+renderTopics(pick5());
+
+const R=108, CIRC=2*Math.PI*R;
+const ring=document.getElementById('p-ring');
+ring.setAttribute('stroke-dasharray',CIRC.toFixed(2));
+const elTime=document.getElementById('p-time'),elSub=document.getElementById('p-sub'),
+  elPhase=document.getElementById('p-phase'),elHint=document.getElementById('p-hint'),
+  bStart=document.getElementById('p-start'),bSkip=document.getElementById('p-skip'),bReset=document.getElementById('p-reset');
+let tId=null, phase='idle', remain=0, total=0;
+
+function beep(freq,dur){
+  try{const ac=new (window.AudioContext||window.webkitAudioContext)();
+    const o=ac.createOscillator(),g=ac.createGain();
+    o.connect(g);g.connect(ac.destination);o.frequency.value=freq;o.type='sine';
+    g.gain.setValueAtTime(.0001,ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(.3,ac.currentTime+.02);
+    g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+dur);
+    o.start();o.stop(ac.currentTime+dur);}catch(e){}
+}
+function fmt(s){const m=s/60|0,x=s%60;return `${m}:${String(x).padStart(2,'0')}`;}
+function paint(){
+  elTime.textContent=fmt(remain);
+  const off=CIRC*(1-remain/total);
+  ring.setAttribute('stroke-dashoffset',off.toFixed(2));
+}
+function setRingColor(c){ring.style.stroke=c;}
+
+function startPhase(p){
+  phase=p;
+  if(p==='prep'){
+    total=remain=60; setRingColor('var(--amber)');
+    elPhase.textContent='① 準備時間（1分）— トピックを1つ選ぶ';
+    elSub.textContent='PREP'; elHint.textContent='立場（賛成/反対）を決め、理由を2〜3個キーワードで思い浮かべる。メモは取れません。';
+    beep(660,.15);
+  }else if(p==='speech'){
+    total=remain=120; setRingColor('var(--brand)');
+    elPhase.textContent='② スピーチ（2分）— 話し始めてください';
+    elSub.textContent='SPEECH'; elHint.textContent='まず立場を明言 → First… Another reason… → For these reasons… で締める。';
+    beep(880,.2);setTimeout(()=>beep(880,.2),250);
+  }
+  paint();
+  clearInterval(tId);
+  tId=setInterval(()=>{
+    remain--; paint();
+    if(remain<=0){
+      clearInterval(tId);
+      if(phase==='prep'){startPhase('speech');}
+      else{finish();}
+    }
+  },1000);
+}
+function finish(){
+  clearInterval(tId);phase='done';
+  beep(440,.5);
+  elPhase.textContent='✅ お疲れさまでした！録音を聞き返してチェックを';
+  elSub.textContent='DONE';elTime.textContent='0:00';
+  elHint.textContent='発音・イントネーション / 同じ語の繰り返し / 立場の一貫性 を客観的に確認しましょう。';
+  bSkip.style.display='none';
+}
+bStart.onclick=()=>{
+  renderTopics(pick5());
+  bStart.style.display='none';bSkip.style.display='';bReset.style.display='';
+  startPhase('prep');
+};
+bSkip.onclick=()=>{
+  if(phase==='prep')startPhase('speech');
+  else if(phase==='speech')finish();
+};
+bReset.onclick=()=>{
+  clearInterval(tId);phase='idle';
+  elTime.textContent='--:--';elSub.textContent='ready';
+  elPhase.textContent='「練習スタート」を押すと新しいトピックが表示されます';
+  elHint.textContent='';setRingColor('var(--brand)');
+  ring.setAttribute('stroke-dashoffset',0);
+  bStart.style.display='';bSkip.style.display='none';bReset.style.display='none';
+  renderTopics(pick5());
+};
+
+const MODELS=[
+{q:"Should the Internet be censored? — I agree",
+ body:`I agree that the Internet should be censored. This is a controversial issue, but I am firmly convinced that some degree of regulation is essential.
+
+First, censorship is necessary to protect children and other vulnerable people from harmful content. The Internet is full of violent and pornographic material that is easily accessible. For instance, such content can seriously damage young people's mental development and even lead to destructive behavior.
+
+Another reason is that censorship helps eliminate hate speech and extremist views online. Countless websites are filled with racist and offensive comments that may unduly influence impressionable readers. Some may argue that this violates freedom of speech. Having said that, freedom must be balanced against the enormous impact the Internet has on society.
+
+For these reasons, I strongly believe that the Internet should be reasonably censored.`,
+ qa:[
+   ["Has the Internet affected people in negative ways?","Yes, it has. People spend too much time on their devices, often just surfing for entertainment. As a result, they get less exercise and have less face-to-face time with family and friends, which can weaken their social skills."],
+   ["Who should be responsible for censoring the Internet — governments or companies?","Ideally, it should be a cooperation between the two. Governments can set clear legal standards, while tech companies have the technical means to enforce them. To prevent abuse, an independent body should also monitor the process so that censorship is not used for political purposes."],
+   ["Doesn't censorship threaten freedom of expression?","That's a valid concern, but I believe reasonable regulation and free speech can coexist. We already accept limits on speech that incites violence or spreads child abuse. Extending similar, transparent rules online protects society without silencing legitimate debate."],
+   ["Is it even technically possible to censor the Internet effectively?","It is challenging, but not impossible. Many countries already filter illegal content fairly successfully. Even if determined users find ways around it, partial filtering greatly reduces the average person's exposure to harmful material, which makes the effort worthwhile."]
+ ]},
+
+{q:"Agree or disagree: It is too late to prevent climate change — I disagree",
+ body:`I disagree with the statement that it is too late to prevent climate change. While the situation is serious, I firmly believe that meaningful action can still make a real difference.
+
+First, renewable energy technology is advancing at a remarkable pace. The cost of solar and wind power has fallen dramatically, allowing many countries to reduce their dependence on fossil fuels. This shows that a cleaner future is both technically and economically possible.
+
+Another reason is that international cooperation is growing stronger. Through agreements such as the Paris Accord, nations are setting ambitious targets to cut emissions. Admittedly, some damage is already irreversible. However, giving up now would only guarantee disaster, whereas continued effort can still limit the worst consequences.
+
+For these reasons, I am convinced that it is not too late to address climate change.`,
+ qa:[
+   ["Is individual action enough, or do we need government action?","Individual action matters, but it is not enough on its own. Governments must set regulations and invest in clean energy, because only large-scale policy can drive the rapid change the crisis demands."],
+   ["Which is more effective: new technology or changes in lifestyle?","Both are needed, but I think technology has greater potential for large-scale impact, since cleaner energy and carbon capture can cut emissions globally. That said, lifestyle changes such as reducing waste reinforce these efforts and help shift public attitudes."],
+   ["Developing countries say climate action slows their growth. How do you respond?","That's a fair point, which is why wealthier nations that caused most historical emissions should provide financial and technological support. Green technology can also create new industries and jobs, so sustainable development and economic growth are not mutually exclusive."],
+   ["Aren't international agreements like the Paris Accord often ignored?","Unfortunately, enforcement is weak and some countries fall short of their targets. However, these agreements still set shared goals and create diplomatic pressure. They are an essential first step, even if stronger accountability mechanisms are needed."]
+ ]},
+
+{q:"Can Japan's rural communities be revitalized? — Yes",
+ body:`I believe that Japan's rural communities can be revitalized. Although they face serious challenges such as aging and depopulation, I am optimistic about their future.
+
+First, remote work has created new opportunities. Since the pandemic, more people can work from anywhere, and some are choosing to move to the countryside in search of a better quality of life. This trend can bring younger residents and fresh energy to rural areas.
+
+Another reason is the growing appeal of rural tourism. Many foreign visitors are eager to experience traditional Japanese culture, local cuisine, and beautiful scenery. By promoting these attractions, rural towns can generate income and create jobs. Of course, government support is essential, but with the right policies revival is achievable.
+
+For these reasons, I strongly believe that rural communities in Japan can be revitalized.`,
+ qa:[
+   ["What is the biggest obstacle to revitalizing rural areas?","The biggest obstacle is the declining and aging population. With fewer young people, it is hard to sustain local businesses and services. That is why attracting newcomers through jobs and good infrastructure is so important."],
+   ["Isn't moving to the countryside inconvenient for young families?","It can be, due to fewer schools and hospitals. However, improving digital infrastructure and transportation can ease these problems. In fact, some families prefer rural areas for their lower cost of living and a safer, more natural environment for raising children."],
+   ["Should the government spend tax money on declining rural towns?","I believe targeted investment is justified, because rural areas provide food, preserve culture, and protect the environment. Rather than supporting every town equally, the government should focus on regions with realistic potential so the money is used efficiently."],
+   ["Can tourism really create stable, long-term jobs?","Tourism alone may be seasonal, but combined with agriculture, local crafts, and remote work, it can form part of a diverse rural economy. Diversification is the key to creating stable employment instead of relying on a single industry."]
+ ]}
+];
+const ml=document.getElementById('model-list');
+MODELS.forEach(m=>{
+  const wc=(m.body.match(/[A-Za-z'’-]+/g)||[]).length;
+  const div=document.createElement('div');div.className='model';
+  let qaHtml=m.qa.map(p=>`<details class="qa"><summary
