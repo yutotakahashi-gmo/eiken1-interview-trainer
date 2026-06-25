@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>英検1級 面接対策アプリ</title>
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-512.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="英検1級面接">
+<meta name="theme-color" content="#4f46e5">
 <style>
 :root{
   color-scheme: light;
@@ -69,7 +75,6 @@ svg.ring{transform:rotate(-90deg);}
 .topic-card{background:var(--teal-soft);border:1px solid #bfe6e0;border-radius:14px;padding:16px 18px;margin-bottom:14px;}
 .topic-card ol{margin:6px 0 0;padding-left:22px;}
 .topic-card li{padding:4px 0;font-size:1.02rem;}
-.topic-card li.chosen{font-weight:800;color:var(--teal);}
 .timer-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px;}
 .model{border-left:4px solid var(--brand);padding:4px 0 4px 16px;margin:18px 0;}
 .model .q{font-weight:700;font-size:1.02rem;margin-bottom:6px;}
@@ -217,39 +222,39 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
 </div>
 
 <script>
-document.querySelectorAll('.tab').forEach(t=>{
-  t.onclick=()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click', function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+    document.querySelectorAll('.panel').forEach(function(x){x.classList.remove('active');});
     t.classList.add('active');
     document.getElementById(t.dataset.tab).classList.add('active');
-  };
+  });
 });
 
-function wordCount(s){return (s.trim().match(/[A-Za-z'’-]+/g)||[]).length;}
-document.getElementById('b-build').onclick=()=>{
-  const stance=document.getElementById('b-stance').value;
-  const topic=document.getElementById('b-topic').value.trim()||'[topic A]';
-  const r1=document.getElementById('b-r1').value.trim();
-  const r2=document.getElementById('b-r2').value.trim();
-  const r3=document.getElementById('b-r3').value.trim();
-  let s=`I ${stance} that ${topic}. This is a controversial issue, but I am firmly convinced of my position.\n\n`;
-  if(r1) s+=`First, ${r1}\n\n`;
-  if(r2) s+=`Another reason is that ${r2}\n\n`;
-  if(r3) s+=`Finally, ${r3}\n\n`;
-  s+=`For these reasons, I strongly ${stance==='agree'?'support':'oppose'} the idea that ${topic}.`;
-  const out=document.getElementById('b-out');
+function wordCount(s){return (s.trim().match(/[A-Za-z'-]+/g)||[]).length;}
+document.getElementById('b-build').addEventListener('click', function(){
+  var stance=document.getElementById('b-stance').value;
+  var topic=document.getElementById('b-topic').value.trim()||'[topic A]';
+  var r1=document.getElementById('b-r1').value.trim();
+  var r2=document.getElementById('b-r2').value.trim();
+  var r3=document.getElementById('b-r3').value.trim();
+  var s='I '+stance+' that '+topic+'. This is a controversial issue, but I am firmly convinced of my position.\n\n';
+  if(r1) s+='First, '+r1+'\n\n';
+  if(r2) s+='Another reason is that '+r2+'\n\n';
+  if(r3) s+='Finally, '+r3+'\n\n';
+  s+='For these reasons, I strongly '+(stance==='agree'?'support':'oppose')+' the idea that '+topic+'.';
+  var out=document.getElementById('b-out');
   out.textContent=s; out.classList.add('show');
-  const n=wordCount(s);
-  const wc=document.getElementById('b-wc');
-  let cls='bad',msg='短い（理由や説明を足しましょう）';
+  var n=wordCount(s);
+  var wc=document.getElementById('b-wc');
+  var cls='bad',msg='短い（理由や説明を足しましょう）';
   if(n>=150&&n<=180){cls='';msg='ちょうど良い長さ（2分の目安）';}
   else if(n>=130&&n<190){cls='warn';msg='ほぼOK（130〜190語が目安）';}
   else if(n>190){cls='warn';msg='やや長い（2分で収まるか確認）';}
-  wc.innerHTML=`語数: <b class="${cls}">${n} words</b> — ${msg}`;
-};
+  wc.innerHTML='語数: <b class="'+cls+'">'+n+' words</b> — '+msg;
+});
 
-const TOPICS=[
+var TOPICS=[
 "Should the Internet be censored?",
 "Is adopting orphans from other countries a good thing?",
 "How can Japan best provide assistance to less developed countries?",
@@ -282,36 +287,37 @@ const TOPICS=[
 "Should rich countries forgive the debts of poor nations?"
 ];
 function pick5(){
-  const a=[...TOPICS]; for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}
+  var a=TOPICS.slice();
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=a[i];a[i]=a[j];a[j]=tmp;}
   return a.slice(0,5);
 }
 function renderTopics(arr){
-  const ol=document.getElementById('p-list'); ol.innerHTML='';
-  arr.forEach(t=>{const li=document.createElement('li');li.textContent=t;ol.appendChild(li);});
+  var ol=document.getElementById('p-list'); ol.innerHTML='';
+  arr.forEach(function(t){var li=document.createElement('li');li.textContent=t;ol.appendChild(li);});
 }
 renderTopics(pick5());
 
-const R=108, CIRC=2*Math.PI*R;
-const ring=document.getElementById('p-ring');
+var R=108, CIRC=2*Math.PI*R;
+var ring=document.getElementById('p-ring');
 ring.setAttribute('stroke-dasharray',CIRC.toFixed(2));
-const elTime=document.getElementById('p-time'),elSub=document.getElementById('p-sub'),
+var elTime=document.getElementById('p-time'),elSub=document.getElementById('p-sub'),
   elPhase=document.getElementById('p-phase'),elHint=document.getElementById('p-hint'),
   bStart=document.getElementById('p-start'),bSkip=document.getElementById('p-skip'),bReset=document.getElementById('p-reset');
-let tId=null, phase='idle', remain=0, total=0;
+var tId=null, phase='idle', remain=0, total=0;
 
 function beep(freq,dur){
-  try{const ac=new (window.AudioContext||window.webkitAudioContext)();
-    const o=ac.createOscillator(),g=ac.createGain();
+  try{var AC=window.AudioContext||window.webkitAudioContext;var ac=new AC();
+    var o=ac.createOscillator(),g=ac.createGain();
     o.connect(g);g.connect(ac.destination);o.frequency.value=freq;o.type='sine';
     g.gain.setValueAtTime(.0001,ac.currentTime);
     g.gain.exponentialRampToValueAtTime(.3,ac.currentTime+.02);
     g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+dur);
     o.start();o.stop(ac.currentTime+dur);}catch(e){}
 }
-function fmt(s){const m=s/60|0,x=s%60;return `${m}:${String(x).padStart(2,'0')}`;}
+function fmt(s){var m=Math.floor(s/60),x=s%60;return m+':'+String(x).padStart(2,'0');}
 function paint(){
   elTime.textContent=fmt(remain);
-  const off=CIRC*(1-remain/total);
+  var off=CIRC*(1-remain/total);
   ring.setAttribute('stroke-dashoffset',off.toFixed(2));
 }
 function setRingColor(c){ring.style.stroke=c;}
@@ -327,11 +333,11 @@ function startPhase(p){
     total=remain=120; setRingColor('var(--brand)');
     elPhase.textContent='② スピーチ（2分）— 話し始めてください';
     elSub.textContent='SPEECH'; elHint.textContent='まず立場を明言 → First… Another reason… → For these reasons… で締める。';
-    beep(880,.2);setTimeout(()=>beep(880,.2),250);
+    beep(880,.2);setTimeout(function(){beep(880,.2);},250);
   }
   paint();
   clearInterval(tId);
-  tId=setInterval(()=>{
+  tId=setInterval(function(){
     remain--; paint();
     if(remain<=0){
       clearInterval(tId);
@@ -348,16 +354,16 @@ function finish(){
   elHint.textContent='発音・イントネーション / 同じ語の繰り返し / 立場の一貫性 を客観的に確認しましょう。';
   bSkip.style.display='none';
 }
-bStart.onclick=()=>{
+bStart.addEventListener('click', function(){
   renderTopics(pick5());
   bStart.style.display='none';bSkip.style.display='';bReset.style.display='';
   startPhase('prep');
-};
-bSkip.onclick=()=>{
+});
+bSkip.addEventListener('click', function(){
   if(phase==='prep')startPhase('speech');
   else if(phase==='speech')finish();
-};
-bReset.onclick=()=>{
+});
+bReset.addEventListener('click', function(){
   clearInterval(tId);phase='idle';
   elTime.textContent='--:--';elSub.textContent='ready';
   elPhase.textContent='「練習スタート」を押すと新しいトピックが表示されます';
@@ -365,17 +371,11 @@ bReset.onclick=()=>{
   ring.setAttribute('stroke-dashoffset',0);
   bStart.style.display='';bSkip.style.display='none';bReset.style.display='none';
   renderTopics(pick5());
-};
+});
 
-const MODELS=[
+var MODELS=[
 {q:"Should the Internet be censored? — I agree",
- body:`I agree that the Internet should be censored. This is a controversial issue, but I am firmly convinced that some degree of regulation is essential.
-
-First, censorship is necessary to protect children and other vulnerable people from harmful content. The Internet is full of violent and pornographic material that is easily accessible. For instance, such content can seriously damage young people's mental development and even lead to destructive behavior.
-
-Another reason is that censorship helps eliminate hate speech and extremist views online. Countless websites are filled with racist and offensive comments that may unduly influence impressionable readers. Some may argue that this violates freedom of speech. Having said that, freedom must be balanced against the enormous impact the Internet has on society.
-
-For these reasons, I strongly believe that the Internet should be reasonably censored.`,
+ body:"I agree that the Internet should be censored. This is a controversial issue, but I am firmly convinced that some degree of regulation is essential.\n\nFirst, censorship is necessary to protect children and other vulnerable people from harmful content. The Internet is full of violent and pornographic material that is easily accessible. For instance, such content can seriously damage young people's mental development and even lead to destructive behavior.\n\nAnother reason is that censorship helps eliminate hate speech and extremist views online. Countless websites are filled with racist and offensive comments that may unduly influence impressionable readers. Some may argue that this violates freedom of speech. Having said that, freedom must be balanced against the enormous impact the Internet has on society.\n\nFor these reasons, I strongly believe that the Internet should be reasonably censored.",
  qa:[
    ["Has the Internet affected people in negative ways?","Yes, it has. People spend too much time on their devices, often just surfing for entertainment. As a result, they get less exercise and have less face-to-face time with family and friends, which can weaken their social skills."],
    ["Who should be responsible for censoring the Internet — governments or companies?","Ideally, it should be a cooperation between the two. Governments can set clear legal standards, while tech companies have the technical means to enforce them. To prevent abuse, an independent body should also monitor the process so that censorship is not used for political purposes."],
@@ -384,13 +384,7 @@ For these reasons, I strongly believe that the Internet should be reasonably cen
  ]},
 
 {q:"Agree or disagree: It is too late to prevent climate change — I disagree",
- body:`I disagree with the statement that it is too late to prevent climate change. While the situation is serious, I firmly believe that meaningful action can still make a real difference.
-
-First, renewable energy technology is advancing at a remarkable pace. The cost of solar and wind power has fallen dramatically, allowing many countries to reduce their dependence on fossil fuels. This shows that a cleaner future is both technically and economically possible.
-
-Another reason is that international cooperation is growing stronger. Through agreements such as the Paris Accord, nations are setting ambitious targets to cut emissions. Admittedly, some damage is already irreversible. However, giving up now would only guarantee disaster, whereas continued effort can still limit the worst consequences.
-
-For these reasons, I am convinced that it is not too late to address climate change.`,
+ body:"I disagree with the statement that it is too late to prevent climate change. While the situation is serious, I firmly believe that meaningful action can still make a real difference.\n\nFirst, renewable energy technology is advancing at a remarkable pace. The cost of solar and wind power has fallen dramatically, allowing many countries to reduce their dependence on fossil fuels. This shows that a cleaner future is both technically and economically possible.\n\nAnother reason is that international cooperation is growing stronger. Through agreements such as the Paris Accord, nations are setting ambitious targets to cut emissions. Admittedly, some damage is already irreversible. However, giving up now would only guarantee disaster, whereas continued effort can still limit the worst consequences.\n\nFor these reasons, I am convinced that it is not too late to address climate change.",
  qa:[
    ["Is individual action enough, or do we need government action?","Individual action matters, but it is not enough on its own. Governments must set regulations and invest in clean energy, because only large-scale policy can drive the rapid change the crisis demands."],
    ["Which is more effective: new technology or changes in lifestyle?","Both are needed, but I think technology has greater potential for large-scale impact, since cleaner energy and carbon capture can cut emissions globally. That said, lifestyle changes such as reducing waste reinforce these efforts and help shift public attitudes."],
@@ -399,13 +393,7 @@ For these reasons, I am convinced that it is not too late to address climate cha
  ]},
 
 {q:"Can Japan's rural communities be revitalized? — Yes",
- body:`I believe that Japan's rural communities can be revitalized. Although they face serious challenges such as aging and depopulation, I am optimistic about their future.
-
-First, remote work has created new opportunities. Since the pandemic, more people can work from anywhere, and some are choosing to move to the countryside in search of a better quality of life. This trend can bring younger residents and fresh energy to rural areas.
-
-Another reason is the growing appeal of rural tourism. Many foreign visitors are eager to experience traditional Japanese culture, local cuisine, and beautiful scenery. By promoting these attractions, rural towns can generate income and create jobs. Of course, government support is essential, but with the right policies revival is achievable.
-
-For these reasons, I strongly believe that rural communities in Japan can be revitalized.`,
+ body:"I believe that Japan's rural communities can be revitalized. Although they face serious challenges such as aging and depopulation, I am optimistic about their future.\n\nFirst, remote work has created new opportunities. Since the pandemic, more people can work from anywhere, and some are choosing to move to the countryside in search of a better quality of life. This trend can bring younger residents and fresh energy to rural areas.\n\nAnother reason is the growing appeal of rural tourism. Many foreign visitors are eager to experience traditional Japanese culture, local cuisine, and beautiful scenery. By promoting these attractions, rural towns can generate income and create jobs. Of course, government support is essential, but with the right policies revival is achievable.\n\nFor these reasons, I strongly believe that rural communities in Japan can be revitalized.",
  qa:[
    ["What is the biggest obstacle to revitalizing rural areas?","The biggest obstacle is the declining and aging population. With fewer young people, it is hard to sustain local businesses and services. That is why attracting newcomers through jobs and good infrastructure is so important."],
    ["Isn't moving to the countryside inconvenient for young families?","It can be, due to fewer schools and hospitals. However, improving digital infrastructure and transportation can ease these problems. In fact, some families prefer rural areas for their lower cost of living and a safer, more natural environment for raising children."],
@@ -413,8 +401,55 @@ For these reasons, I strongly believe that rural communities in Japan can be rev
    ["Can tourism really create stable, long-term jobs?","Tourism alone may be seasonal, but combined with agriculture, local crafts, and remote work, it can form part of a diverse rural economy. Diversification is the key to creating stable employment instead of relying on a single industry."]
  ]}
 ];
-const ml=document.getElementById('model-list');
-MODELS.forEach(m=>{
-  const wc=(m.body.match(/[A-Za-z'’-]+/g)||[]).length;
-  const div=document.createElement('div');div.className='model';
-  let qaHtml=m.qa.map(p=>`<details class="qa"><summary
+var ml=document.getElementById('model-list');
+MODELS.forEach(function(m){
+  var wc=(m.body.match(/[A-Za-z'-]+/g)||[]).length;
+  var div=document.createElement('div');div.className='model';
+  var qaHtml=m.qa.map(function(p){
+    return '<details class="qa"><summary>Q&amp;A例: '+p[0]+'</summary><p>'+p[1]+'</p></details>';
+  }).join('');
+  div.innerHTML='<div class="q">'+m.q+'</div><div class="body">'+m.body.replace(/\n/g,'<br>')+'</div>'+
+    '<div class="meta">約 '+wc+' words</div>'+qaHtml;
+  ml.appendChild(div);
+});
+
+var FLOW=[
+["入室","Hello. と挨拶して入室。1級ではアティチュードは採点対象外だが、アイコンタクトと明瞭な声を意識。"],
+["面接カードを渡す","Here you are. と言って手渡す。"],
+["着席","Please have a seat. → Thank you. と答えて着席。"],
+["氏名確認・日常会話","My name is …. 軽い雑談（採点外のウォームアップ）。リラックスを。"],
+["トピックカードを受け取る","5つのトピックが書かれたカードを Thank you. と受け取る。"],
+["準備（1分）","5つから1つ選び、立場と理由のキーワードを頭の中で整理。メモ不可。"],
+["スピーチ（2分）","Which topic did you choose? に Topic one, “…” と答えてから開始。2分で打ち切り。"],
+["Q&A（4分）","スピーチ内容に基づく質問が5問ほど。3〜4文で返答。"],
+["カードを返す","Could I have the card back? → 返却。"],
+["退室","Thank you. Goodbye. / Have a nice day. → You too. 最後まで丁寧に。"]
+];
+var fl=document.getElementById('flow-list');
+FLOW.forEach(function(f,i){
+  var li=document.createElement('li');
+  var t=(i===5)?'<span class="t">1分</span>':(i===6)?'<span class="t">2分</span>':(i===7)?'<span class="t">4分</span>':'';
+  li.innerHTML='<span class="n">'+(i+1)+'</span><b>'+f[0]+'</b>'+t+'<br><span class="muted" style="margin-left:32px;display:inline-block">'+f[1]+'</span>';
+  fl.appendChild(li);
+});
+
+var PHRASES=[
+["立場を表明する",[["I agree. / I disagree.","賛成/反対"],["I'm for / against …","…に賛成/反対"],["Personally, I am for …","個人的には…に賛成"],["I am neither for nor against … / It depends.","どちらでもない/状況による"]]],
+["理由を並べる",[["First, … / Second, …","第一に/第二に"],["The second / final reason is …","2つ目/最後の理由は"],["For instance / such as / in particular","例えば/〜のような/特に"]]],
+["反論して主張を補強",[["However, … / Having said that, …","しかしながら"],["That's a good point, but …","良い指摘ですが"],["The point I'd like to make is …","私が言いたいのは"]]],
+["結論",[["For these reasons, … / Therefore, …","これらの理由から/したがって"],["In conclusion, …","結論として"]]],
+["聞き返す",[["I beg your pardon?","もう一度お願いします"],["Could you say that again? / Pardon?","もう一度言っていただけますか"],["I'm sorry, but could you repeat the question?","質問を繰り返していただけますか"]]],
+["考える時間がほしい",[["Well, … / Let me see.","ええと…"],["That's a difficult question.","難しい質問ですね"],["Let me think about it.","少し考えさせてください"]]],
+["質問の意図を確認",[["Do you mean …?","つまり…ということですか"],["Could you paraphrase the question?","言い換えていただけますか"]]],
+["言い直す",[["Let me put it this way.","こう言い直させてください"],["Let me back up a little.","少し前に戻ります"]]]
+];
+var pl=document.getElementById('phrase-list');
+PHRASES.forEach(function(g){
+  var d=document.createElement('div');d.className='phrase-group';
+  var items=g[1].map(function(p){return '<li><span class="en">'+p[0]+'</span> <span class="ja">— '+p[1]+'</span></li>';}).join('');
+  d.innerHTML='<div class="gt">'+g[0]+'</div><ul>'+items+'</ul>';
+  pl.appendChild(d);
+});
+</script>
+</body>
+</html>
