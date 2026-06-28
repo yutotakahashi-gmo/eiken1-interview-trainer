@@ -124,6 +124,10 @@ details.qa p{margin:0 0 12px;font-size:.93rem;}
 .kwbox{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0 10px;}
 .kwbox .kwlabel{font-size:.72rem;font-weight:700;color:var(--sub);margin-right:2px;}
 .kw{background:var(--teal-soft);color:var(--teal);border-radius:999px;padding:3px 9px;font-size:.78rem;font-weight:600;}
+.swaptbl{width:100%;border-collapse:collapse;font-size:.82rem;margin:6px 0 4px;}
+.swaptbl th{background:var(--brand-soft);color:var(--brand);font-weight:700;padding:6px 8px;text-align:left;border:1px solid var(--line);}
+.swaptbl td{padding:6px 8px;border:1px solid var(--line);vertical-align:top;}
+.swaptbl tr td:first-child{font-weight:600;background:var(--bg);}
 .kwsummary{border:1px dashed var(--brand);background:var(--brand-soft);border-radius:12px;padding:4px 14px;margin:0 0 14px;}
 .kwsummary>summary{cursor:pointer;font-weight:800;color:var(--brand);padding:9px 0;list-style:none;}
 .kwsummary>summary::-webkit-details-marker{display:none;}
@@ -164,63 +168,44 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
 <section class="panel active" id="tpl">
   <div class="card">
     <h2>エッセイ・テンプレート（英検1級 standard）</h2>
-    <p class="muted">洗練版。データ（数値・研究）と実例で論証する<b>2理由型</b>。色付き部分を差し替えるだけ。「模範解答例」の全10本はこの型で作成しています。</p>
+    <p class="muted">黄色の <b>A・B・C〜F</b> を話題に合わせて差し替える2理由型。<b>A</b>＝自分の主張／<b>B</b>＝譲歩（S+V）／<b>C〜F</b>＝下の表から選択。</p>
     <div class="tpl">
       <p><span class="pill amber">Introduction</span><br>
-      The importance of <span class="slot">A</span> has become increasingly evident in recent years, giving rise to considerable debate. I firmly believe that <span class="slot">A</span> is fundamentally essential. This view is supported by two key considerations.</p>
+      The importance of <span class="slot">A</span> has become increasingly evident in recent years, giving rise to considerable debate. While some argue that <span class="slot">B（S+V）</span>, I believe <span class="slot">A</span> is fundamentally essential. This view is supported by two key considerations.</p>
       <p><span class="pill">Body 1｜Pattern A（データ）</span><br>
-      <span class="conn">First,</span> A is indispensable because it effectively addresses <span class="slot">C（課題）</span>. Recent research demonstrates this clearly: A shows measurable advantages, achieving <span class="slot">D（数値）</span>, with significant positive implications for <span class="slot">文脈</span>. This evidence establishes A as a robust solution for <span class="slot">C（課題）</span>.</p>
+      <span class="conn">First,</span> A is indispensable because it effectively addresses <span class="slot">C</span>. Recent research demonstrates this clearly: implementation of A has shown a positive effect on <span class="slot">D</span>. This evidence establishes A as a robust and practical solution for <span class="slot">E</span>.</p>
       <p><span class="pill">Body 2｜Pattern B（実例）</span><br>
-      <span class="conn">Second,</span> A has proven effective in real-world contexts. <span class="slot">具体例（例: Singapore）</span> provides a compelling example—the results have been drastic in scale. Moreover, similar successes have been documented in other regions and sectors, suggesting that A's benefits are not limited to specific contexts. This demonstrates A's practical value and broad applicability.</p>
+      <span class="conn">Second,</span> A has proven effective in real-world contexts. <span class="slot">F</span> provides a compelling example—the results have been drastic in scale. Moreover, similar successes have been documented in other regions and sectors, suggesting that A's benefits are not limited to specific contexts. This demonstrates A's practical value and broad applicability.</p>
       <p><span class="pill teal">Conclusion</span><br>
-      <span class="conn">In conclusion,</span> the evidence strongly supports the position that A is essential to all sorts of stakeholders involved. Though certain challenges remain, they can be addressed through ongoing innovation and strategic planning. It is therefore crucial that stakeholders commit to advancing A further.</p>
+      <span class="conn">In conclusion,</span> the evidence strongly supports the position that A is essential to societal progress. Though certain challenges remain, they can be addressed through ongoing innovation and strategic planning. It is therefore crucial that stakeholders commit to advancing A further.</p>
     </div>
+    <h3 style="margin-top:16px">🔁 C〜F の候補（話題に合わせて選択）</h3>
+    <table class="swaptbl">
+      <tr><th>記号</th><th>候補A（既定）</th><th>候補B</th><th>候補C</th></tr>
+      <tr><td>C（課題）</td><td>systemic challenges</td><td>pressing societal issues</td><td>longstanding structural problems</td></tr>
+      <tr><td>D（効果）</td><td>operational efficiency and stakeholder engagement</td><td>public welfare and social outcomes</td><td>quality of life and community wellbeing</td></tr>
+      <tr><td>E（対象）</td><td>organizations seeking sustainable improvement</td><td>communities pursuing long-term progress</td><td>societies striving for lasting development</td></tr>
+      <tr><td>F（具体例）</td><td>Singapore</td><td>Finland</td><td>Germany</td></tr>
+    </table>
     <p class="muted" style="margin-top:10px">💡 各「模範解答例」の<b>テンプレ対応表</b>で当てはめ方を確認できます。数値・研究・具体例が説得力の核。</p>
   </div>
 
   <div class="card">
-    <h2>テンプレ・ビルダー</h2>
-    <p class="muted">型を選び、空欄を埋めると原稿と語数を自動生成します。<b>理由は2つでOK</b>（3つ目は任意）。</p>
-
-    <label class="fld">型（テンプレート）</label>
-    <select id="b-style">
-      <option value="speech">面接スピーチ型（立場→理由→結論）</option>
-      <option value="essay">エッセイ型（Nowadays… 導入＋結論）</option>
-    </select>
-
-    <label class="fld">立場（stance）</label>
-    <select id="b-stance">
-      <option value="agree">agree（賛成）</option>
-      <option value="disagree">disagree（反対）</option>
-    </select>
-
-    <label class="fld">トピック（that 以下・例: the Internet should be censored）</label>
-    <input class="txt" id="b-topic" placeholder="the Internet should be censored">
-
-    <div id="b-essay-top" style="display:none">
-      <label class="fld">A：テーマの名詞句（例: Internet censorship）</label>
-      <input class="txt" id="b-a" placeholder="Internet censorship">
-      <label class="fld">B：反対側の主張（例: it limits free speech）</label>
-      <input class="txt" id="b-b" placeholder="it limits free speech">
-    </div>
-
-    <label class="fld" id="b-l1">Reason 1 ＋ 説明・例（2〜3文）</label>
-    <textarea id="b-r1" rows="3" placeholder="censorship protects vulnerable people. The Internet is full of harmful content that can damage young minds. For instance, violent images can lead to destructive behavior."></textarea>
-
-    <label class="fld" id="b-l2">Reason 2 ＋ 説明（＋反論があれば）</label>
-    <textarea id="b-r2" rows="3" placeholder="it helps eliminate hate speech online. Offensive posts deepen social divisions. Some may argue this limits free speech, but freedom must be balanced against social harm."></textarea>
-
-    <label class="fld" id="b-l3">Reason 3（任意・不要なら空欄）</label>
-    <textarea id="b-r3" rows="2" placeholder="（空欄でOK：理由は2つでも十分）"></textarea>
-
-    <div id="b-essay-concl" style="display:none">
-      <label class="fld">結論の要約キーワード（任意・カンマ区切り 例: safety, tolerance）</label>
-      <input class="txt" id="b-def" placeholder="safety, tolerance">
-    </div>
-
-    <button class="btn primary lg" id="b-build">原稿を生成 ✍️</button>
-    <div class="output" id="b-out"></div>
-    <div class="wc" id="b-wc"></div>
+    <h2>重複回避パラフレーズ（テンプレ頻出語・各5）</h2>
+    <p class="muted">同じ語の連発は減点要因。特に <b>essential</b> は多用しがちなので要注意。話すたびに下から選んで変化を。</p>
+    <table class="swaptbl">
+      <tr><th>頻出語</th><th>言い換え（5つ）</th></tr>
+      <tr><td>essential（不可欠）</td><td>vital ／ crucial ／ indispensable ／ imperative ／ of paramount importance</td></tr>
+      <tr><td>importance（重要性）</td><td>significance ／ value ／ relevance ／ weight ／ salience</td></tr>
+      <tr><td>address〔動〕（対処する）</td><td>tackle ／ deal with ／ resolve ／ mitigate ／ confront</td></tr>
+      <tr><td>demonstrate〔動〕（示す）</td><td>show ／ indicate ／ reveal ／ confirm ／ illustrate</td></tr>
+      <tr><td>robust（強固な）</td><td>solid ／ sound ／ effective ／ resilient ／ reliable</td></tr>
+      <tr><td>solution（解決策）</td><td>approach ／ remedy ／ measure ／ strategy ／ answer</td></tr>
+      <tr><td>prove effective（効果を示す）</td><td>work well ／ yield results ／ deliver outcomes ／ bear fruit ／ succeed</td></tr>
+      <tr><td>crucial（極めて重要）</td><td>pivotal ／ key ／ imperative ／ paramount ／ instrumental</td></tr>
+      <tr><td>advance〔動〕（進める）</td><td>promote ／ foster ／ further ／ strengthen ／ develop</td></tr>
+      <tr><td>support the position（立場を支持）</td><td>back the view ／ reinforce the case ／ uphold the argument ／ substantiate the claim ／ lend weight to it</td></tr>
+    </table>
   </div>
 </section>
 
@@ -276,68 +261,6 @@ document.querySelectorAll('.tab').forEach(function(t){
     t.classList.add('active');
     document.getElementById(t.dataset.tab).classList.add('active');
   });
-});
-
-function wordCount(s){return (s.trim().match(/[A-Za-z'-]+/g)||[]).length;}
-function joinAnd(arr){
-  if(arr.length===0) return '';
-  if(arr.length===1) return arr[0];
-  if(arr.length===2) return arr[0]+' and '+arr[1];
-  return arr.slice(0,-1).join(', ')+', and '+arr[arr.length-1];
-}
-function setStyleFields(){
-  var es=document.getElementById('b-style').value==='essay';
-  document.getElementById('b-essay-top').style.display=es?'':'none';
-  document.getElementById('b-essay-concl').style.display=es?'':'none';
-  document.getElementById('b-l1').textContent=es?'Firstly … 理由1＋説明（2〜3文）':'Reason 1 ＋ 説明・例（2〜3文）';
-  document.getElementById('b-l2').textContent=es?'Secondly … 理由2＋説明':'Reason 2 ＋ 説明（＋反論があれば）';
-  document.getElementById('b-l3').textContent=es?'Finally … 理由3（任意・不要なら空欄）':'Reason 3（任意・不要なら空欄）';
-}
-document.getElementById('b-style').addEventListener('change', setStyleFields);
-setStyleFields();
-
-function showOut(s){
-  var out=document.getElementById('b-out');
-  out.textContent=s; out.classList.add('show');
-  var n=wordCount(s);
-  var wc=document.getElementById('b-wc');
-  var cls='bad',msg='短い（理由や説明を足しましょう）';
-  if(n>=150&&n<=180){cls='';msg='ちょうど良い長さ（2分の目安）';}
-  else if(n>=130&&n<190){cls='warn';msg='ほぼOK（130〜190語が目安）';}
-  else if(n>190){cls='warn';msg='やや長い（2分で収まるか確認）';}
-  wc.innerHTML='語数: <b class="'+cls+'">'+n+' words</b> — '+msg;
-}
-document.getElementById('b-build').addEventListener('click', function(){
-  var style=document.getElementById('b-style').value;
-  var stance=document.getElementById('b-stance').value;
-  var topic=document.getElementById('b-topic').value.trim()||'[topic A]';
-  var r1=document.getElementById('b-r1').value.trim();
-  var r2=document.getElementById('b-r2').value.trim();
-  var r3=document.getElementById('b-r3').value.trim();
-  var s;
-  if(style==='essay'){
-    var A=document.getElementById('b-a').value.trim()||'this issue';
-    var B=document.getElementById('b-b').value.trim()||'the opposite is true';
-    s='Nowadays, the importance of '+A+' has been rapidly increasing. Despite this, some argue that '+B+'. Although both are critical, I strongly believe that '+topic+'.\n\n';
-    if(r1) s+='Firstly, '+r1+' ';
-    if(r2) s+='Secondly, '+r2+' ';
-    if(r3) s+='Finally, '+r3+' ';
-    s+='\n\n';
-    var def=document.getElementById('b-def').value.trim();
-    var mid=', ';
-    if(def){
-      var parts=def.split(',').map(function(x){return x.trim();}).filter(function(x){return x;});
-      if(parts.length) mid=' — the fact that '+joinAnd(parts)+' — ';
-    }
-    s+='In conclusion, for the reasons stated above'+mid+'it is hoped the world becomes more aware of the importance of '+A+'.';
-  }else{
-    s='I '+stance+' that '+topic+'. This is a controversial issue, but I am firmly convinced of my position.\n\n';
-    if(r1) s+='First, '+r1+'\n\n';
-    if(r2) s+='Another reason is that '+r2+'\n\n';
-    if(r3) s+='Finally, '+r3+'\n\n';
-    s+='For these reasons, I strongly '+(stance==='agree'?'support':'oppose')+' the idea that '+topic+'.';
-  }
-  showOut(s);
 });
 
 (function(){
@@ -464,10 +387,10 @@ var MODELS=[
 ];
 
 function _mk(A,B,ch,num,alt,ctx,app,ex,res,dom){
- return "The importance of "+A+" has become increasingly evident in recent years, giving rise to considerable debate. I firmly believe that "+A+" is fundamentally essential. This view is supported by two key considerations.\n\nFirst, "+A+" is indispensable because it effectively addresses "+ch+". Recent research demonstrates this clearly: "+A+" shows measurable advantages, achieving "+num+", with significant positive implications for "+ctx+". This evidence establishes "+A+" as a robust solution for "+ch+".\n\nSecond, "+A+" has proven effective in real-world contexts. Singapore provides a compelling example—the results have been drastic in scale. Moreover, similar successes have been documented in other regions and sectors, suggesting that "+A+"'s benefits are not limited to specific contexts. This demonstrates "+A+"'s practical value and broad applicability.\n\nIn conclusion, the evidence strongly supports the position that "+A+" is essential to all sorts of stakeholders involved. Though certain challenges remain, they can be addressed through ongoing innovation and strategic planning. It is therefore crucial that stakeholders commit to advancing "+A+" further.";
+ return "The importance of "+A+" has become increasingly evident in recent years, giving rise to considerable debate. While some argue that "+B+", I believe "+A+" is fundamentally essential. This view is supported by two key considerations.\n\nFirst, "+A+" is indispensable because it effectively addresses systemic challenges. Recent research demonstrates this clearly: implementation of "+A+" has shown a positive effect on operational efficiency and stakeholder engagement. This evidence establishes "+A+" as a robust and practical solution for organizations seeking sustainable improvement.\n\nSecond, "+A+" has proven effective in real-world contexts. Singapore provides a compelling example—the results have been drastic in scale. Moreover, similar successes have been documented in other regions and sectors, suggesting that "+A+"'s benefits are not limited to specific contexts. This demonstrates "+A+"'s practical value and broad applicability.\n\nIn conclusion, the evidence strongly supports the position that "+A+" is essential to societal progress. Though certain challenges remain, they can be addressed through ongoing innovation and strategic planning. It is therefore crucial that stakeholders commit to advancing "+A+" further.";
 }
 function _map(A,B,ch,num,alt,ctx,app,ex,res,dom){
- return [["A（主張）",A],["C（課題）",ch],["D（数値・例）",num],["文脈",ctx]];
+ return [["A（主張）",A],["B（譲歩・対立意見）",B]];
 }
 function T(cat,q,A,B,ch,num,alt,ctx,app,ex,res,dom,kw,qa){
  return {cat:cat,q:q,map:_map(A,B,ch,num,alt,ctx,app,ex,res,dom),body:_mk(A,B,ch,num,alt,ctx,app,ex,res,dom),kw:kw,qa:qa};
