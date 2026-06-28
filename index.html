@@ -177,7 +177,7 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
       <p><span class="pill">Body 2｜Pattern B（実例）</span><br>
       <span class="conn">Second,</span> A has proven effective in real-world contexts. <span class="slot">F</span> provides a compelling example—the results have been drastic in scale. Moreover, similar successes have been documented in other regions and sectors, suggesting that A's benefits are not limited to specific contexts. This demonstrates A's practical value and broad applicability.</p>
       <p><span class="pill teal">Conclusion</span><br>
-      <span class="conn">In conclusion,</span> the evidence strongly supports the position that A is essential to societal progress. Though certain challenges remain, they can be addressed through ongoing innovation and strategic planning. It is therefore crucial that stakeholders commit to advancing A further.</p>
+      <span class="conn">In conclusion,</span> the evidence strongly supports the position that A is essential to societal progress. Though certain challenges remain, they can be addressed through <span class="slot">G</span>. It is therefore crucial that stakeholders commit to advancing the resolution further.</p>
     </div>
     <h3 style="margin-top:16px">🔁 C〜F の候補（話題に合わせて選択）</h3>
     <table class="swaptbl">
@@ -185,7 +185,8 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
       <tr><td>C（課題）</td><td>systemic challenges</td><td>pressing societal issues</td><td>longstanding structural problems</td></tr>
       <tr><td>D（効果）</td><td>operational efficiency and stakeholder engagement</td><td>public welfare and social outcomes</td><td>quality of life and community wellbeing</td></tr>
       <tr><td>E（対象）</td><td>organizations seeking sustainable improvement</td><td>communities pursuing long-term progress</td><td>societies striving for lasting development</td></tr>
-      <tr><td>F（具体例）</td><td>Singapore</td><td>Finland</td><td>Germany</td></tr>
+      <tr><td>F（具体例・国名）</td><td>Singapore</td><td>Finland</td><td>Germany / Sweden / Japan</td></tr>
+      <tr><td>G（解決手段）</td><td>ongoing innovation and strategic planning</td><td>coordinated policy and public awareness</td><td>sustained investment and cooperation</td></tr>
     </table>
     <p class="muted" style="margin-top:10px">💡 各「模範解答例」の<b>テンプレ対応表</b>で当てはめ方を確認できます。数値・研究・具体例が説得力の核。</p>
   </div>
@@ -423,7 +424,7 @@ var MODELS=[
 ];
 
 function _mk(A,B,ch,num,alt,ctx,app,ex,res,dom){
- return "The importance of "+A+" has become increasingly evident in recent years, giving rise to considerable debate. While some argue that "+B+", I believe "+A+" is fundamentally essential. This view is supported by two key considerations.\n\nFirst, "+A+" is indispensable because it effectively addresses systemic challenges. Recent research demonstrates this clearly: implementation of "+A+" has shown a positive effect on operational efficiency and stakeholder engagement. This evidence establishes "+A+" as a robust and practical solution for organizations seeking sustainable improvement.\n\nSecond, "+A+" has proven effective in real-world contexts. Singapore provides a compelling example—the results have been drastic in scale. Moreover, similar successes have been documented in other regions and sectors, suggesting that "+A+"'s benefits are not limited to specific contexts. This demonstrates "+A+"'s practical value and broad applicability.\n\nIn conclusion, the evidence strongly supports the position that "+A+" is essential to societal progress. Though certain challenges remain, they can be addressed through ongoing innovation and strategic planning. It is therefore crucial that stakeholders commit to advancing "+A+" further.";
+ return "The importance of "+A+" has become increasingly evident in recent years, giving rise to considerable debate. While some argue that "+B+", I believe "+A+" is fundamentally essential. This view is supported by two key considerations.\n\nFirst, "+A+" is indispensable because it effectively addresses systemic challenges. Recent research demonstrates this clearly: implementation of "+A+" has shown a positive effect on operational efficiency and stakeholder engagement. This evidence establishes "+A+" as a robust and practical solution for organizations seeking sustainable improvement.\n\nSecond, "+A+" has proven effective in real-world contexts. Singapore provides a compelling example—the results have been drastic in scale. Moreover, similar successes have been documented in other regions and sectors, suggesting that "+A+"'s benefits are not limited to specific contexts. This demonstrates "+A+"'s practical value and broad applicability.\n\nIn conclusion, the evidence strongly supports the position that "+A+" is essential to societal progress. Though certain challenges remain, they can be addressed through ongoing innovation and strategic planning. It is therefore crucial that stakeholders commit to advancing the resolution further.";
 }
 function _map(A,B,ch,num,alt,ctx,app,ex,res,dom){
  return [["A（主張）",A],["B（譲歩・対立意見）",B]];
