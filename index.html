@@ -26,9 +26,14 @@ body{margin:0;background:var(--bg);color:var(--ink);
 header.top{text-align:center;margin-bottom:18px;}
 header.top h1{font-size:1.5rem;margin:0 0 4px;letter-spacing:.02em;}
 header.top p{margin:0;color:var(--sub);font-size:.9rem;}
-.clock{display:flex;align-items:baseline;justify-content:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 14px;margin-bottom:14px;box-shadow:var(--shadow);}
-.clock #clk-date{font-size:.85rem;color:var(--sub);font-weight:600;}
-.clock #clk-time{font-size:1.5rem;font-weight:800;color:var(--brand);font-variant-numeric:tabular-nums;letter-spacing:.05em;}
+.timerbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin-bottom:14px;box-shadow:var(--shadow);}
+.timerbar .tb-label{font-size:.8rem;color:var(--sub);font-weight:700;}
+.tbtn{border:0;border-radius:9px;padding:8px 14px;font-size:.9rem;font-weight:700;cursor:pointer;background:var(--brand-soft);color:var(--brand);transition:.15s;}
+.tbtn:hover{background:#e0e3fd;}
+.tbtn.stop{background:#f1f3f8;color:var(--sub);}
+.tdisp{font-size:1.6rem;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;min-width:66px;text-align:center;letter-spacing:.04em;}
+.timerbar.prep .tdisp{color:var(--amber);}
+.timerbar.speech .tdisp{color:var(--brand);}
 .tabs{display:flex;gap:6px;background:var(--card);padding:6px;border-radius:14px;
   box-shadow:var(--shadow);position:sticky;top:8px;z-index:10;margin-bottom:20px;flex-wrap:wrap;}
 .tab{flex:1 1 0;min-width:90px;border:0;background:transparent;color:var(--sub);
@@ -112,6 +117,10 @@ details.qa p{margin:0 0 12px;font-size:.93rem;}
 .maptbl th{text-align:left;color:var(--brand);font-weight:700;padding:3px 8px;white-space:nowrap;vertical-align:top;width:32%;}
 .maptbl td{padding:3px 8px;color:var(--ink);}
 .maptbl tr{border-bottom:1px solid var(--line);}
+.subtabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 14px;}
+.subtab{border:1px solid var(--line);background:var(--bg);color:var(--sub);border-radius:999px;padding:6px 13px;font-size:.82rem;font-weight:700;cursor:pointer;transition:.15s;}
+.subtab:hover{background:#eef0fe;}
+.subtab.active{background:var(--brand);color:#fff;border-color:var(--brand);}
 .flow li{padding:5px 0;border-bottom:1px dashed var(--line);}
 .flow li:last-child{border:0;}
 .flow .n{display:inline-block;width:24px;height:24px;line-height:24px;text-align:center;background:var(--brand);color:#fff;border-radius:50%;font-size:.8rem;font-weight:700;margin-right:8px;}
@@ -123,14 +132,19 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
 <div class="wrap">
 <header class="top">
   <h1>英検1級 面接対策アプリ</h1>
-  <p>二次試験（スピーチ）を、テンプレート × トピック練習 × 模範解答例で攻略</p>
+  <p>二次試験（スピーチ）を、テンプレート × タイマー × 模範解答例で攻略</p>
 </header>
 
-<div class="clock"><span id="clk-date">--</span><span id="clk-time">--:--:--</span></div>
+<div class="timerbar" id="timerbar">
+  <span class="tb-label">⏱ タイマー</span>
+  <button class="tbtn" data-sec="60" data-kind="prep">準備 1分</button>
+  <button class="tbtn" data-sec="120" data-kind="speech">スピーチ 2分</button>
+  <span class="tdisp" id="tb-disp">0:00</span>
+  <button class="tbtn stop" id="tb-stop">停止</button>
+</div>
 
 <nav class="tabs">
   <button class="tab active" data-tab="tpl">テンプレート</button>
-  <button class="tab" data-tab="practice">トピック練習</button>
   <button class="tab" data-tab="model">模範解答例</button>
   <button class="tab" data-tab="expr">英語表現集</button>
   <button class="tab" data-tab="ref">流れ＆フレーズ</button>
@@ -199,48 +213,16 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
   </div>
 </section>
 
-<section class="panel" id="practice">
-  <div class="card">
-    <h2>トピック練習（本番シミュレーション）</h2>
-    <p class="muted">本番と同じ流れ：5トピック提示 → <b>準備1分</b> → <b>スピーチ2分</b>。声に出して、アイコンタクトを意識して練習しましょう。</p>
-
-    <div class="topic-card" id="p-topics">
-      <span class="pill teal">Topic Card</span>
-      <ol id="p-list"></ol>
-    </div>
-
-    <div class="timer-stage">
-      <div class="phase-label" id="p-phase">「練習スタート」を押すと新しいトピックが表示されます</div>
-      <div class="ring-wrap">
-        <svg class="ring" width="240" height="240" viewBox="0 0 240 240">
-          <circle class="ring-bg" cx="120" cy="120" r="108" fill="none" stroke-width="14"/>
-          <circle class="ring-fg" id="p-ring" cx="120" cy="120" r="108" fill="none" stroke-width="14"
-            stroke-dasharray="678.58" stroke-dashoffset="0"/>
-        </svg>
-        <div class="time-num">
-          <div class="big" id="p-time">--:--</div>
-          <div class="small" id="p-sub">ready</div>
-        </div>
-      </div>
-      <div class="timer-btns">
-        <button class="btn primary" id="p-start">練習スタート 🎤</button>
-        <button class="btn ghost" id="p-skip" style="display:none">次のフェーズへ ⏭</button>
-        <button class="btn ghost" id="p-reset" style="display:none">リセット</button>
-      </div>
-      <p class="muted" id="p-hint" style="margin-top:14px"></p>
-    </div>
-  </div>
-</section>
-
 <section class="panel" id="model">
   <div class="card">
     <h2>模範解答例</h2>
-    <p class="muted">公式サンプル全10問の模範解答。各例は新テンプレート（データ＋実例の2理由型）で作成。<b>タイトルをタップ</b>で解答が開き、<b>テンプレ対応表</b>で当てはめ方を、Q&A（各4問）で展開を確認できます。</p>
+    <p class="muted">過去5回分（Aコース・各5問）＋初期テンプレ版を収録。上の<b>サブタブで回を切替</b>。各例はテンプレで作成し、<b>タイトルをタップ</b>で解答・テンプレ対応表・Q&Aが開きます。</p>
     <div class="tpl" style="margin-bottom:8px">
       <b>Q&A攻略のコツ（4分・5問程度）</b><br>
       <span class="muted">① 質問の意図を一言で受ける（That's a good point. / Yes, I think so.）→ ② 理由を1つ→ ③ 具体例や言い換えで補強、を <b>3〜4文</b>で。<br>
       反論・弱点を突かれても、勝ち負けではなく語学の試験。<b>That's a good point, but…</b> と受けてから自分の立場を述べればOK。詰まったら <b>Well, … / Let me see.</b> で間をつなぐ。</span>
     </div>
+    <div class="subtabs" id="model-subtabs"></div>
     <div id="model-list"></div>
   </div>
 </section>
@@ -272,17 +254,6 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
 </div>
 
 <script>
-(function(){
-  var days=['日','月','火','水','木','金','土'];
-  function pad(n){return String(n).padStart(2,'0');}
-  function tick(){
-    var d=new Date();
-    var dt=document.getElementById('clk-date'), tm=document.getElementById('clk-time');
-    if(dt) dt.textContent=d.getFullYear()+'/'+pad(d.getMonth()+1)+'/'+pad(d.getDate())+'（'+days[d.getDay()]+'）';
-    if(tm) tm.textContent=pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
-  }
-  tick(); setInterval(tick,1000);
-})();
 document.querySelectorAll('.tab').forEach(function(t){
   t.addEventListener('click', function(){
     document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
@@ -354,124 +325,26 @@ document.getElementById('b-build').addEventListener('click', function(){
   showOut(s);
 });
 
-var TOPICS=[
-"Should the Internet be censored?",
-"Is adopting orphans from other countries a good thing?",
-"How can Japan best provide assistance to less developed countries?",
-"Agree or disagree: It is too late to prevent climate change.",
-"Can Japan's rural communities be revitalized?",
-"Should nuclear power play a key role in our energy future?",
-"Has social media done more harm than good?",
-"Should euthanasia be legalized?",
-"Should capital punishment be abolished?",
-"Should wealthy nations accept more immigrants?",
-"Will artificial intelligence ultimately benefit humanity?",
-"Should the development of AI be strictly regulated?",
-"Are humans becoming too dependent on technology?",
-"Should university education be free for everyone?",
-"Is a university degree still worth the investment?",
-"Will remote work replace the traditional office?",
-"Should English become an official language in Japan?",
-"Does globalization benefit developing countries?",
-"Is nationalism a threat to world peace?",
-"Should voting be made compulsory?",
-"Is economic growth always desirable?",
-"Should governments do more to combat obesity?",
-"Are traditional values disappearing in modern society?",
-"Should companies be required to hire more women in leadership?",
-"Is space exploration a worthwhile use of resources?",
-"Should genetic engineering of humans be permitted?",
-"Can renewable energy realistically replace fossil fuels?",
-"Should we be concerned about the decline of local journalism?",
-"Is privacy possible in the digital age?",
-"Should rich countries forgive the debts of poor nations?"
-];
-function pick5(){
-  var a=TOPICS.slice();
-  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=a[i];a[i]=a[j];a[j]=tmp;}
-  return a.slice(0,5);
-}
-function renderTopics(arr){
-  var ol=document.getElementById('p-list'); ol.innerHTML='';
-  arr.forEach(function(t){var li=document.createElement('li');li.textContent=t;ol.appendChild(li);});
-}
-renderTopics(pick5());
-
-var R=108, CIRC=2*Math.PI*R;
-var ring=document.getElementById('p-ring');
-ring.setAttribute('stroke-dasharray',CIRC.toFixed(2));
-var elTime=document.getElementById('p-time'),elSub=document.getElementById('p-sub'),
-  elPhase=document.getElementById('p-phase'),elHint=document.getElementById('p-hint'),
-  bStart=document.getElementById('p-start'),bSkip=document.getElementById('p-skip'),bReset=document.getElementById('p-reset');
-var tId=null, phase='idle', remain=0, total=0;
-
-function beep(freq,dur){
-  try{var AC=window.AudioContext||window.webkitAudioContext;var ac=new AC();
-    var o=ac.createOscillator(),g=ac.createGain();
-    o.connect(g);g.connect(ac.destination);o.frequency.value=freq;o.type='sine';
-    g.gain.setValueAtTime(.0001,ac.currentTime);
-    g.gain.exponentialRampToValueAtTime(.3,ac.currentTime+.02);
-    g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+dur);
-    o.start();o.stop(ac.currentTime+dur);}catch(e){}
-}
-function fmt(s){var m=Math.floor(s/60),x=s%60;return m+':'+String(x).padStart(2,'0');}
-function paint(){
-  elTime.textContent=fmt(remain);
-  var off=CIRC*(1-remain/total);
-  ring.setAttribute('stroke-dashoffset',off.toFixed(2));
-}
-function setRingColor(c){ring.style.stroke=c;}
-
-function startPhase(p){
-  phase=p;
-  if(p==='prep'){
-    total=remain=60; setRingColor('var(--amber)');
-    elPhase.textContent='① 準備時間（1分）— トピックを1つ選ぶ';
-    elSub.textContent='PREP'; elHint.textContent='立場（賛成/反対）を決め、理由を2〜3個キーワードで思い浮かべる。メモは取れません。';
-    beep(660,.15);
-  }else if(p==='speech'){
-    total=remain=120; setRingColor('var(--brand)');
-    elPhase.textContent='② スピーチ（2分）— 話し始めてください';
-    elSub.textContent='SPEECH'; elHint.textContent='まず立場を明言 → First… Another reason… → For these reasons… で締める。';
-    beep(880,.2);setTimeout(function(){beep(880,.2);},250);
+(function(){
+  var tId=null, remain=0;
+  var disp=document.getElementById('tb-disp');
+  var bar=document.getElementById('timerbar');
+  function pad(n){return String(n).padStart(2,'0');}
+  function beep(freq,dur){try{var AC=window.AudioContext||window.webkitAudioContext;var ac=new AC();var o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.frequency.value=freq;o.type='sine';g.gain.setValueAtTime(.0001,ac.currentTime);g.gain.exponentialRampToValueAtTime(.3,ac.currentTime+.02);g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+dur);o.start();o.stop(ac.currentTime+dur);}catch(e){}}
+  function show(){disp.textContent=Math.floor(remain/60)+':'+pad(remain%60);}
+  function reset(){clearInterval(tId);tId=null;bar.classList.remove('prep','speech');}
+  function start(sec,kind){
+    clearInterval(tId);remain=sec;show();
+    bar.classList.remove('prep','speech');bar.classList.add(kind);
+    beep(kind==='prep'?660:880,.15);
+    tId=setInterval(function(){remain--;show();if(remain<=0){clearInterval(tId);tId=null;beep(440,.5);}},1000);
   }
-  paint();
-  clearInterval(tId);
-  tId=setInterval(function(){
-    remain--; paint();
-    if(remain<=0){
-      clearInterval(tId);
-      if(phase==='prep'){startPhase('speech');}
-      else{finish();}
-    }
-  },1000);
-}
-function finish(){
-  clearInterval(tId);phase='done';
-  beep(440,.5);
-  elPhase.textContent='✅ お疲れさまでした！録音を聞き返してチェックを';
-  elSub.textContent='DONE';elTime.textContent='0:00';
-  elHint.textContent='発音・イントネーション / 同じ語の繰り返し / 立場の一貫性 を客観的に確認しましょう。';
-  bSkip.style.display='none';
-}
-bStart.addEventListener('click', function(){
-  renderTopics(pick5());
-  bStart.style.display='none';bSkip.style.display='';bReset.style.display='';
-  startPhase('prep');
-});
-bSkip.addEventListener('click', function(){
-  if(phase==='prep')startPhase('speech');
-  else if(phase==='speech')finish();
-});
-bReset.addEventListener('click', function(){
-  clearInterval(tId);phase='idle';
-  elTime.textContent='--:--';elSub.textContent='ready';
-  elPhase.textContent='「練習スタート」を押すと新しいトピックが表示されます';
-  elHint.textContent='';setRingColor('var(--brand)');
-  ring.setAttribute('stroke-dashoffset',0);
-  bStart.style.display='';bSkip.style.display='none';bReset.style.display='none';
-  renderTopics(pick5());
-});
+  document.querySelectorAll('.tbtn[data-sec]').forEach(function(b){
+    b.addEventListener('click',function(){start(parseInt(b.dataset.sec,10),b.dataset.kind);});
+  });
+  var st=document.getElementById('tb-stop');
+  if(st) st.addEventListener('click',function(){reset();remain=0;show();});
+})();
 
 var MODELS=[
 {q:"Should the Internet be censored? — I agree",
@@ -575,22 +448,260 @@ var MODELS=[
  ]}
 ];
 
-var ml=document.getElementById('model-list');
-MODELS.forEach(function(m){
-  var wc=(m.body.match(/[A-Za-z'-]+/g)||[]).length;
-  var det=document.createElement('details');det.className='model-acc';
-  var qaHtml=m.qa.map(function(p){
-    return '<details class="qa"><summary>Q&amp;A例: '+p[0]+'</summary><p>'+p[1]+'</p></details>';
-  }).join('');
-  var mapHtml='';
-  if(m.map){
-    var rows=m.map.map(function(r){return '<tr><th>'+r[0]+'</th><td>'+r[1]+'</td></tr>';}).join('');
-    mapHtml='<details class="qa"><summary>テンプレ対応表（当てはめ）</summary><table class="maptbl">'+rows+'</table></details>';
-  }
-  det.innerHTML='<summary>'+m.q+'</summary>'+mapHtml+'<div class="body">'+m.body.replace(/\n/g,'<br>')+'</div>'+
-    '<div class="meta">約 '+wc+' words</div>'+qaHtml;
-  ml.appendChild(det);
-});
+function _mk(A,B,ch,num,alt,ctx,app,ex,res,dom){
+ return "The importance of "+A+" has become increasingly evident in recent years, giving rise to considerable debate. While some argue that "+B+" is sufficient, I believe "+A+" is fundamentally essential. This view is supported by two key considerations.\n\nFirst, "+A+" is indispensable because it effectively addresses "+ch+" in ways that "+B+" cannot. Recent research demonstrates this clearly: it shows measurable advantages, achieving "+num+" compared to "+alt+", with significant implications for "+ctx+". This empirical evidence indicates that "+A+" is substantially more effective than "+B+" for "+app+".\n\nSecond, "+A+" has proven effective in real-world contexts. "+ex+" provides a compelling example—the results have been "+res+". Moreover, similar successes have been documented in other regions and sectors, suggesting that the benefits are not limited to specific contexts. This demonstrates its practical value and broad applicability.\n\nIn conclusion, the evidence strongly supports the position that "+A+" is essential to "+dom+". Though certain challenges remain, they can be addressed through ongoing innovation and strategic planning. It is therefore crucial that stakeholders commit to advancing it further.";
+}
+function _map(A,B,ch,num,alt,ctx,app,ex,res,dom){
+ return [["A（主張）",A],["B（対立意見）",B],["課題",ch],["数値",num],["比較対象",alt],["文脈",ctx],["応用",app],["具体例",ex],["実績",res],["領域",dom]];
+}
+
+var SESS1=[
+{q:"Should multinational companies do more to treat workers in developing countries fairly? — Agree",
+ map:_map("fair treatment of overseas workers by multinational companies","leaving labor standards to market forces","exploitation and unsafe conditions in global supply chains","a 40% reduction in workplace injuries","unregulated supply chains","worker welfare and long-term productivity","sustainable global business","Fair Trade certification programs","higher wages and safer workplaces for millions of workers","ethical globalization"),
+ body:_mk("fair treatment of overseas workers by multinational companies","leaving labor standards to market forces","exploitation and unsafe conditions in global supply chains","a 40% reduction in workplace injuries","unregulated supply chains","worker welfare and long-term productivity","sustainable global business","Fair Trade certification programs","higher wages and safer workplaces for millions of workers","ethical globalization"),
+ qa:[
+  ["Whose responsibility is it to ensure fair treatment?","Primarily the companies themselves, but governments and consumers share it. Strong local labor laws and ethically minded consumers create powerful incentives for corporations to act responsibly."],
+  ["Won't fairer treatment raise prices?","Costs may rise slightly, but the effect on final prices is usually small. Fair treatment also improves productivity and brand reputation, which often offsets the added cost over time."],
+  ["Don't these jobs already help developing economies?","They do provide valuable income and development. However, offering jobs and treating workers fairly are not mutually exclusive; responsible companies can and should do both."]
+ ]},
+{q:"Is it the responsibility of parents to monitor their children's online activities? — Yes",
+ map:_map("parental monitoring of children's online activity","leaving children unsupervised online","online risks such as cyberbullying and harmful content","a 50% reduction in exposure to harmful content","unsupervised use","child safety and digital literacy","a healthy digital upbringing","family media-management tools and shared online rules","fewer incidents of online harm and better study habits","child protection in the digital age"),
+ body:_mk("parental monitoring of children's online activity","leaving children unsupervised online","online risks such as cyberbullying and harmful content","a 50% reduction in exposure to harmful content","unsupervised use","child safety and digital literacy","a healthy digital upbringing","family media-management tools and shared online rules","fewer incidents of online harm and better study habits","child protection in the digital age"),
+ qa:[
+  ["Doesn't monitoring invade a child's privacy?","It can if done secretly or excessively. The key is age-appropriate, transparent monitoring combined with open conversation, which protects children while respecting their growing independence."],
+  ["Isn't it the school's or platform's job too?","Yes, schools and platforms share responsibility through education and safety features. However, parents know their own children best and are best placed to guide them every day."],
+  ["At what age should monitoring stop?","It should gradually decrease as children mature, shifting from supervision to guidance. By the late teens, the goal should be trust and self-regulation rather than control."]
+ ]},
+{q:"Should there be more representation of minority groups in governments? — Yes",
+ map:_map("greater representation of minority groups in government","maintaining the current majority-dominated system","the underrepresentation of minority interests in policymaking","a 35% increase in policies addressing minority needs","homogeneous legislatures","social equity and democratic legitimacy","inclusive governance","New Zealand's reserved Maori seats","greater public trust and more responsive policies","representative democracy"),
+ body:_mk("greater representation of minority groups in government","maintaining the current majority-dominated system","the underrepresentation of minority interests in policymaking","a 35% increase in policies addressing minority needs","homogeneous legislatures","social equity and democratic legitimacy","inclusive governance","New Zealand's reserved Maori seats","greater public trust and more responsive policies","representative democracy"),
+ qa:[
+  ["Shouldn't politicians be chosen on merit rather than identity?","Merit and representation are not opposed. A diverse, capable legislature reflects society better and brings varied perspectives, which improves the quality of decisions."],
+  ["How can representation be increased?","Through inclusive candidate recruitment, civic education, and, where appropriate, reserved seats or proportional systems that lower barriers for underrepresented groups."],
+  ["Could quotas cause resentment?","They can if poorly designed. That is why they should be transparent and temporary, correcting clear imbalances while keeping elections open and competitive."]
+ ]},
+{q:"Can the arts, such as literature or music, be an important tool for social change? — Yes",
+ map:_map("the use of the arts as a tool for social change","treating art as mere entertainment","raising awareness and shifting public attitudes","significantly higher public engagement with social issues","purely factual campaigns","empathy and collective action","social movements","protest music during the civil rights movement","mobilized public opinion and lasting cultural shifts","social progress"),
+ body:_mk("the use of the arts as a tool for social change","treating art as mere entertainment","raising awareness and shifting public attitudes","significantly higher public engagement with social issues","purely factual campaigns","empathy and collective action","social movements","protest music during the civil rights movement","mobilized public opinion and lasting cultural shifts","social progress"),
+ qa:[
+  ["Isn't the impact of art hard to measure?","Direct impact is hard to quantify, but its influence on attitudes and culture is well documented. Art shapes how people feel about issues, which is often the first step toward change."],
+  ["Can't art also spread harmful ideas?","It can, like any powerful medium. That is why a free and diverse cultural sphere matters, allowing many voices to challenge and balance one another."],
+  ["Is art more effective than direct activism?","They work best together. Art builds emotional engagement and awareness, while activism channels that energy into concrete political and social action."]
+ ]},
+{q:"Does the use of English as the language of international communication give some nations an unfair advantage? — Yes",
+ map:_map("addressing the advantage that global English gives native-speaking nations","treating English dominance as a neutral convenience","linguistic inequality in global communication","measurably higher success rates for native speakers in international forums","support for non-native speakers","fairness in academia, business, and diplomacy","equitable global communication","translation and interpretation support at the UN and EU","more balanced participation by non-native speakers","global linguistic fairness"),
+ body:"The importance of addressing the advantage that global English gives native-speaking nations has become increasingly evident in recent years, giving rise to considerable debate. While some argue that English's global role is a neutral convenience, I believe this advantage is real and must be addressed. This view is supported by two key considerations.\n\nFirst, recognizing this advantage is indispensable because it effectively addresses linguistic inequality in global communication in ways that ignoring the issue cannot. Recent research demonstrates this clearly: native English speakers achieve measurably higher success rates in international forums compared to non-native speakers, with significant implications for fairness in academia, business, and diplomacy. This empirical evidence indicates that the imbalance is substantial and worth correcting for equitable global communication.\n\nSecond, practical remedies have proven effective in real-world contexts. Translation and interpretation support at the UN and EU provides a compelling example—the results have been more balanced participation by non-native speakers. Moreover, similar successes have been documented in other regions and sectors, suggesting that the benefits are not limited to specific contexts. This demonstrates the practical value of accommodation and its broad applicability.\n\nIn conclusion, the evidence strongly supports the position that addressing this linguistic advantage is essential to global linguistic fairness. Though certain challenges remain, they can be addressed through ongoing innovation and strategic planning. It is therefore crucial that stakeholders commit to advancing fairer communication further.",
+ qa:[
+  ["Isn't having a common language beneficial overall?","Yes, a shared language greatly aids communication. The issue is not English itself but the imbalance it creates, which can be eased through translation support and language education."],
+  ["How can the disadvantage be reduced?","Through investment in language education, professional translation in key settings, and a culture of patience toward non-native speakers in international forums."],
+  ["Will another language ever replace English?","It is unlikely in the near future given English's entrenched role. Rather than replacement, the realistic goal is fairer accommodation of non-native speakers."]
+ ]}
+];
+
+var SESS2=[
+{q:"Is higher government spending the best way to tackle a recession? — Agree",
+ map:_map("higher government spending during a recession","austerity and reduced spending","falling demand and rising unemployment","a 30% faster recovery in employment","austerity measures","economic stabilization","recession recovery","the United States' stimulus after the 2008 financial crisis","restored growth and reduced job losses","macroeconomic policy"),
+ body:_mk("higher government spending during a recession","austerity and reduced spending","falling demand and rising unemployment","a 30% faster recovery in employment","austerity measures","economic stabilization","recession recovery","the United States' stimulus after the 2008 financial crisis","restored growth and reduced job losses","macroeconomic policy"),
+ qa:[
+  ["Won't higher spending increase national debt?","It can in the short term, but well-targeted spending revives growth and tax revenue, which helps repay the debt. The cost of prolonged recession is usually far greater."],
+  ["Is spending always better than tax cuts?","Not always; the best mix depends on the situation. Direct spending often has a stronger immediate effect on demand, while tax cuts can complement it."],
+  ["What if the money is spent inefficiently?","That is a real risk, so transparency and clear priorities matter. Investing in infrastructure, education, and support for the vulnerable tends to deliver the most lasting value."]
+ ]},
+{q:"Agree or disagree: Stem cell research will revolutionize medical science — Agree",
+ map:_map("stem cell research","relying on conventional treatments alone","currently incurable diseases and tissue damage","a 60% improvement in regenerative treatment outcomes","conventional therapies","patient recovery and longevity","regenerative medicine","stem cell therapies for blood cancers","successful treatment of previously untreatable conditions","modern medicine"),
+ body:_mk("stem cell research","relying on conventional treatments alone","currently incurable diseases and tissue damage","a 60% improvement in regenerative treatment outcomes","conventional therapies","patient recovery and longevity","regenerative medicine","stem cell therapies for blood cancers","successful treatment of previously untreatable conditions","modern medicine"),
+ qa:[
+  ["Are there ethical concerns with stem cell research?","Yes, particularly regarding embryonic sources. However, advances such as induced pluripotent stem cells reduce these concerns, allowing progress within clear ethical guidelines."],
+  ["Isn't this technology expensive and inaccessible?","Currently it is costly, but prices typically fall as research matures and treatments scale up. Public funding can also help ensure broader access."],
+  ["How soon will benefits reach ordinary patients?","Some therapies are already in use, and more are in trials. Progress is gradual, but the trajectory strongly suggests transformative benefits within a generation."]
+ ]},
+{q:"Is the declining power of labor unions a problem in today's world? — Yes",
+ map:_map("maintaining strong labor unions","accepting weak or declining unions","stagnant wages and weakened worker protections","a 25% wage premium for unionized workers","non-unionized workforces","fair wages and job security","balanced labor markets","strong union systems in Scandinavian countries","higher wages and lower inequality","workers' rights"),
+ body:_mk("maintaining strong labor unions","accepting weak or declining unions","stagnant wages and weakened worker protections","a 25% wage premium for unionized workers","non-unionized workforces","fair wages and job security","balanced labor markets","strong union systems in Scandinavian countries","higher wages and lower inequality","workers' rights"),
+ qa:[
+  ["Don't unions sometimes harm business competitiveness?","They can if demands are unrealistic, but cooperative unions often improve productivity through stability and trust. The goal is balanced negotiation, not conflict."],
+  ["Are unions still relevant in the gig economy?","Very much so. Gig and platform workers often lack protections, so new forms of collective organization are increasingly important for their rights."],
+  ["How can union membership be revived?","By modernizing to represent flexible and remote workers, demonstrating clear value, and securing legal frameworks that protect the right to organize."]
+ ]},
+{q:"Should the government put a limit on how much wealth a person can accumulate? — Yes (through redistribution)",
+ map:_map("limiting extreme concentration of wealth","unlimited wealth accumulation","extreme inequality and concentrated political power","a 30% reduction in inequality indices","economies without redistribution","social cohesion and opportunity","a fairer economy","progressive taxation in postwar Western Europe","reduced inequality alongside strong growth","economic justice"),
+ body:_mk("limiting extreme concentration of wealth","unlimited wealth accumulation","extreme inequality and concentrated political power","a 30% reduction in inequality indices","economies without redistribution","social cohesion and opportunity","a fairer economy","progressive taxation in postwar Western Europe","reduced inequality alongside strong growth","economic justice"),
+ qa:[
+  ["Won't limiting wealth discourage hard work and innovation?","Reasonable redistribution need not remove incentives. History shows economies can combine progressive taxation with strong innovation, as long as success is still well rewarded."],
+  ["Is a hard cap or taxation better?","Progressive taxation is generally more practical and flexible than an absolute cap, since it curbs extreme concentration without eliminating ambition."],
+  ["Won't the wealthy just move their money abroad?","That risk is real, which is why international cooperation on tax transparency and havens is essential to make redistribution effective."]
+ ]},
+{q:"Has the overall quality of journalism declined in recent years? — Agree",
+ map:_map("restoring high-quality, fact-based journalism","accepting the current decline in standards","misinformation and clickbait-driven reporting","a measurable drop in public trust in the news","sensationalist outlets","an informed citizenry","a healthy democracy","the rise of nonprofit investigative newsrooms","restored credibility and in-depth reporting","quality journalism"),
+ body:_mk("restoring high-quality, fact-based journalism","accepting the current decline in standards","misinformation and clickbait-driven reporting","a measurable drop in public trust in the news","sensationalist outlets","an informed citizenry","a healthy democracy","the rise of nonprofit investigative newsrooms","restored credibility and in-depth reporting","quality journalism"),
+ qa:[
+  ["Why has journalism quality declined?","The shift to online advertising rewards speed and clicks over depth, while shrinking newsroom budgets reduce time for careful investigation and fact-checking."],
+  ["Hasn't the Internet also improved journalism?","In some ways, yes—it speeds access and enables citizen reporting. But it has also amplified misinformation, so the overall effect on quality is mixed at best."],
+  ["How can quality be restored?","Through sustainable funding models such as subscriptions and nonprofits, strong editorial standards, and media literacy so readers value and support good reporting."]
+ ]}
+];
+
+var SESS3=[
+{q:"Are the high compensation packages for CEOs at large corporations warranted? — No",
+ map:_map("reasonable limits on excessive executive pay","unlimited CEO compensation","extreme pay gaps and short-term decision-making","stronger long-term performance at firms with moderate pay ratios","firms with extreme pay gaps","employee morale and fairness","sustainable corporate governance","Japanese firms with modest executive-to-worker pay ratios","higher employee retention and stable growth","corporate fairness"),
+ body:_mk("reasonable limits on excessive executive pay","unlimited CEO compensation","extreme pay gaps and short-term decision-making","stronger long-term performance at firms with moderate pay ratios","firms with extreme pay gaps","employee morale and fairness","sustainable corporate governance","Japanese firms with modest executive-to-worker pay ratios","higher employee retention and stable growth","corporate fairness"),
+ qa:[
+  ["Don't top executives deserve high pay for their skills?","Talented leaders deserve strong rewards, but pay hundreds of times that of average workers is hard to justify and often reflects weak governance rather than performance."],
+  ["How could excessive pay be curbed?","Through transparent pay-ratio disclosure, stronger shareholder voting on compensation, and linking pay to long-term rather than short-term results."],
+  ["Won't capping pay drive talent abroad?","Some risk exists, but many capable leaders are motivated by purpose and challenge, not only money. Reasonable, well-designed limits rarely cause an exodus."]
+ ]},
+{q:"Can the actions of individuals ever contribute significantly to political change? — Yes",
+ map:_map("individual civic action","relying only on large institutions","political disengagement and stalled reform","measurably higher policy responsiveness where civic participation is high","passive citizenship","democratic accountability","grassroots change","Greta Thunberg's climate activism","global movements sparked by individual initiative","democratic participation"),
+ body:_mk("individual civic action","relying only on large institutions","political disengagement and stalled reform","measurably higher policy responsiveness where civic participation is high","passive citizenship","democratic accountability","grassroots change","Greta Thunberg's climate activism","global movements sparked by individual initiative","democratic participation"),
+ qa:[
+  ["Isn't real power held by governments and corporations?","They hold great power, but they respond to public pressure. Individuals who organize, vote, and raise awareness can shift the agenda that those institutions must address."],
+  ["What can an ordinary person realistically do?","Voting, contacting representatives, joining campaigns, and influencing others through everyday conversation and social media all add up to meaningful collective pressure."],
+  ["Don't most individual efforts fail?","Many do, but the successful ones show what is possible. Even unsuccessful efforts build awareness and networks that later movements can build upon."]
+ ]},
+{q:"Should improving cybersecurity measures be the highest priority for government agencies? — A top priority",
+ map:_map("prioritizing cybersecurity","treating cybersecurity as secondary","rising cyberattacks on critical infrastructure","a 45% reduction in successful breaches","under-resourced security programs","national security and public trust","digital infrastructure protection","Estonia's national cybersecurity strategy","strong resilience against major cyberattacks","national security"),
+ body:_mk("prioritizing cybersecurity","treating cybersecurity as secondary","rising cyberattacks on critical infrastructure","a 45% reduction in successful breaches","under-resourced security programs","national security and public trust","digital infrastructure protection","Estonia's national cybersecurity strategy","strong resilience against major cyberattacks","national security"),
+ qa:[
+  ["Isn't physical security still more important?","Both matter, but modern infrastructure—power grids, hospitals, finance—now depends on digital systems, so a major cyberattack can cause physical and economic harm on a vast scale."],
+  ["How can agencies improve cybersecurity?","By investing in skilled staff, updating outdated systems, sharing threat intelligence, and training all employees, since human error is a common entry point."],
+  ["Does strong cybersecurity threaten privacy?","It can if surveillance expands unchecked. Security and privacy must be balanced through clear legal limits and independent oversight."]
+ ]},
+{q:"Does the study of philosophy have any relevance in today's society? — Yes",
+ map:_map("the study of philosophy","focusing only on practical or technical subjects","ethical dilemmas and gaps in critical thinking","measurably stronger reasoning and ethical judgment","purely vocational education","informed decision-making","education and public discourse","the use of ethics training in medicine and AI development","better-reasoned decisions in complex fields","education and society"),
+ body:_mk("the study of philosophy","focusing only on practical or technical subjects","ethical dilemmas and gaps in critical thinking","measurably stronger reasoning and ethical judgment","purely vocational education","informed decision-making","education and public discourse","the use of ethics training in medicine and AI development","better-reasoned decisions in complex fields","education and society"),
+ qa:[
+  ["Isn't philosophy impractical compared to science or business?","It may seem abstract, but it trains the reasoning, ethics, and clear thinking that every field relies on, especially when facing new and complex problems."],
+  ["Where is philosophy actually useful today?","In fields like medicine, law, and artificial intelligence, where difficult ethical choices arise. Philosophical reasoning helps define what we should do, not just what we can do."],
+  ["Should philosophy be taught in schools?","Yes, at least in basic form. Teaching students to question assumptions and argue logically strengthens citizenship and lifelong learning."]
+ ]},
+{q:"Agree or disagree: Wealthy countries should fund efforts to preserve natural areas around the world — Agree",
+ map:_map("funding by wealthy countries to preserve natural areas worldwide","leaving conservation to individual nations alone","biodiversity loss and ecosystem collapse","a 50% improvement in protected-area outcomes","underfunded conservation","global biodiversity and climate stability","international conservation","international funding for the Amazon and Congo rainforests","preserved ecosystems and protected endangered species","global environmental stewardship"),
+ body:_mk("funding by wealthy countries to preserve natural areas worldwide","leaving conservation to individual nations alone","biodiversity loss and ecosystem collapse","a 50% improvement in protected-area outcomes","underfunded conservation","global biodiversity and climate stability","international conservation","international funding for the Amazon and Congo rainforests","preserved ecosystems and protected endangered species","global environmental stewardship"),
+ qa:[
+  ["Why should wealthy nations pay for other countries' nature?","Because biodiversity and climate are shared global goods, and wealthy nations have both greater resources and a large historical footprint. Protecting distant forests benefits everyone."],
+  ["Doesn't this interfere with national sovereignty?","It need not. Funding should be offered as partnership, respecting local communities and governments and supporting their own conservation priorities."],
+  ["How can we ensure the money is used well?","Through transparent agreements, independent monitoring, and channeling funds to local communities who have strong incentives to protect their environment."]
+ ]}
+];
+
+var SESS4=[
+{q:"Will small businesses struggle to be successful in an increasingly globalized economy? — No",
+ map:_map("the adaptability of small businesses in a globalized economy","assuming small businesses are doomed to fail","intense competition from large multinationals","strong growth rates among digitally enabled small firms","firms that fail to adapt","local economies and innovation","entrepreneurship","small exporters using e-commerce platforms","access to global markets and sustained growth","the modern economy"),
+ body:_mk("the adaptability of small businesses in a globalized economy","assuming small businesses are doomed to fail","intense competition from large multinationals","strong growth rates among digitally enabled small firms","firms that fail to adapt","local economies and innovation","entrepreneurship","small exporters using e-commerce platforms","access to global markets and sustained growth","the modern economy"),
+ qa:[
+  ["Can small firms really compete with giant corporations?","Not on scale, but on agility, niche expertise, and personal service. Globalization and digital tools let them reach customers worldwide that were once out of reach."],
+  ["What support do small businesses need?","Access to affordable finance, digital infrastructure, and simple regulations. Targeted government support can help them adopt technology and enter export markets."],
+  ["Doesn't globalization mainly benefit big companies?","Big firms benefit greatly, but small businesses also gain access to global suppliers, platforms, and customers. The key is the ability and willingness to adapt."]
+ ]},
+{q:"Is enough being done to reduce the wasteful spending of taxpayers' money? — No, more is needed",
+ map:_map("stronger measures to reduce wasteful public spending","the current level of oversight","inefficiency and misallocation of public funds","significant savings where transparency tools are adopted","opaque budgeting","public trust and service quality","fiscal accountability","open-data budgeting in some local governments","reduced waste and improved public services","public finance"),
+ body:_mk("stronger measures to reduce wasteful public spending","the current level of oversight","inefficiency and misallocation of public funds","significant savings where transparency tools are adopted","opaque budgeting","public trust and service quality","fiscal accountability","open-data budgeting in some local governments","reduced waste and improved public services","public finance"),
+ qa:[
+  ["Why is public spending so often wasteful?","Large bureaucracies, weak accountability, and complex procurement can hide inefficiency. Without transparency, there is little pressure to spend carefully."],
+  ["How can waste be reduced?","Through open budgeting, independent audits, digital procurement, and rewarding agencies that deliver results efficiently rather than simply spending their budgets."],
+  ["Isn't some inefficiency unavoidable in government?","Some is, given the scale and public-service mission. The goal is not perfection but continuous improvement and genuine accountability to taxpayers."]
+ ]},
+{q:"Should all foreign residents in Japan be given the right to vote? — Yes (in local elections)",
+ map:_map("granting long-term foreign residents the right to vote in local elections","excluding all foreign residents from voting","taxation and civic duties without representation for long-term residents","stronger community integration where local voting is allowed","full exclusion","social inclusion and fairness","inclusive local democracy","local voting rights for residents in several European countries","better integration and more responsive local policy","democratic inclusion"),
+ body:_mk("granting long-term foreign residents the right to vote in local elections","excluding all foreign residents from voting","taxation and civic duties without representation for long-term residents","stronger community integration where local voting is allowed","full exclusion","social inclusion and fairness","inclusive local democracy","local voting rights for residents in several European countries","better integration and more responsive local policy","democratic inclusion"),
+ qa:[
+  ["Shouldn't voting be reserved for citizens?","National elections reasonably can be. But long-term residents pay taxes and use local services, so a voice in local matters that affect their daily lives is fair."],
+  ["Could this affect national security or identity?","Local voting rights pose little such risk, as they concern community issues like schools and roads. National sovereignty remains with citizens."],
+  ["What conditions should apply?","Reasonable requirements such as a minimum period of residence and tax compliance can ensure that voters have a genuine, lasting stake in the community."]
+ ]},
+{q:"Agree or disagree: Overreliance on the Internet has affected critical thinking skills — Agree",
+ map:_map("addressing overreliance on the Internet","unchecked dependence on online tools","declining critical-thinking and attention skills","measurably weaker analytical performance among heavy passive users","balanced media habits","cognitive development","education and digital literacy","schools teaching critical media literacy","improved reasoning and source evaluation","cognitive wellbeing"),
+ body:_mk("addressing overreliance on the Internet","unchecked dependence on online tools","declining critical-thinking and attention skills","measurably weaker analytical performance among heavy passive users","balanced media habits","cognitive development","education and digital literacy","schools teaching critical media literacy","improved reasoning and source evaluation","cognitive wellbeing"),
+ qa:[
+  ["Hasn't the Internet also made us smarter?","It gives unprecedented access to information, which is valuable. The problem is passive consumption and instant answers, which can weaken deep thinking if we never question sources."],
+  ["How can we protect critical thinking?","By teaching media literacy, encouraging people to verify and compare sources, and balancing screen time with reading, discussion, and reflection."],
+  ["Is the Internet itself to blame?","Not the tool itself, but how we use it. Used actively and critically, it strengthens learning; used passively, it can erode independent judgment."]
+ ]},
+{q:"Is economic background the most important factor in determining success in life? — No",
+ map:_map("expanding opportunity beyond economic background","assuming economic background determines success","limited social mobility and unequal opportunity","strong mobility where education and support are accessible","systems that entrench class","equal opportunity","social mobility","scholarship and mentorship programs that support disadvantaged students","successful outcomes regardless of starting wealth","social opportunity"),
+ body:_mk("expanding opportunity beyond economic background","assuming economic background determines success","limited social mobility and unequal opportunity","strong mobility where education and support are accessible","systems that entrench class","equal opportunity","social mobility","scholarship and mentorship programs that support disadvantaged students","successful outcomes regardless of starting wealth","social opportunity"),
+ qa:[
+  ["Doesn't wealth give children a huge head start?","It clearly helps with education and connections. But accessible schooling, mentorship, and effort can overcome much of that gap, so background is influential rather than decisive."],
+  ["How should we define success?","Success is broader than income—it includes fulfillment, contribution, and wellbeing. By that wider measure, factors like character and opportunity matter even more."],
+  ["What helps level the playing field?","Quality public education, scholarships, mentoring, and inclusive hiring all widen opportunity so that talent and effort, not just wealth, shape outcomes."]
+ ]}
+];
+
+var SESS5=[
+{q:"Agree or disagree: Political parties no longer adequately represent the average person — Agree (reform needed)",
+ map:_map("reforming political parties to better represent ordinary citizens","leaving the current party system unchanged","a growing disconnect between parties and voters","declining party membership and public trust","unreformed parties","democratic legitimacy","political reform","citizens' assemblies in Ireland","renewed public engagement and trust","representative democracy"),
+ body:_mk("reforming political parties to better represent ordinary citizens","leaving the current party system unchanged","a growing disconnect between parties and voters","declining party membership and public trust","unreformed parties","democratic legitimacy","political reform","citizens' assemblies in Ireland","renewed public engagement and trust","representative democracy"),
+ qa:[
+  ["Why do parties seem disconnected from ordinary people?","Many are dominated by donors, lobbyists, and career politicians, so policies can drift toward narrow interests rather than the concerns of average voters."],
+  ["What reforms could help?","Transparent funding, open primaries, citizens' assemblies, and stronger local participation can all reconnect parties with the people they represent."],
+  ["Aren't parties still necessary for democracy?","Yes—they organize ideas and choices. The aim is not to abolish them but to reform them so they genuinely reflect the public they serve."]
+ ]},
+{q:"Do strict copyright laws have a negative effect on creativity and innovation? — Yes",
+ map:_map("more balanced copyright laws","overly strict copyright regimes","barriers to creativity and knowledge-sharing","higher rates of creative output under flexible licensing","restrictive regimes","innovation and access","the creative economy","the growth of open-source software and Creative Commons","flourishing innovation and collaboration","intellectual property policy"),
+ body:_mk("more balanced copyright laws","overly strict copyright regimes","barriers to creativity and knowledge-sharing","higher rates of creative output under flexible licensing","restrictive regimes","innovation and access","the creative economy","the growth of open-source software and Creative Commons","flourishing innovation and collaboration","intellectual property policy"),
+ qa:[
+  ["Don't creators deserve protection for their work?","Absolutely, and fair compensation is essential. The problem is excessively long or rigid protection that locks up ideas and blocks others from building on them."],
+  ["What would a better balance look like?","Reasonable protection periods, fair-use exceptions for education and research, and flexible licensing like Creative Commons that let creators choose how their work is shared."],
+  ["Won't looser copyright reduce creators' income?","Not necessarily. Many creators thrive through open models, services, and reputation. Balanced rules can protect income while still encouraging new creativity."]
+ ]},
+{q:"Should promoting free trade be a primary goal for the Japanese government? — Yes",
+ map:_map("promoting free trade","protectionism","limited domestic market growth and rising costs","a 20% boost in trade-related GDP","protectionist policies","economic growth and consumer benefit","trade policy","Japan's participation in the CPTPP","expanded markets and lower consumer prices","economic policy"),
+ body:_mk("promoting free trade","protectionism","limited domestic market growth and rising costs","a 20% boost in trade-related GDP","protectionist policies","economic growth and consumer benefit","trade policy","Japan's participation in the CPTPP","expanded markets and lower consumer prices","economic policy"),
+ qa:[
+  ["Doesn't free trade hurt domestic industries?","Some industries face pressure, which is real. But overall it lowers prices, expands markets for exporters, and the government can support affected workers through retraining."],
+  ["Is free trade wise given global tensions?","Diversified, rules-based trade actually increases resilience. Over-reliance on any single partner is the greater risk, which broad agreements help reduce."],
+  ["What about food and energy security?","Strategic sectors can be protected selectively while still pursuing open trade overall. The two goals can be balanced with careful policy."]
+ ]},
+{q:"Could the use of genetic engineering lead to greater equality in society? — Yes, if equitably applied",
+ map:_map("the equitable use of genetic engineering in medicine","leaving genetic technology unregulated or inaccessible","inherited diseases and health disadvantages","improved health outcomes through gene therapies","unequal access to treatment","health equity","accessible medicine","gene therapies for inherited diseases such as sickle cell anemia","reduced health disparities for affected patients","equitable healthcare"),
+ body:_mk("the equitable use of genetic engineering in medicine","leaving genetic technology unregulated or inaccessible","inherited diseases and health disadvantages","improved health outcomes through gene therapies","unequal access to treatment","health equity","accessible medicine","gene therapies for inherited diseases such as sickle cell anemia","reduced health disparities for affected patients","equitable healthcare"),
+ qa:[
+  ["Couldn't genetic engineering instead increase inequality?","It could if only the rich can afford it, which is the central risk. That is why public funding and fair access rules are essential to make it a force for equality."],
+  ["Where should we draw ethical lines?","A reasonable line is treating disease rather than enhancing traits for advantage. Therapy for serious illness is widely supported; non-medical enhancement raises far greater concerns."],
+  ["Is the technology safe enough?","It is advancing quickly but still carries risks, so strict testing and oversight are vital. Progress should be careful, transparent, and tightly regulated."]
+ ]},
+{q:"Has the rise of social media had a positive impact on the field of journalism? — Yes (with caveats)",
+ map:_map("the positive role of social media in journalism","dismissing social media's value to journalism","limited access and slow dissemination of news","far faster and broader reach of important stories","traditional media alone","public awareness and citizen journalism","modern news distribution","social media's role in exposing events during the Arab Spring","rapid, widespread sharing of crucial information","contemporary journalism"),
+ body:_mk("the positive role of social media in journalism","dismissing social media's value to journalism","limited access and slow dissemination of news","far faster and broader reach of important stories","traditional media alone","public awareness and citizen journalism","modern news distribution","social media's role in exposing events during the Arab Spring","rapid, widespread sharing of crucial information","contemporary journalism"),
+ qa:[
+  ["Hasn't social media also spread misinformation?","Yes, and that is a serious downside. The benefits of speed and reach come with real risks, so fact-checking and media literacy are essential safeguards."],
+  ["Does social media threaten professional journalism?","It pressures traditional revenue, but it also extends reach and enables citizen reporting. Professional and social media work best as complements, not rivals."],
+  ["How can the positives be maximized?","By pairing social media's reach with verification, supporting professional newsrooms, and educating the public to evaluate sources critically."]
+ ]}
+];
+
+var SESSIONS=[
+ {label:"最新（第1回）",models:SESS1},
+ {label:"第2回",models:SESS2},
+ {label:"第3回",models:SESS3},
+ {label:"第4回",models:SESS4},
+ {label:"第5回",models:SESS5},
+ {label:"Extra（初期版）",models:MODELS}
+];
+function renderModels(list){
+  var ml=document.getElementById('model-list'); ml.innerHTML='';
+  list.forEach(function(m){
+    var wc=(m.body.match(/[A-Za-z'-]+/g)||[]).length;
+    var det=document.createElement('details');det.className='model-acc';
+    var qaHtml=m.qa.map(function(p){return '<details class="qa"><summary>Q&amp;A例: '+p[0]+'</summary><p>'+p[1]+'</p></details>';}).join('');
+    var mapHtml='';
+    if(m.map){var rows=m.map.map(function(r){return '<tr><th>'+r[0]+'</th><td>'+r[1]+'</td></tr>';}).join('');mapHtml='<details class="qa"><summary>テンプレ対応表（当てはめ）</summary><table class="maptbl">'+rows+'</table></details>';}
+    det.innerHTML='<summary>'+m.q+'</summary>'+mapHtml+'<div class="body">'+m.body.replace(/\n/g,'<br>')+'</div><div class="meta">約 '+wc+' words</div>'+qaHtml;
+    ml.appendChild(det);
+  });
+}
+(function(){
+  var st=document.getElementById('model-subtabs');
+  SESSIONS.forEach(function(s,idx){
+    var b=document.createElement('button');b.className='subtab'+(idx===0?' active':'');b.textContent=s.label;
+    b.addEventListener('click',function(){
+      document.querySelectorAll('#model-subtabs .subtab').forEach(function(x){x.classList.remove('active');});
+      b.classList.add('active');renderModels(s.models);
+    });
+    st.appendChild(b);
+  });
+  renderModels(SESSIONS[0].models);
+})();
 
 var FLOW=[
 ["入室","Hello. と挨拶して入室。1級ではアティチュードは採点対象外だが、アイコンタクトと明瞭な声を意識。"],
