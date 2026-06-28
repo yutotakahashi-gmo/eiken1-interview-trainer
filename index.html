@@ -80,6 +80,14 @@ svg.ring{transform:rotate(-90deg);}
 .model .q{font-weight:700;font-size:1.02rem;margin-bottom:6px;}
 .model .body{font-size:.97rem;}
 .model .meta{font-size:.78rem;color:var(--sub);margin-top:8px;}
+.model-acc{border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:10px;margin:12px 0;padding:0 16px;background:var(--card);}
+.model-acc>summary{cursor:pointer;font-weight:700;font-size:1.02rem;padding:14px 0;list-style:none;}
+.model-acc>summary::-webkit-details-marker{display:none;}
+.model-acc>summary::before{content:"\25B8 ";color:var(--brand);}
+.model-acc[open]>summary::before{content:"\25BE ";}
+.model-acc[open]>summary{border-bottom:1px solid var(--line);margin-bottom:10px;}
+.model-acc .body{font-size:.97rem;}
+.model-acc .meta{font-size:.78rem;color:var(--sub);margin:8px 0;}
 details.qa{margin-top:10px;background:var(--bg);border-radius:10px;padding:4px 14px;}
 details.qa summary{cursor:pointer;font-weight:700;padding:8px 0;font-size:.92rem;}
 details.qa p{margin:0 0 12px;font-size:.93rem;}
@@ -206,7 +214,7 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
 <section class="panel" id="model">
   <div class="card">
     <h2>模範解答例</h2>
-    <p class="muted">すべてテンプレ（立場→理由→反論→結論）に沿った構成。太字の接続表現に注目して音読してみてください。各例に<b>Q&Aを4問ずつ</b>収録（質問タップで解答例が開きます）。</p>
+    <p class="muted">すべてテンプレ（立場→理由→反論→結論）に沿った構成。各例に<b>Q&Aを4問ずつ</b>収録。<b>タイトルをタップ</b>すると解答とQ&Aが開きます（ジャバラ式）。</p>
     <div class="tpl" style="margin-bottom:8px">
       <b>Q&A攻略のコツ（4分・5問程度）</b><br>
       <span class="muted">① 質問の意図を一言で受ける（That's a good point. / Yes, I think so.）→ ② 理由を1つ→ ③ 具体例や言い換えで補強、を <b>3〜4文</b>で。<br>
@@ -451,18 +459,81 @@ var MODELS=[
    ["Isn't moving to the countryside inconvenient for young families?","It can be, due to fewer schools and hospitals. However, improving digital infrastructure and transportation can ease these problems. In fact, some families prefer rural areas for their lower cost of living and a safer, more natural environment for raising children."],
    ["Should the government spend tax money on declining rural towns?","I believe targeted investment is justified, because rural areas provide food, preserve culture, and protect the environment. Rather than supporting every town equally, the government should focus on regions with realistic potential so the money is used efficiently."],
    ["Can tourism really create stable, long-term jobs?","Tourism alone may be seasonal, but combined with agriculture, local crafts, and remote work, it can form part of a diverse rural economy. Diversification is the key to creating stable employment instead of relying on a single industry."]
+ ]},
+
+{q:"What role should the United Nations play in international politics? — A central role",
+ body:"The United Nations should play a central, coordinating role in international politics. This is a controversial issue, but I am firmly convinced of its importance.\n\nFirst, the UN is essential for maintaining international peace. Through diplomacy and peacekeeping, it provides a neutral forum where nations can resolve disputes without resorting to war. For instance, its mediation has helped de-escalate many regional conflicts.\n\nSecond, the UN is indispensable for tackling global problems that no single country can solve alone, such as climate change, pandemics, and poverty. Some argue the UN is often powerless against great powers. Having said that, a flawed institution is far better than no global cooperation at all.\n\nFor these reasons, I believe the UN should play a central, though reformed, role.",
+ qa:[
+   ["Is the UN still effective today?","It has clear limitations, especially when powerful members disagree. However, in areas like humanitarian aid, public health, and refugee protection, it remains highly effective and saves countless lives every year."],
+   ["How could the UN be reformed?","The most urgent reform is the Security Council, whose veto system often causes paralysis. Expanding permanent membership and limiting the veto would make decisions fairer and more representative of today's world."],
+   ["Should powerful countries have more influence in the UN?","To some extent their influence reflects their contributions and responsibilities. However, excessive dominance undermines fairness, so the voices of smaller nations must also be protected to keep the UN legitimate."],
+   ["Can the UN really prevent wars?","It cannot prevent every war, but its peacekeeping and diplomacy have stopped many conflicts from escalating. Without such a forum, disputes would far more often be settled by force alone."]
+ ]},
+
+{q:"Do the rich have a responsibility to help the poor in society? — Yes",
+ body:"I believe that the rich do have a responsibility to help the poor. This is a controversial issue, but I am firmly convinced of my position.\n\nFirst, those who benefit most from society have a moral obligation to give back. The wealthy often succeed thanks to public infrastructure, education, and a stable legal system funded by everyone. Supporting the less fortunate is therefore a fair return.\n\nSecond, helping the poor benefits society as a whole, since reducing inequality lowers crime and creates a more stable economy. Some may argue that wealth is earned and should not be redistributed. Having said that, extreme inequality threatens social cohesion and ultimately harms everyone.\n\nFor these reasons, I firmly believe the rich should help the poor.",
+ qa:[
+   ["Should this be done through taxes or voluntary charity?","Ideally both. Taxes ensure a stable, fair safety net for everyone, while voluntary charity lets individuals support causes they care about. The two approaches complement each other."],
+   ["Doesn't helping the poor reduce their motivation to work?","Poorly designed welfare can, but well-designed support actually enables people to work by providing education, childcare, and healthcare. The goal should be a hand up, not simply a handout."],
+   ["Is inequality always a bad thing?","Not entirely; some inequality rewards effort and innovation. The real problem is extreme inequality, which limits opportunity and divides society. A balance that keeps both fairness and incentives is ideal."],
+   ["Whose responsibility is it mainly, the government's or individuals'?","Primarily the government's, since it can act systematically and at scale. However, wealthy individuals and companies also share responsibility, especially through ethical business practices and philanthropy."]
+ ]},
+
+{q:"Is tradition always worth preserving? — No (disagree)",
+ body:"I disagree that tradition is always worth preserving. While many traditions are valuable, some should be reconsidered.\n\nFirst, certain traditions conflict with human rights and modern values. Practices that discriminate against women or minorities cause real harm and should not continue simply because they are old. Progress often requires letting go of outdated customs.\n\nSecond, blindly preserving every tradition can hold society back and prevent necessary innovation. Some may argue that traditions give us identity and continuity. Having said that, we can honor our heritage while discarding the parts that no longer serve us.\n\nFor these reasons, I believe traditions are valuable but not always worth preserving.",
+ qa:[
+   ["Which traditions are worth keeping?","Those that strengthen community, pass on wisdom, or enrich culture, such as festivals, crafts, and language. Traditions that bring people together and harm no one are well worth preserving."],
+   ["Who should decide which traditions to keep?","Ultimately society as a whole, through open discussion. The communities most affected should have the strongest voice, but the basic test is whether a tradition respects everyone's rights and dignity."],
+   ["Isn't losing traditions the same as losing culture?","Not necessarily. Cultures naturally evolve, and dropping a harmful custom does not erase a culture. In fact, adapting traditions can keep a culture alive and relevant for new generations."],
+   ["Can modern values also become traditions?","Absolutely. Today's values, such as equality and sustainability, may well become the cherished traditions of the future. Tradition is not fixed; it is constantly being created."]
+ ]},
+
+{q:"Should students be asked to evaluate their teachers? — Yes",
+ body:"I believe that students should be asked to evaluate their teachers. This is a controversial issue, but I am firmly convinced of my position.\n\nFirst, student feedback helps improve the quality of teaching. Students experience lessons directly, so they can show what is clear, engaging, or confusing. For instance, their comments can help teachers refine their methods.\n\nSecond, evaluations encourage accountability and mutual respect, motivating both sides to do better. Some may argue that students lack the expertise to judge teachers fairly. Having said that, if the questions focus on clarity and effort and are combined with professional review, the feedback is reliable and useful.\n\nFor these reasons, I believe students should evaluate their teachers.",
+ qa:[
+   ["Won't students just give high marks to easy teachers?","That is a risk, which is why evaluations should ask specific questions about clarity and support rather than overall likability, and be used alongside other assessments, not on their own."],
+   ["At what age should students start evaluating teachers?","Older students, such as those in high school and university, can give the most thoughtful feedback. Younger children can still share simple opinions, but their input should be interpreted with more care."],
+   ["Could evaluations put too much pressure on teachers?","If misused for punishment, yes. But when treated as constructive feedback for growth rather than a ranking tool, they support teachers rather than threaten them."],
+   ["Are there better ways to improve teaching?","Evaluations work best combined with peer observation, training, and mentoring. No single method is enough; together they create a culture of continuous improvement."]
+ ]},
+
+{q:"Agree or disagree: The Olympics have become too commercialized — I agree",
+ body:"I agree that the Olympics have become too commercialized.\n\nFirst, commercial interests increasingly overshadow the original spirit of the Games. Sponsorship, advertising, and broadcasting rights generate enormous profits, and decisions are often driven by money rather than by athletes or fans. For instance, events are sometimes scheduled to suit television markets.\n\nSecond, the focus on profit places a heavy burden on host cities, which can be left with debt and unused facilities. Some may argue that commercialization funds the Games and supports athletes. Having said that, the current scale of commercialism has gone beyond what is healthy.\n\nFor these reasons, I agree that the Olympics have become too commercialized.",
+ qa:[
+   ["Is commercialization entirely bad?","No. Commercial revenue funds athletes, venues, and broadcasts that let billions watch. The problem is not money itself but the imbalance, where profit increasingly outweighs sporting and cultural values."],
+   ["How could the Olympics reduce commercialization?","Organizers could cap advertising, reuse permanent host sites, and prioritize athletes' needs in scheduling. Greater transparency about spending would also help restore public trust."],
+   ["Does commercialization affect the athletes?","It can. Athletes face pressure from sponsors and demanding schedules, though they also benefit from funding and exposure. The key is ensuring their performance and wellbeing come first."],
+   ["Should host cities keep spending so much?","No. Many cities have suffered financially. Reusing existing venues and choosing a few permanent hosts would make the Games far more sustainable and less wasteful."]
+ ]},
+
+{q:"Is adopting orphans from other countries a good thing? — Yes",
+ body:"I believe that adopting orphans from other countries is a good thing. This is a controversial issue, but I am firmly convinced of my position.\n\nFirst, international adoption can give vulnerable children a loving home and a far better future. Many orphans in developing countries face poverty, poor healthcare, and limited education. For instance, a child adopted into a stable family gains opportunities they would otherwise never have.\n\nSecond, it promotes cross-cultural understanding and compassion. Families that adopt internationally often embrace the child's heritage, building bridges between cultures. Some may argue that children lose their cultural identity. Having said that, a safe and loving upbringing matters far more than the country a child grows up in.\n\nFor these reasons, I strongly believe that adopting orphans from other countries is a good thing.",
+ qa:[
+   ["What are the risks of international adoption?","The main risks are trafficking and inadequate screening. This is why strict legal procedures and careful background checks are essential to ensure that adoption truly serves the child's best interests."],
+   ["Should domestic adoption come first?","Ideally, keeping a child in their own country and culture is preferable when a suitable home exists. However, when no such option is available, international adoption is a far better outcome than growing up in an institution."],
+   ["How can adopted children keep their cultural identity?","Adoptive parents can teach them their native language, celebrate their traditions, and maintain ties with their birth culture. With effort, children can enjoy both their heritage and their new family."],
+   ["Is international adoption a real solution to the problem of orphans?","It helps individual children but is not a complete solution. Tackling the root causes, such as poverty, conflict, and weak social systems, in the children's home countries is also essential."]
+ ]},
+
+{q:"How can Japan best provide assistance to less developed countries? — Education and sustainable development",
+ body:"Japan can best assist less developed countries by focusing on education and sustainable infrastructure rather than short-term aid alone. I am convinced this approach has the greatest long-term impact.\n\nFirst, investing in education and technical training empowers people to improve their own lives. By sharing expertise and funding schools, Japan can help build a skilled local workforce. For instance, training programs in agriculture or engineering create benefits that last for generations.\n\nSecond, Japan should support sustainable infrastructure such as clean water, renewable energy, and transportation, which strengthen economies without creating dependency. Some may argue that direct financial aid is faster. Having said that, money alone is often wasted, whereas building local capacity produces lasting growth.\n\nFor these reasons, I believe Japan should prioritize education and sustainable development in its assistance.",
+ qa:[
+   ["Isn't financial aid still necessary?","Yes, financial aid remains important for emergencies and basic needs. The key is to combine it with long-term investment in skills and infrastructure so that countries can eventually stand on their own."],
+   ["What can Japan offer that other countries cannot?","Japan has advanced technology, disaster-prevention expertise, and a strong record of building reliable infrastructure. Sharing this know-how is a valuable contribution that fits many developing nations' needs."],
+   ["Does foreign aid create dependency?","It can if it is poorly designed. Aid that simply provides money risks dependency, but aid that builds education, institutions, and local industry helps countries become self-sufficient over time."],
+   ["Should aid come with conditions?","Reasonable conditions, such as transparency and good governance, help ensure aid is used effectively. However, conditions should respect each country's sovereignty and reflect its real needs rather than the donor's interests."]
  ]}
 ];
 var ml=document.getElementById('model-list');
 MODELS.forEach(function(m){
   var wc=(m.body.match(/[A-Za-z'-]+/g)||[]).length;
-  var div=document.createElement('div');div.className='model';
+  var det=document.createElement('details');det.className='model-acc';
   var qaHtml=m.qa.map(function(p){
     return '<details class="qa"><summary>Q&amp;A例: '+p[0]+'</summary><p>'+p[1]+'</p></details>';
   }).join('');
-  div.innerHTML='<div class="q">'+m.q+'</div><div class="body">'+m.body.replace(/\n/g,'<br>')+'</div>'+
+  det.innerHTML='<summary>'+m.q+'</summary><div class="body">'+m.body.replace(/\n/g,'<br>')+'</div>'+
     '<div class="meta">約 '+wc+' words</div>'+qaHtml;
-  ml.appendChild(div);
+  ml.appendChild(det);
 });
 
 var FLOW=[
