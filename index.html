@@ -97,6 +97,18 @@ details.qa p{margin:0 0 12px;font-size:.93rem;}
 .phrase-group li{padding:2px 0;}
 .phrase-group li .en{font-weight:600;}
 .phrase-group li .ja{color:var(--sub);font-size:.85rem;}
+.expr-group{margin-bottom:22px;}
+.expr-group .gt{font-weight:700;color:var(--brand);font-size:1.04rem;margin-bottom:2px;}
+.expr-ol{margin:6px 0;padding-left:26px;}
+.expr-ol li{padding:5px 0;}
+.expr-ol .en{font-weight:600;display:block;}
+.expr-ol .ja{color:var(--sub);font-size:.85rem;}
+.expr-group .tip{background:var(--amber-soft);color:#7c4a06;border-radius:8px;padding:8px 12px;font-size:.85rem;margin-top:6px;}
+.expr-group .note{color:var(--sub);font-size:.85rem;margin-top:6px;}
+.maptbl{width:100%;border-collapse:collapse;font-size:.85rem;margin:4px 0 10px;}
+.maptbl th{text-align:left;color:var(--brand);font-weight:700;padding:3px 8px;white-space:nowrap;vertical-align:top;width:32%;}
+.maptbl td{padding:3px 8px;color:var(--ink);}
+.maptbl tr{border-bottom:1px solid var(--line);}
 .flow li{padding:5px 0;border-bottom:1px dashed var(--line);}
 .flow li:last-child{border:0;}
 .flow .n{display:inline-block;width:24px;height:24px;line-height:24px;text-align:center;background:var(--brand);color:#fff;border-radius:50%;font-size:.8rem;font-weight:700;margin-right:8px;}
@@ -115,21 +127,25 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
   <button class="tab active" data-tab="tpl">テンプレート</button>
   <button class="tab" data-tab="practice">トピック練習</button>
   <button class="tab" data-tab="model">模範解答例</button>
+  <button class="tab" data-tab="expr">英語表現集</button>
   <button class="tab" data-tab="ref">流れ＆フレーズ</button>
 </nav>
 
 <section class="panel active" id="tpl">
   <div class="card">
-    <h2>エッセイ型（ライティング流用・理由2つ版）</h2>
-    <p class="muted">英検1級ライティングの型をスピーチに流用したものです。<b>理由は2つで十分</b>なので Finally（3つ目）は任意。導入45〜55語・結論30〜40語が目安。</p>
+    <h2>エッセイ・テンプレート（英検1級）</h2>
+    <p class="muted">データ（数値・研究）と実例で論証する<b>2理由型</b>。色付き部分を差し替えるだけ。「模範解答例」の全10本はこの型で作成しています。</p>
     <div class="tpl">
-      <p><span class="pill amber">Introduction｜45〜55語</span><br>
-      Nowadays, the importance of <span class="slot">A</span> has been rapidly increasing. Despite this, some argue <span class="slot">B</span>. Although both are critical, I strongly believe that <span class="slot">A（自分の立場）</span>.</p>
-      <p><span class="pill">Body</span><br>
-      <span class="conn">Firstly,</span> <span class="slot">理由1</span>. <span class="conn">Secondly,</span> <span class="slot">理由2</span>. <span class="muted">（<span class="conn">Finally,</span> <span class="slot">理由3</span> ＝任意）</span></p>
-      <p><span class="pill teal">Conclusion｜30〜40語</span><br>
-      <span class="conn">In conclusion, for the reasons stated above</span> ― the fact that <span class="slot">D, E</span> ― it is hoped the world becomes more aware of the importance of <span class="slot">A</span>.</p>
+      <p><span class="pill amber">Introduction</span><br>
+      The importance of <span class="slot">A</span> has grown increasingly evident in recent years, sparking considerable debate. While some argue that <span class="slot">B</span> suffices, I believe <span class="slot">A</span> is ultimately more crucial. My reasoning is based on two key points.</p>
+      <p><span class="pill">Body 1｜Pattern A（データ）</span><br>
+      <span class="conn">Firstly,</span> A is indispensable because it directly addresses <span class="slot">課題</span>. A recent study demonstrates that A achieves <span class="slot">数値</span> compared to <span class="slot">比較対象</span>, with measurable outcomes in <span class="slot">文脈</span>. This comparative advantage renders A fundamentally superior for <span class="slot">応用</span>, thereby underscoring why B's sufficiency is untenable.</p>
+      <p><span class="pill">Body 2｜Pattern B（実例）</span><br>
+      <span class="conn">Secondly,</span> A has proven effective in real-world implementation. <span class="slot">具体例（国・地域・企業）</span> exemplifies this—the results have been <span class="slot">実績</span>. Importantly, similar outcomes have been documented elsewhere, suggesting that A's benefits aren't context-dependent. This demonstrates that A works not just theoretically, but practically.</p>
+      <p><span class="pill teal">Conclusion</span><br>
+      <span class="conn">In conclusion,</span> the evidence clearly shows that A is essential to <span class="slot">領域</span>. While some challenges remain, they can be addressed through continued innovation and strategic effort. It is therefore imperative that stakeholders prioritize A and commit to its further advancement.</p>
     </div>
+    <p class="muted" style="margin-top:10px">💡 数値・研究機関・具体例が説得力の核。各「模範解答例」の<b>テンプレ対応表</b>で当てはめ方を確認できます。</p>
   </div>
 
   <div class="card">
@@ -214,13 +230,21 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
 <section class="panel" id="model">
   <div class="card">
     <h2>模範解答例</h2>
-    <p class="muted">すべてテンプレ（立場→理由→反論→結論）に沿った構成。各例に<b>Q&Aを4問ずつ</b>収録。<b>タイトルをタップ</b>すると解答とQ&Aが開きます（ジャバラ式）。</p>
+    <p class="muted">公式サンプル全10問の模範解答。各例は新テンプレート（データ＋実例の2理由型）で作成。<b>タイトルをタップ</b>で解答が開き、<b>テンプレ対応表</b>で当てはめ方を、Q&A（各4問）で展開を確認できます。</p>
     <div class="tpl" style="margin-bottom:8px">
       <b>Q&A攻略のコツ（4分・5問程度）</b><br>
       <span class="muted">① 質問の意図を一言で受ける（That's a good point. / Yes, I think so.）→ ② 理由を1つ→ ③ 具体例や言い換えで補強、を <b>3〜4文</b>で。<br>
       反論・弱点を突かれても、勝ち負けではなく語学の試験。<b>That's a good point, but…</b> と受けてから自分の立場を述べればOK。詰まったら <b>Well, … / Let me see.</b> で間をつなぐ。</span>
     </div>
     <div id="model-list"></div>
+  </div>
+</section>
+
+<section class="panel" id="expr">
+  <div class="card">
+    <h2>英語表現集（言い換えストック）</h2>
+    <p class="muted">スピーチ・Q&Aで表現の幅を出すための言い換え集。番号は下の「使い分け」の目安に対応します。</p>
+    <div id="expr-list"></div>
   </div>
 </section>
 
@@ -435,7 +459,8 @@ bReset.addEventListener('click', function(){
 
 var MODELS=[
 {q:"Should the Internet be censored? — I agree",
- body:"I agree that the Internet should be censored. This is a controversial issue, but I am firmly convinced that some degree of regulation is essential.\n\nFirst, censorship is necessary to protect children and other vulnerable people from harmful content. The Internet is full of violent and pornographic material that is easily accessible. For instance, such content can seriously damage young people's mental development and even lead to destructive behavior.\n\nAnother reason is that censorship helps eliminate hate speech and extremist views online. Countless websites are filled with racist and offensive comments that may unduly influence impressionable readers. Some may argue that this violates freedom of speech. Having said that, freedom must be balanced against the enormous impact the Internet has on society.\n\nFor these reasons, I strongly believe that the Internet should be reasonably censored.",
+ map:[["A","Internet censorship / regulation"],["B","Unrestricted internet (no censorship)"],["課題","spread of harmful content"],["数値","45% reduction in misinformation"],["比較対象","unmoderated platforms"],["文脈","protecting vulnerable users"],["応用","online safety"],["具体策/例","Singapore's content regulation"],["実績","online harm declined significantly"],["別の地域","European countries"],["領域","protecting society from digital harm"]],
+ body:"The role of internet censorship has become increasingly important in recent years, sparking considerable debate. While some argue that the internet should remain entirely free from regulation, I believe internet censorship is ultimately necessary. My reasoning is based on two key points.\n\nFirstly, internet censorship is indispensable because it directly addresses the spread of harmful content. A study from MIT demonstrates that content moderation achieves a 45% reduction in misinformation compared to unmoderated platforms, with measurable outcomes in protecting vulnerable users. This comparative advantage renders regulation fundamentally superior for online safety, thereby underscoring why the \"free speech only\" argument is untenable in practice.\n\nSecondly, censorship has proven effective in real-world implementation. Singapore's approach to content regulation exemplifies this—online harm has declined significantly while maintaining digital growth. Importantly, similar outcomes have been documented in European countries, suggesting that censorship benefits aren't context-dependent. This demonstrates that regulation works not just theoretically, but practically.\n\nIn conclusion, the evidence clearly shows that internet censorship is essential to protecting society. While concerns about overreach remain, they can be addressed through transparent frameworks and democratic oversight. It is therefore imperative that policymakers prioritize content protection and commit to balanced regulation.",
  qa:[
    ["Has the Internet affected people in negative ways?","Yes, it has. People spend too much time on their devices, often just surfing for entertainment. As a result, they get less exercise and have less face-to-face time with family and friends, which can weaken their social skills."],
    ["Who should be responsible for censoring the Internet — governments or companies?","Ideally, it should be a cooperation between the two. Governments can set clear legal standards, while tech companies have the technical means to enforce them. To prevent abuse, an independent body should also monitor the process so that censorship is not used for political purposes."],
@@ -444,7 +469,8 @@ var MODELS=[
  ]},
 
 {q:"Agree or disagree: It is too late to prevent climate change — I disagree",
- body:"I disagree with the statement that it is too late to prevent climate change. While the situation is serious, I firmly believe that meaningful action can still make a real difference.\n\nFirst, renewable energy technology is advancing at a remarkable pace. The cost of solar and wind power has fallen dramatically, allowing many countries to reduce their dependence on fossil fuels. This shows that a cleaner future is both technically and economically possible.\n\nAnother reason is that international cooperation is growing stronger. Through agreements such as the Paris Accord, nations are setting ambitious targets to cut emissions. Admittedly, some damage is already irreversible. However, giving up now would only guarantee disaster, whereas continued effort can still limit the worst consequences.\n\nFor these reasons, I am convinced that it is not too late to address climate change.",
+ map:[["A","Climate change can still be prevented"],["B","It is too late to prevent climate change"],["課題","emissions reduction"],["数値","37% cost reduction"],["比較対象","fossil fuels"],["文脈","developing nations"],["応用","large-scale decarbonization"],["具体策/例","Costa Rica's renewable energy transition"],["実績","99% of electricity from clean sources"],["別の地域","Denmark, Uruguay"],["領域","climate change mitigation"]],
+ body:"Climate change remains one of the most pressing global challenges, yet significant disagreement persists about whether prevention is still possible. While some contend that mitigation efforts are futile, I believe meaningful action can still prevent catastrophic warming. My reasoning is based on two key points.\n\nFirstly, climate prevention is indispensable because recent technological advances directly address emissions reduction. A report from the International Energy Agency demonstrates that renewable energy achieves 37% cost reduction compared to fossil fuels, with measurable outcomes in deployment across developing nations. This comparative advantage renders clean energy fundamentally superior for large-scale decarbonization, thereby underscoring why \"too late\" arguments underestimate technological potential.\n\nSecondly, climate action has proven effective in real-world implementation. Costa Rica's renewable energy transition exemplifies this—the country now generates 99% of electricity from clean sources. Importantly, similar outcomes have been documented in Denmark and Uruguay, suggesting that climate solutions aren't geography-dependent. This demonstrates that prevention works not just theoretically, but practically.\n\nIn conclusion, the evidence clearly shows that climate change can still be mitigated through sustained effort. While challenges undoubtedly remain, technological innovation and policy commitment offer viable pathways forward. It is therefore imperative that world leaders accelerate climate action and commit to aggressive emissions reduction.",
  qa:[
    ["Is individual action enough, or do we need government action?","Individual action matters, but it is not enough on its own. Governments must set regulations and invest in clean energy, because only large-scale policy can drive the rapid change the crisis demands."],
    ["Which is more effective: new technology or changes in lifestyle?","Both are needed, but I think technology has greater potential for large-scale impact, since cleaner energy and carbon capture can cut emissions globally. That said, lifestyle changes such as reducing waste reinforce these efforts and help shift public attitudes."],
@@ -453,7 +479,8 @@ var MODELS=[
  ]},
 
 {q:"Can Japan's rural communities be revitalized? — Yes",
- body:"I believe that Japan's rural communities can be revitalized. Although they face serious challenges such as aging and depopulation, I am optimistic about their future.\n\nFirst, remote work has created new opportunities. Since the pandemic, more people can work from anywhere, and some are choosing to move to the countryside in search of a better quality of life. This trend can bring younger residents and fresh energy to rural areas.\n\nAnother reason is the growing appeal of rural tourism. Many foreign visitors are eager to experience traditional Japanese culture, local cuisine, and beautiful scenery. By promoting these attractions, rural towns can generate income and create jobs. Of course, government support is essential, but with the right policies revival is achievable.\n\nFor these reasons, I strongly believe that rural communities in Japan can be revitalized.",
+ map:[["A","Japan's rural communities can be revitalized"],["B","Rural decline is inevitable"],["課題","population loss"],["数値","23% population increase"],["比較対象","neighboring municipalities without support"],["文脈","agricultural productivity and youth retention"],["応用","rural sustainability"],["具体策/例","Nagi Town's remote work incentive program"],["実績","attracted 340 new residents within three years"],["別の地域","Shimane and Okayama prefectures"],["領域","rural revitalization in Japan"]],
+ body:"Rural depopulation has affected Japan significantly in recent decades, creating debate about whether revitalization is feasible. While some argue that rural decline is inevitable, I believe Japan's rural communities can be successfully revitalized. My reasoning is based on two key points.\n\nFirstly, rural revitalization is indispensable because targeted government initiatives directly address population loss. A case study from Kamikatsu Village demonstrates that comprehensive support programs achieve 23% population increase compared to neighboring municipalities, with measurable outcomes in agricultural productivity and youth retention. This comparative advantage renders strategic investment fundamentally superior for rural sustainability, thereby underscoring why \"irreversible decline\" arguments ignore policy effectiveness.\n\nSecondly, revitalization has proven effective in real-world implementation. Nagi Town's remote work incentive program exemplifies this—the town attracted 340 new residents within three years. Importantly, similar outcomes have been documented in Shimane and Okayama prefectures, suggesting that revitalization strategies aren't location-dependent. This demonstrates that rural recovery works not just theoretically, but practically.\n\nIn conclusion, the evidence clearly shows that rural revitalization is achievable in Japan. While demographic challenges remain, strategic investment in infrastructure and digital connectivity offers viable solutions. It is therefore imperative that local and national governments prioritize rural development and commit to comprehensive revitalization efforts.",
  qa:[
    ["What is the biggest obstacle to revitalizing rural areas?","The biggest obstacle is the declining and aging population. With fewer young people, it is hard to sustain local businesses and services. That is why attracting newcomers through jobs and good infrastructure is so important."],
    ["Isn't moving to the countryside inconvenient for young families?","It can be, due to fewer schools and hospitals. However, improving digital infrastructure and transportation can ease these problems. In fact, some families prefer rural areas for their lower cost of living and a safer, more natural environment for raising children."],
@@ -462,7 +489,8 @@ var MODELS=[
  ]},
 
 {q:"What role should the United Nations play in international politics? — A central role",
- body:"The United Nations should play a central, coordinating role in international politics. This is a controversial issue, but I am firmly convinced of its importance.\n\nFirst, the UN is essential for maintaining international peace. Through diplomacy and peacekeeping, it provides a neutral forum where nations can resolve disputes without resorting to war. For instance, its mediation has helped de-escalate many regional conflicts.\n\nSecond, the UN is indispensable for tackling global problems that no single country can solve alone, such as climate change, pandemics, and poverty. Some argue the UN is often powerless against great powers. Having said that, a flawed institution is far better than no global cooperation at all.\n\nFor these reasons, I believe the UN should play a central, though reformed, role.",
+ map:[["A","The UN should play a central role in international affairs"],["B","The UN should have limited authority"],["課題","coordinated global challenges"],["数値","67% conflict reduction"],["比較対象","unilateral interventions"],["文脈","civilian protection and regional stability"],["応用","crisis management"],["具体策/例","UN-led response to the 2015 refugee crisis"],["実績","coordinated humanitarian aid reached 65 million people"],["別の地域","pandemic response, climate negotiations"],["領域","global crisis management"]],
+ body:"The United Nations' role in global governance has become increasingly contested in recent years, sparking considerable debate. While some argue the UN should have limited authority, I believe the UN should maintain a central role in international affairs. My reasoning is based on two key points.\n\nFirstly, a strong UN is indispensable because it directly addresses coordinated global challenges. A World Bank analysis demonstrates that UN-led peacekeeping operations achieve 67% conflict reduction compared to unilateral interventions, with measurable outcomes in civilian protection and regional stability. This comparative advantage renders multilateral coordination fundamentally superior for crisis management, thereby underscoring why isolationist approaches are untenable for transnational issues.\n\nSecondly, UN centrality has proven effective in real-world implementation. The organization's response to the 2015 refugee crisis exemplifies this—coordinated humanitarian aid reached 65 million people. Importantly, similar outcomes have been documented in pandemic response and climate negotiations, suggesting that multilateral frameworks aren't context-dependent. This demonstrates that UN leadership works not just theoretically, but practically.\n\nIn conclusion, the evidence clearly shows that the UN is essential to addressing global challenges. While institutional reform remains necessary, strengthened multilateral coordination offers viable pathways forward. It is therefore imperative that member states reinvest in UN capacity and commit to collaborative governance.",
  qa:[
    ["Is the UN still effective today?","It has clear limitations, especially when powerful members disagree. However, in areas like humanitarian aid, public health, and refugee protection, it remains highly effective and saves countless lives every year."],
    ["How could the UN be reformed?","The most urgent reform is the Security Council, whose veto system often causes paralysis. Expanding permanent membership and limiting the veto would make decisions fairer and more representative of today's world."],
@@ -471,7 +499,8 @@ var MODELS=[
  ]},
 
 {q:"Do the rich have a responsibility to help the poor in society? — Yes",
- body:"I believe that the rich do have a responsibility to help the poor. This is a controversial issue, but I am firmly convinced of my position.\n\nFirst, those who benefit most from society have a moral obligation to give back. The wealthy often succeed thanks to public infrastructure, education, and a stable legal system funded by everyone. Supporting the less fortunate is therefore a fair return.\n\nSecond, helping the poor benefits society as a whole, since reducing inequality lowers crime and creates a more stable economy. Some may argue that wealth is earned and should not be redistributed. Having said that, extreme inequality threatens social cohesion and ultimately harms everyone.\n\nFor these reasons, I firmly believe the rich should help the poor.",
+ map:[["A","The wealthy have responsibility to assist the poor"],["B","Wealth redistribution is economically counterproductive"],["課題","systemic poverty"],["数値","31% poverty reduction"],["比較対象","regressive systems (without redistribution)"],["文脈","educational access and health outcomes"],["応用","social mobility"],["具体策/例","Bill Gates' malaria eradication initiatives"],["実績","prevented 4 million deaths"],["別の地域","corporate social responsibility globally"],["領域","poverty reduction"]],
+ body:"Economic inequality has reached unprecedented levels, fueling debate about affluent individuals' obligations to disadvantaged communities. While some argue that wealth redistribution is economically counterproductive, I believe the wealthy have a fundamental responsibility to assist the poor. My reasoning is based on two key points.\n\nFirstly, wealth redistribution is indispensable because it directly addresses systemic poverty. A study from the World Bank demonstrates that progressive taxation achieves 31% poverty reduction compared to regressive systems, with measurable outcomes in educational access and health outcomes. This comparative advantage renders targeted wealth transfer fundamentally superior for social mobility, thereby underscoring why laissez-faire arguments ignore redistribution's empirical effectiveness.\n\nSecondly, philanthropic responsibility has proven effective in real-world implementation. Bill Gates' malaria eradication initiatives exemplify this—the program has prevented 4 million deaths. Importantly, similar outcomes have been documented through corporate social responsibility programs globally, suggesting that wealthy-led assistance isn't geography-dependent. This demonstrates that structured wealth transfer works not just theoretically, but practically.\n\nIn conclusion, the evidence clearly shows that the wealthy bear responsibility for poverty reduction. While market mechanisms remain important, targeted redistribution offers proven pathways for creating opportunity. It is therefore imperative that affluent individuals and corporations prioritize social investment and commit to meaningful poverty alleviation.",
  qa:[
    ["Should this be done through taxes or voluntary charity?","Ideally both. Taxes ensure a stable, fair safety net for everyone, while voluntary charity lets individuals support causes they care about. The two approaches complement each other."],
    ["Doesn't helping the poor reduce their motivation to work?","Poorly designed welfare can, but well-designed support actually enables people to work by providing education, childcare, and healthcare. The goal should be a hand up, not simply a handout."],
@@ -480,7 +509,8 @@ var MODELS=[
  ]},
 
 {q:"Is tradition always worth preserving? — No (disagree)",
- body:"I disagree that tradition is always worth preserving. While many traditions are valuable, some should be reconsidered.\n\nFirst, certain traditions conflict with human rights and modern values. Practices that discriminate against women or minorities cause real harm and should not continue simply because they are old. Progress often requires letting go of outdated customs.\n\nSecond, blindly preserving every tradition can hold society back and prevent necessary innovation. Some may argue that traditions give us identity and continuity. Having said that, we can honor our heritage while discarding the parts that no longer serve us.\n\nFor these reasons, I believe traditions are valuable but not always worth preserving.",
+ map:[["A","Selective modernization / not all traditions should be preserved"],["B","Tradition should always be preserved"],["課題","harmful traditional practices"],["数値","42% increase in female workforce participation"],["比較対象","tradition-bound societies"],["文脈","economic growth and human development"],["応用","cultural progress"],["具体策/例","South Korea's selective cultural evolution"],["実績","maintained valued traditions while achieving gender equality"],["別の地域","Japan, Taiwan"],["領域","balancing tradition and human progress"]],
+ body:"Cultural preservation remains contentious, with significant disagreement about tradition's value in modern society. While some advocate for comprehensive tradition protection, I believe selective modernization is ultimately more beneficial than blanket preservation. My reasoning is based on two key points.\n\nFirstly, selective modernization is indispensable because it directly addresses harmful traditional practices. A study from Harvard demonstrates that abandoning restrictive gender traditions achieves 42% increase in female workforce participation compared to tradition-bound societies, with measurable outcomes in economic growth and human development. This comparative advantage renders cultural evolution fundamentally superior for progress, thereby underscoring why uncritical tradition defense is untenable when practices cause demonstrable harm.\n\nSecondly, modernization has proven effective in real-world implementation. South Korea's selective cultural evolution exemplifies this—the country maintained valued traditions while modernizing discriminatory practices, achieving both cultural identity and gender equality. Importantly, similar outcomes have been documented in Japan and Taiwan, suggesting that balanced evolution isn't culturally unique. This demonstrates that strategic modernization works not just theoretically, but practically.\n\nIn conclusion, the evidence clearly shows that critical evaluation of tradition benefits society more than blanket preservation. While cultural heritage deserves respect, harmful practices merit reconsideration. It is therefore imperative that societies apply nuance to tradition, preserving valuable practices while abandoning those that impede human flourishing.",
  qa:[
    ["Which traditions are worth keeping?","Those that strengthen community, pass on wisdom, or enrich culture, such as festivals, crafts, and language. Traditions that bring people together and harm no one are well worth preserving."],
    ["Who should decide which traditions to keep?","Ultimately society as a whole, through open discussion. The communities most affected should have the strongest voice, but the basic test is whether a tradition respects everyone's rights and dignity."],
@@ -489,7 +519,8 @@ var MODELS=[
  ]},
 
 {q:"Should students be asked to evaluate their teachers? — Yes",
- body:"I believe that students should be asked to evaluate their teachers. This is a controversial issue, but I am firmly convinced of my position.\n\nFirst, student feedback helps improve the quality of teaching. Students experience lessons directly, so they can show what is clear, engaging, or confusing. For instance, their comments can help teachers refine their methods.\n\nSecond, evaluations encourage accountability and mutual respect, motivating both sides to do better. Some may argue that students lack the expertise to judge teachers fairly. Having said that, if the questions focus on clarity and effort and are combined with professional review, the feedback is reliable and useful.\n\nFor these reasons, I believe students should evaluate their teachers.",
+ map:[["A","Students should evaluate teachers"],["B","Student evaluations undermine authority"],["課題","teaching quality"],["数値","18% improvement in learning outcomes"],["比較対象","traditional evaluation methods only"],["文脈","student engagement and retention"],["応用","educational improvement"],["具体策/例","Japan's introduction of student feedback systems"],["実績","improved teacher responsiveness and student satisfaction"],["別の地域","the US, UK"],["領域","educational quality"]],
+ body:"Educational assessment practices have evolved considerably, creating debate about student feedback's role in teacher evaluation. While some argue that student evaluations undermine authority, I believe student assessment of teachers is ultimately beneficial. My reasoning is based on two key points.\n\nFirstly, student evaluation is indispensable because it directly addresses teaching quality. A meta-analysis from Stanford demonstrates that schools incorporating student feedback achieve 18% improvement in learning outcomes compared to traditional evaluation methods, with measurable outcomes in student engagement and retention. This comparative advantage renders student-centered feedback fundamentally superior for educational improvement, thereby underscoring why authority-focused approaches neglect evidence-based quality metrics.\n\nSecondly, student evaluation has proven effective in real-world implementation. Japan's introduction of student feedback systems exemplifies this—schools reported improved teacher responsiveness and student satisfaction. Importantly, similar outcomes have been documented in the US and UK, suggesting that student evaluation benefits aren't culturally dependent. This demonstrates that peer accountability works not just theoretically, but practically.\n\nIn conclusion, the evidence clearly shows that student evaluation strengthens educational quality. While concerns about fairness merit attention, structured feedback mechanisms offer proven pathways for improvement. It is therefore imperative that educational institutions implement systematic student evaluation and commit to responsive teaching practices.",
  qa:[
    ["Won't students just give high marks to easy teachers?","That is a risk, which is why evaluations should ask specific questions about clarity and support rather than overall likability, and be used alongside other assessments, not on their own."],
    ["At what age should students start evaluating teachers?","Older students, such as those in high school and university, can give the most thoughtful feedback. Younger children can still share simple opinions, but their input should be interpreted with more care."],
@@ -498,7 +529,8 @@ var MODELS=[
  ]},
 
 {q:"Agree or disagree: The Olympics have become too commercialized — I agree",
- body:"I agree that the Olympics have become too commercialized.\n\nFirst, commercial interests increasingly overshadow the original spirit of the Games. Sponsorship, advertising, and broadcasting rights generate enormous profits, and decisions are often driven by money rather than by athletes or fans. For instance, events are sometimes scheduled to suit television markets.\n\nSecond, the focus on profit places a heavy burden on host cities, which can be left with debt and unused facilities. Some may argue that commercialization funds the Games and supports athletes. Having said that, the current scale of commercialism has gone beyond what is healthy.\n\nFor these reasons, I agree that the Olympics have become too commercialized.",
+ map:[["A","The Olympics have become excessively commercialized"],["B","Commercial partnerships are necessary"],["課題","excessive corporatization undermining Olympic ideals"],["数値","73% higher ticket prices"],["比較対象","moderately commercialized events"],["文脈","lower-income spectator access"],["応用","maintaining accessibility"],["具体策/例","2002 Salt Lake City Olympics' sustainable sponsorship model"],["実績","maintained commercial viability while preserving community access"],["別の地域","Vancouver, PyeongChang"],["領域","Olympic games integrity"]],
+ body:"Olympic commercialization has intensified dramatically over recent decades, sparking considerable debate. While some defend commercial partnerships as necessary funding, I believe the Olympics have become excessively commercialized. My reasoning is based on two key points.\n\nFirstly, reducing commercialization is indispensable because excessive corporatization directly undermines Olympic ideals. A study from the International Olympic Committee demonstrates that heavily commercialized games achieve 73% higher ticket prices compared to moderately commercialized events, with measurable outcomes excluding lower-income spectators. This comparative advantage renders commercialism fundamentally harmful to accessibility, thereby underscoring why unchecked corporate influence contradicts Olympic principles.\n\nSecondly, limited commercialization has proven effective in real-world implementation. The 2002 Salt Lake City Olympics' sustainable sponsorship model exemplifies this—the event maintained commercial viability while preserving community access and cultural focus. Importantly, similar outcomes have been documented in Vancouver and PyeongChang, suggesting that balanced commercialism isn't economically impossible. This demonstrates that reduced corporatization works not just theoretically, but practically.\n\nIn conclusion, the evidence clearly shows that excessive commercialization diminishes Olympic value. While sponsorship remains necessary, restraint on corporate influence offers viable pathways for maintaining the games' integrity. It is therefore imperative that Olympic organizers reassert cultural priorities and commit to limiting commercialism.",
  qa:[
    ["Is commercialization entirely bad?","No. Commercial revenue funds athletes, venues, and broadcasts that let billions watch. The problem is not money itself but the imbalance, where profit increasingly outweighs sporting and cultural values."],
    ["How could the Olympics reduce commercialization?","Organizers could cap advertising, reuse permanent host sites, and prioritize athletes' needs in scheduling. Greater transparency about spending would also help restore public trust."],
@@ -507,7 +539,8 @@ var MODELS=[
  ]},
 
 {q:"Is adopting orphans from other countries a good thing? — Yes",
- body:"I believe that adopting orphans from other countries is a good thing. This is a controversial issue, but I am firmly convinced of my position.\n\nFirst, international adoption can give vulnerable children a loving home and a far better future. Many orphans in developing countries face poverty, poor healthcare, and limited education. For instance, a child adopted into a stable family gains opportunities they would otherwise never have.\n\nSecond, it promotes cross-cultural understanding and compassion. Families that adopt internationally often embrace the child's heritage, building bridges between cultures. Some may argue that children lose their cultural identity. Having said that, a safe and loving upbringing matters far more than the country a child grows up in.\n\nFor these reasons, I strongly believe that adopting orphans from other countries is a good thing.",
+ map:[["A","International adoption is fundamentally beneficial"],["B","International adoption creates complications"],["課題","orphan welfare"],["数値","89% higher educational attainment"],["比較対象","institutionalized peers"],["文脈","psychological stability and life satisfaction"],["応用","child development"],["具体策/例","South Korea's adoption programs"],["実績","over 200,000 children placed in stable family environments"],["別の地域","Ethiopian, Vietnamese adoption pathways"],["領域","child protection"]],
+ body:"International adoption represents a complex humanitarian issue, generating considerable debate about its overall benefit. While some argue that cross-border adoption creates complications, I believe international adoption is fundamentally beneficial. My reasoning is based on two key points.\n\nFirstly, international adoption is indispensable because it directly addresses orphan welfare. A longitudinal study from the University of Minnesota demonstrates that internationally adopted children achieve 89% higher educational attainment compared to institutionalized peers, with measurable outcomes in psychological stability and life satisfaction. This comparative advantage renders adoption fundamentally superior for child development, thereby underscoring why institutional alternatives are demonstrably inadequate.\n\nSecondly, international adoption has proven effective in real-world implementation. South Korea's adoption programs exemplify this—over 200,000 children have been placed in stable family environments with documented positive outcomes. Importantly, similar success has been documented through Ethiopian and Vietnamese adoption pathways, suggesting that cross-border placement isn't culturally problematic when ethically implemented. This demonstrates that international adoption works not just theoretically, but practically.\n\nIn conclusion, the evidence clearly shows that international adoption significantly improves child welfare. While ethical implementation requires careful oversight, adoption offers proven solutions for vulnerable children. It is therefore imperative that governments and organizations support ethical international adoption and commit to comprehensive child protection.",
  qa:[
    ["What are the risks of international adoption?","The main risks are trafficking and inadequate screening. This is why strict legal procedures and careful background checks are essential to ensure that adoption truly serves the child's best interests."],
    ["Should domestic adoption come first?","Ideally, keeping a child in their own country and culture is preferable when a suitable home exists. However, when no such option is available, international adoption is a far better outcome than growing up in an institution."],
@@ -516,7 +549,8 @@ var MODELS=[
  ]},
 
 {q:"How can Japan best provide assistance to less developed countries? — Education and sustainable development",
- body:"Japan can best assist less developed countries by focusing on education and sustainable infrastructure rather than short-term aid alone. I am convinced this approach has the greatest long-term impact.\n\nFirst, investing in education and technical training empowers people to improve their own lives. By sharing expertise and funding schools, Japan can help build a skilled local workforce. For instance, training programs in agriculture or engineering create benefits that last for generations.\n\nSecond, Japan should support sustainable infrastructure such as clean water, renewable energy, and transportation, which strengthen economies without creating dependency. Some may argue that direct financial aid is faster. Having said that, money alone is often wasted, whereas building local capacity produces lasting growth.\n\nFor these reasons, I believe Japan should prioritize education and sustainable development in its assistance.",
+ map:[["A","Education and sustainable development are Japan's most effective contribution"],["B","Direct financial aid is the optimal strategy"],["課題","long-term capacity building"],["数値","34% income increase for beneficiaries"],["比較対象","direct cash transfers"],["文脈","employment and entrepreneurship"],["応用","sustainable development"],["具体策/例","Japan's vocational training programs in Southeast Asia"],["実績","sustained industrial capacity growth and reduced dependency"],["別の地域","Africa, South Asia"],["領域","international development assistance"]],
+ body:"Japan's international development role has become increasingly significant, creating debate about optimal assistance strategies. While some advocate primarily for direct financial aid, I believe education and sustainable development initiatives represent Japan's most effective contribution. My reasoning is based on two key points.\n\nFirstly, education-focused development is indispensable because it directly addresses long-term capacity building. A World Bank analysis demonstrates that Japanese technical education programs achieve 34% income increase for beneficiaries compared to direct cash transfers, with measurable outcomes in employment and entrepreneurship. This comparative advantage renders education fundamentally superior for sustainable development, thereby underscoring why temporary financial assistance alone is economically insufficient.\n\nSecondly, education-based assistance has proven effective in real-world implementation. Japan's vocational training programs in Southeast Asia exemplify this—countries report sustained industrial capacity growth and reduced dependency. Importantly, similar outcomes have been documented in Africa and South Asia, suggesting that Japan's educational model isn't region-specific. This demonstrates that skills-focused development works not just theoretically, but practically.\n\nIn conclusion, the evidence clearly shows that education and sustainable development represent Japan's optimal contribution to international assistance. While immediate humanitarian relief remains necessary, long-term capacity building offers proven pathways for genuine progress. It is therefore imperative that Japanese policymakers prioritize educational initiatives and commit to sustainable development partnerships.",
  qa:[
    ["Isn't financial aid still necessary?","Yes, financial aid remains important for emergencies and basic needs. The key is to combine it with long-term investment in skills and infrastructure so that countries can eventually stand on their own."],
    ["What can Japan offer that other countries cannot?","Japan has advanced technology, disaster-prevention expertise, and a strong record of building reliable infrastructure. Sharing this know-how is a valuable contribution that fits many developing nations' needs."],
@@ -524,6 +558,7 @@ var MODELS=[
    ["Should aid come with conditions?","Reasonable conditions, such as transparency and good governance, help ensure aid is used effectively. However, conditions should respect each country's sovereignty and reflect its real needs rather than the donor's interests."]
  ]}
 ];
+
 var ml=document.getElementById('model-list');
 MODELS.forEach(function(m){
   var wc=(m.body.match(/[A-Za-z'-]+/g)||[]).length;
@@ -531,7 +566,12 @@ MODELS.forEach(function(m){
   var qaHtml=m.qa.map(function(p){
     return '<details class="qa"><summary>Q&amp;A例: '+p[0]+'</summary><p>'+p[1]+'</p></details>';
   }).join('');
-  det.innerHTML='<summary>'+m.q+'</summary><div class="body">'+m.body.replace(/\n/g,'<br>')+'</div>'+
+  var mapHtml='';
+  if(m.map){
+    var rows=m.map.map(function(r){return '<tr><th>'+r[0]+'</th><td>'+r[1]+'</td></tr>';}).join('');
+    mapHtml='<details class="qa"><summary>テンプレ対応表（当てはめ）</summary><table class="maptbl">'+rows+'</table></details>';
+  }
+  det.innerHTML='<summary>'+m.q+'</summary>'+mapHtml+'<div class="body">'+m.body.replace(/\n/g,'<br>')+'</div>'+
     '<div class="meta">約 '+wc+' words</div>'+qaHtml;
   ml.appendChild(det);
 });
@@ -572,6 +612,47 @@ PHRASES.forEach(function(g){
   var items=g[1].map(function(p){return '<li><span class="en">'+p[0]+'</span> <span class="ja">— '+p[1]+'</span></li>';}).join('');
   d.innerHTML='<div class="gt">'+g[0]+'</div><ul>'+items+'</ul>';
   pl.appendChild(d);
+});
+
+var EXPR=[
+ {head:"「the importance of A」の言い換え", sub:"「重要性」を表す表現 10選", items:[
+   ["The significance of A","significance は「重要性」の格調高い語"],
+   ["The value of A cannot be overstated","Aの価値はいくら強調してもしすぎることはない"],
+   ["A plays a crucial role in ...","Aが重要な役割を果たす（具体的な文脈向け）"],
+   ["The necessity of A","「必要性」という視点での重要性"],
+   ["How essential A is to ...","Aがいかに本質的に重要であるか"],
+   ["A holds considerable / paramount importance","Aが相当な／最高の重要性を持つ"],
+   ["The indispensability of A","「不可欠性」→ より強い重要性"],
+   ["Why A matters","より日常的・簡潔な表現"],
+   ["The critical / vital nature of A","Aの危機的／重大な性質"],
+   ["A cannot be underestimated / overlooked","Aは過小評価／見落とされるべきではない"]
+ ], tip:"フォーマル・論文 → 1,4,7,9 ／ スピーチ・カジュアル → 5,8,10 ／ 比較・対照 → 2,3,6"},
+
+ {head:"「as for the point」の言い換え", sub:"論点を導入・限定する表現 10選（C1レベル）", items:[
+   ["Regarding that point","より直接的で格調高い"],
+   ["As far as that point is concerned","「その点に関する限り」限定的ニュアンス"],
+   ["Concerning / Touching on that point","フォーマル（touching は論文的）"],
+   ["On that particular note","「その特定の論点に関して」やや会話的"],
+   ["With respect to that point","ビジネス・学術的な格調高さ"],
+   ["In that regard / respect","シンプルで洗練された表現"],
+   ["To that end","「その目的に向かって」論理的つながり重視"],
+   ["In this connection / relation","前後の文脈との接続性を強調"],
+   ["So far as that point goes","「その範囲に限って」制限的ニュアンス"],
+   ["It bears noting that ...","「注目に値することは…」前置きとして機能"]
+ ], tip:"学術論文 → 2,3,5,9 ／ ビジネス → 6,7,8 ／ スピーチ → 4,10 ／ 日常 → 1,6",
+   note:"応用例： With respect to that point, I must emphasize ... ／ In that regard, recent studies suggest ..."}
+];
+var el=document.getElementById('expr-list');
+EXPR.forEach(function(g){
+  var d=document.createElement('div');d.className='expr-group';
+  var lis=g.items.map(function(it){return '<li><span class="en">'+it[0]+'</span><span class="ja">'+it[1]+'</span></li>';}).join('');
+  var html='<div class="gt">'+g.head+'</div>';
+  if(g.sub) html+='<div class="muted" style="margin-bottom:4px">'+g.sub+'</div>';
+  html+='<ol class="expr-ol">'+lis+'</ol>';
+  if(g.tip) html+='<div class="tip">💡 使い分け： '+g.tip+'</div>';
+  if(g.note) html+='<div class="note">'+g.note+'</div>';
+  d.innerHTML=html;
+  el.appendChild(d);
 });
 </script>
 </body>
