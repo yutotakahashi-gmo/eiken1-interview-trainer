@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>英検1級 面接対策アプリ</title>
+<title>英検1級 Writing & Speaking 対策</title>
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="icon-512.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="英検1級面接">
+<meta name="apple-mobile-web-app-title" content="英検1級 W&S">
 <meta name="theme-color" content="#4f46e5">
 <style>
 :root{
@@ -40,6 +40,18 @@ header.top p{margin:0;color:var(--sub);font-size:.9rem;}
   padding:10px 8px;border-radius:10px;font-size:.9rem;font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap;}
 .tab:hover{background:var(--bg);}
 .tab.active{background:var(--brand);color:#fff;}
+.subtabs2{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 16px;border-bottom:1px solid var(--line);padding-bottom:8px;}
+.stab2{border:0;background:var(--bg);color:var(--sub);border-radius:8px;padding:7px 15px;font-size:.86rem;font-weight:700;cursor:pointer;transition:.15s;}
+.stab2:hover{background:#eef0fe;}
+.stab2.active{background:var(--brand);color:#fff;}
+.subpanel{display:none;}
+.subpanel.active{display:block;}
+.anstext{font-size:.97rem;line-height:1.85;}
+.sw{position:fixed;top:10px;right:12px;z-index:50;display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 8px;font-size:.8rem;font-weight:700;box-shadow:var(--shadow);opacity:.4;transition:opacity .2s;}
+.sw:hover{opacity:1;}
+.sw #sw-time{font-variant-numeric:tabular-nums;color:var(--brand);min-width:40px;text-align:center;font-size:.95rem;}
+.sw button{border:0;background:var(--brand-soft);color:var(--brand);border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:.72rem;line-height:1;padding:0;}
+.sw button:hover{background:#e0e3fd;}
 .panel{display:none;animation:fade .25s ease;}
 .panel.active{display:block;}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -53,9 +65,9 @@ header.top p{margin:0;color:var(--sub);font-size:.9rem;}
 .pill.teal{background:var(--teal-soft);color:var(--teal);}
 .pill.amber{background:var(--amber-soft);color:var(--amber);}
 .tpl{background:var(--bg);border-radius:12px;padding:14px 16px;font-size:.95rem;}
-.tpl .slot{background:#fff8d6;border-bottom:2px solid var(--amber);padding:0 4px;border-radius:3px;font-weight:600;font-style:italic;}
+.tpl .slot{background:#fff3bf;border-bottom:3px solid #fcc419;padding:1px 3px;border-radius:2px;font-weight:600;font-style:italic;-webkit-box-decoration-break:clone;box-decoration-break:clone;}
 .tpl .conn{color:var(--brand);font-weight:700;}
-.hl{background:#fff3bf;border-radius:3px;padding:0 2px;}
+.hl{background:#fff3bf;border-bottom:3px solid #fcc419;padding:1px 3px;border-radius:2px;-webkit-box-decoration-break:clone;box-decoration-break:clone;}
 label.fld{display:block;font-size:.82rem;font-weight:700;color:var(--sub);margin:12px 0 4px;}
 textarea,input.txt,select{width:100%;border:1px solid var(--line);border-radius:10px;
   padding:10px 12px;font-size:.95rem;font-family:inherit;background:#fff;color:var(--ink);resize:vertical;}
@@ -151,28 +163,129 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
 </style>
 </head>
 <body>
+<div class="sw" id="sw" title="ストップウォッチ（クリックで開始/停止）">
+  <span id="sw-time">0:00</span>
+  <button id="sw-toggle" aria-label="start/stop">▶</button>
+  <button id="sw-reset" aria-label="reset">⟲</button>
+</div>
 <div class="wrap">
 <header class="top">
-  <h1>英検1級 面接対策アプリ</h1>
-  <p>二次試験（スピーチ）を、テンプレート × タイマー × 模範解答例で攻略</p>
+  <h1>英検1級 Writing &amp; Speaking 対策</h1>
+  <p>エッセイ（Writing）＆面接（Speaking）を、テンプレート × 模範解答 × 表現集で攻略</p>
 </header>
 
-<div class="timerbar" id="timerbar">
-  <span class="tb-label">⏱ タイマー</span>
-  <button class="tbtn" data-sec="60" data-kind="prep">準備 1分</button>
-  <button class="tbtn" data-sec="120" data-kind="speech">スピーチ 2分</button>
-  <span class="tdisp" id="tb-disp">0:00</span>
-  <button class="tbtn stop" id="tb-stop">停止</button>
-</div>
 
 <nav class="tabs">
-  <button class="tab active" data-tab="tpl">テンプレート</button>
-  <button class="tab" data-tab="model">模範解答例</button>
-  <button class="tab" data-tab="expr">英語表現集</button>
-  <button class="tab" data-tab="ref">流れ＆フレーズ</button>
+  <button class="tab active" data-tab="writing">📝 Writing</button>
+  <button class="tab" data-tab="speaking">🎤 Speaking</button>
+  <button class="tab" data-tab="expr">💬 表現集</button>
 </nav>
 
-<section class="panel active" id="tpl">
+<section class="panel active" id="writing">
+  <nav class="subtabs2">
+    <button class="stab2 active" data-sub="w-temp">テンプレ</button>
+    <button class="stab2" data-sub="w-ans">解答例</button>
+  </nav>
+  <div class="subpanel active" id="w-temp">
+  <div class="card">
+    <h2>Summary Template <span class="pill amber" style="vertical-align:middle">90-110 words</span></h2>
+    <p class="muted">25 + 25 + 25 + 25 — 4文の骨格＋スロット埋め</p>
+    <div class="tpl" style="background:#fdf3e3;border:1px solid #f3d9a4">
+      ⚠ <b>Summary は1段落で書く！</b><br>
+      ・S1〜S4は1つの流れる段落として設計（約100語を改行で割ると不自然）<br>
+      ・試験では改行禁止 — 1ブロックに凝縮するのが Summary の趣旨<br>
+      ・段落分けが効くのは Essay（intro / body / conclusion）のみ
+    </div>
+    <div class="tpl" style="margin-top:10px">
+      <b>[S1]</b> <span class="slot">A</span> has become a major issue in recent decades, largely driven by <span class="slot">B</span>.<br><br>
+      <b>[S2]</b> This poses a serious threat to <span class="slot">C</span>, since <span class="slot">D</span>, and could further {diminish / damage / undermine / endanger} <span class="slot">E</span>.<br><br>
+      <b>[S3]</b> In response, <span class="slot">F</span> {has / have} introduced <span class="slot">G</span> ({legislation / regulations / measures / protected zones / alternatives}) in an effort to {mitigate / curb / address} the problem.<br><br>
+      <b>[S4]</b> However, such measures have clear limitations, as <span class="slot">H</span>, leaving the long-term {viability / future / sustainability} of this approach uncertain.
+    </div>
+    <p class="muted" style="margin-top:10px">📌 <b>暗記すべき骨格</b><br>
+      ・has become a major issue in recent decades, largely driven by ___<br>
+      ・poses a serious threat to ~, since ~<br>
+      ・in an effort to mitigate the problem<br>
+      ・leaving the long-term viability of this approach uncertain</p>
+    <p class="muted">⏱ <b>時間配分</b>： スロット抽出 5分 → 執筆 10分 → 見直し 3分。書き終えたら「Cが本当に被害者か／Hが本当に対策の限界か」を1度だけ原文と照合。</p>
+    <p class="muted">💡 完成例3つは「解答例」タブをご覧ください。</p>
+  </div>
+
+  <div class="card">
+    <h2>Essay Template <span class="pill amber" style="vertical-align:middle">200-240 words</span></h2>
+    <p class="muted">≈220 words ｜ 5-paragraph ｜ <b>3理由型</b>（面接対策テンプレ準拠）</p>
+    <p class="muted">黄色の <b>A・B・C〜J</b> を話題に合わせて差し替える3理由型。A＝自分の主張／B＝譲歩（S+V）／C〜J＝下の表から選択。<br>※ Aは冒頭で1回だけ。以降は <b>it / this approach / this practice / such a measure / such efforts</b> 等で言い換え、同語反復を回避。</p>
+    <div class="tpl">
+      <span class="pill amber">Introduction｜~50 words</span><br>
+      The importance of <span class="slot">A</span> has become increasingly evident in recent years, giving rise to considerable debate. While some argue that <span class="slot">B（S+V）</span>, I firmly believe it is genuinely crucial. This view is supported by three key considerations.<br><br>
+      <span class="pill">Body 1｜Pattern A: Reason / Research</span> <span class="muted" style="font-size:.72rem">ex. 数字やデータがなくてもOKの論証型</span><br>
+      First, this approach is indispensable because it directly helps tackle <span class="slot">C</span>. A recent study from UCLA has shown that it contributes to <span class="slot">D</span>. As a result, it plays a pivotal role in <span class="slot">E</span>.<br><br>
+      <span class="pill">Body 2｜Pattern B: Example</span> <span class="muted" style="font-size:.72rem">ex.「先進国 → 途上国の成長を後押し」のような実例</span><br>
+      Second, this practice has proved highly effective in real-world settings. <span class="slot">F</span> offers a compelling example, where its adoption improved <span class="slot">H</span> by 40%. Comparable results have emerged in other regions, suggesting that its benefits are broadly applicable rather than confined to a single context.<br><br>
+      <span class="pill">Body 3｜Pattern C: Logic / Future-oriented</span> <span class="muted" style="font-size:.72rem">ex. 問題の悪化を指摘 → 解決策</span><br>
+      Finally, the long-term consequences must not be underestimated. As <span class="slot">C</span> grows into an ever more pressing problem, a failure to act would allow it to deepen further, gradually undermining <span class="slot">I</span>. By contrast, a sustained commitment to addressing it would help secure <span class="slot">J</span> for generations to come.<br><br>
+      <span class="pill teal">Conclusion｜~45 words</span><br>
+      In conclusion, the evidence strongly indicates that such efforts are essential for lasting societal development. Although certain challenges remain, they can be addressed through <span class="slot">G</span>. Therefore, ongoing support for it should be actively encouraged.
+    </div>
+    <h3 style="margin-top:16px">🔁 C〜J の候補（/ 区切り・話題に合わせて選択）</h3>
+    <table class="swaptbl">
+      <tr><th>記号</th><th>候補</th></tr>
+      <tr><td>C（課題）</td><td>social inequality / environmental problems / economic challenges / public health concerns / structural barriers</td></tr>
+      <tr><td>D（効果・貢献）</td><td>public trust / social stability / economic growth / equal opportunities / civic participation</td></tr>
+      <tr><td>E（役割・目標）</td><td>building a fairer society / promoting sustainable development / improving public welfare</td></tr>
+      <tr><td>F（国名）</td><td>Singapore / Finland / Sweden / Germany / Canada / Japan</td></tr>
+      <tr><td>G（手段）</td><td><span class="hl">public cooperation and policymaking</span>（最有力） / effective policymaking and public cooperation / continued investment and education / international cooperation and innovation / evidence-based policymaking and meaningful public engagement</td></tr>
+      <tr><td>H（指標）</td><td>key indicators / performance / GDP / efficiency / the employment rate / public satisfaction / literacy rates / crime rates / productivity</td></tr>
+      <tr><td>I（損なわれる）</td><td>social cohesion / public trust / enduring stability / future opportunities / sustainable growth</td></tr>
+      <tr><td>J（守られる）</td><td>a fairer society / a sustainable future / equal opportunities for all / public welfare / social stability</td></tr>
+    </table>
+    <p class="muted" style="margin-top:10px">📌 <b>骨格フレーズ</b><br>
+      ・The importance of ~ has become increasingly evident in recent years.<br>
+      ・While some argue that ~, I firmly believe it is genuinely crucial.<br>
+      ・<b>Body1</b>: this approach is indispensable because it directly helps tackle C … it plays a pivotal role in E.<br>
+      ・<b>Body2</b>: F offers a compelling example, where its adoption improved H by 40%.<br>
+      ・<b>Body3</b>: As C grows into an ever more pressing problem, a failure to act would allow it to deepen … undermining I. By contrast, a sustained commitment would help secure J.<br>
+      ・such efforts are essential … addressed through G.</p>
+    <p class="muted">🎯 <b>3つのBodyはパターンで差をつける</b><br>
+      ・Pattern A（理由＋研究）<br>
+      ・Pattern B（具体例＋数値）<br>
+      ・Pattern C（論理＋将来視点）</p>
+    <p class="muted">📚 <b>言い換え意識</b><br>
+      ・主張＝it / this approach / this practice / such a measure / such efforts<br>
+      ・重要＝crucial / pivotal / valuable / essential（連発しない）<br>
+      ・long-term＝forward-looking / lasting / enduring / sustained / for generations to come</p>
+    <p class="muted">💡 数値・研究・具体例が説得力の核。完成エッセイ3つは「解答例」タブをご覧ください。</p>
+  </div>
+  </div>
+  <div class="subpanel" id="w-ans">
+  <div class="card">
+    <h2>Summary 完成例（3つ）<span class="muted" style="font-size:.8rem"> — 各約90語・1段落</span></h2>
+    <p class="muted">骨格に当てはめた完成例。改行せず1ブロックで書くのがポイント。下表＝各スロットの当てはめ語。</p>
+    <div class="anstext" style="margin-top:8px"><b>例1（生物多様性）</b><br>The loss of biodiversity has become a major issue in recent decades, largely driven by habitat destruction and climate change. This poses a serious threat to global ecosystems, since many species cannot adapt quickly enough to survive, and could further endanger food security and human livelihoods. In response, governments and international bodies have introduced regulations and protected zones in an effort to curb the problem. However, such measures have clear limitations, as enforcement is often weak and funding remains insufficient, leaving the long-term sustainability of this approach uncertain.</div><table class="swaptbl" style="margin-top:6px"><tr><th>記号</th><th>当てはめ語</th></tr><tr><td>A</td><td>The loss of biodiversity</td></tr><tr><td>B</td><td>habitat destruction and climate change</td></tr><tr><td>C</td><td>global ecosystems</td></tr><tr><td>D</td><td>many species cannot adapt quickly enough to survive</td></tr><tr><td>E</td><td>food security and human livelihoods</td></tr><tr><td>F</td><td>governments and international bodies</td></tr><tr><td>G</td><td>regulations and protected zones</td></tr><tr><td>H</td><td>enforcement is often weak and funding remains insufficient</td></tr></table>
+    <div class="anstext" style="margin-top:16px"><b>例2（オンライン誤情報）</b><br>The spread of online misinformation has become a major issue in recent decades, largely driven by social media and profit-seeking algorithms. This poses a serious threat to public trust, since false information spreads faster than facts, and could further undermine democratic decision-making. In response, platforms and regulators have introduced measures such as fact-checking systems and new legislation in an effort to address the problem. However, such measures have clear limitations, as harmful content is difficult to detect at scale, leaving the long-term viability of this approach uncertain.</div><table class="swaptbl" style="margin-top:6px"><tr><th>記号</th><th>当てはめ語</th></tr><tr><td>A</td><td>The spread of online misinformation</td></tr><tr><td>B</td><td>social media and profit-seeking algorithms</td></tr><tr><td>C</td><td>public trust</td></tr><tr><td>D</td><td>false information spreads faster than facts</td></tr><tr><td>E</td><td>democratic decision-making</td></tr><tr><td>F</td><td>platforms and regulators</td></tr><tr><td>G</td><td>fact-checking systems and new legislation</td></tr><tr><td>H</td><td>harmful content is difficult to detect at scale</td></tr></table>
+    <div class="anstext" style="margin-top:16px"><b>例3（少子高齢化）</b><br>Population aging has become a major issue in many developed countries in recent decades, largely driven by falling birth rates and longer life expectancy. This poses a serious threat to economic stability, since a shrinking workforce must support a growing elderly population, and could further endanger pension and healthcare systems. In response, governments have introduced measures such as immigration reform and childcare support in an effort to mitigate the problem. However, such measures have clear limitations, as cultural and political resistance persists, leaving the long-term sustainability of this approach uncertain.</div><table class="swaptbl" style="margin-top:6px"><tr><th>記号</th><th>当てはめ語</th></tr><tr><td>A</td><td>Population aging</td></tr><tr><td>B</td><td>falling birth rates and longer life expectancy</td></tr><tr><td>C</td><td>economic stability</td></tr><tr><td>D</td><td>a shrinking workforce must support a growing elderly population</td></tr><tr><td>E</td><td>pension and healthcare systems</td></tr><tr><td>F</td><td>governments</td></tr><tr><td>G</td><td>immigration reform and childcare support</td></tr><tr><td>H</td><td>cultural and political resistance persists</td></tr></table>
+  </div>
+  <div class="card">
+    <h2>Essay 完成例（3つ）<span class="muted" style="font-size:.8rem"> — 各約210語・3理由型</span></h2>
+    <p class="muted">3理由型テンプレに当てはめた完成例（黄色＝差し替え部分）。</p>
+    <div class="anstext" style="margin-top:8px"><b>例1</b>：Should the government invest more in renewable energy? — Agree<br>The importance of <span class="hl">renewable energy</span> has become increasingly evident in recent years, giving rise to considerable debate. While some argue that <span class="hl">fossil fuels are still sufficient</span>, I firmly believe it is genuinely crucial. This view is supported by three key considerations.<br><br>First, this approach is indispensable because it directly helps tackle <span class="hl">climate change</span>. A recent study from MIT has shown that it contributes to <span class="hl">cleaner air and public health</span>. As a result, it plays a pivotal role in <span class="hl">protecting the environment</span>.<br><br>Second, this practice has proved highly effective in real-world settings. <span class="hl">Denmark</span> offers a compelling example, where its adoption improved <span class="hl">energy independence</span> by 40%. Comparable results have emerged in other regions, suggesting that its benefits are broadly applicable rather than confined to a single context.<br><br>Finally, the long-term consequences must not be underestimated. As <span class="hl">carbon emissions</span> grows into an ever more pressing problem, a failure to act would allow it to deepen further, gradually undermining <span class="hl">global stability</span>. By contrast, a sustained commitment to addressing it would help secure <span class="hl">a sustainable future</span> for generations to come.<br><br>In conclusion, the evidence strongly indicates that such efforts are essential for lasting societal development. Although certain challenges remain, they can be addressed through <span class="hl">continued investment and innovation</span>. Therefore, ongoing support for it should be actively encouraged.</div>
+    <div class="anstext" style="margin-top:14px"><b>例2</b>：Should wealthy nations do more to reduce global poverty? — Agree<br>The importance of <span class="hl">poverty reduction</span> has become increasingly evident in recent years, giving rise to considerable debate. While some argue that <span class="hl">aid only creates dependency</span>, I firmly believe it is genuinely crucial. This view is supported by three key considerations.<br><br>First, this approach is indispensable because it directly helps tackle <span class="hl">extreme inequality</span>. A recent study from the World Bank has shown that it contributes to <span class="hl">economic growth</span>. As a result, it plays a pivotal role in <span class="hl">building a fairer society</span>.<br><br>Second, this practice has proved highly effective in real-world settings. <span class="hl">Finland</span> offers a compelling example, where its adoption improved <span class="hl">the employment rate</span> by 40%. Comparable results have emerged in other regions, suggesting that its benefits are broadly applicable rather than confined to a single context.<br><br>Finally, the long-term consequences must not be underestimated. As <span class="hl">poverty</span> grows into an ever more pressing problem, a failure to act would allow it to deepen further, gradually undermining <span class="hl">social cohesion</span>. By contrast, a sustained commitment to addressing it would help secure <span class="hl">equal opportunities for all</span> for generations to come.<br><br>In conclusion, the evidence strongly indicates that such efforts are essential for lasting societal development. Although certain challenges remain, they can be addressed through <span class="hl">international cooperation and innovation</span>. Therefore, ongoing support for it should be actively encouraged.</div>
+    <div class="anstext" style="margin-top:14px"><b>例3</b>：Should schools place more emphasis on critical thinking? — Agree<br>The importance of <span class="hl">critical thinking education</span> has become increasingly evident in recent years, giving rise to considerable debate. While some argue that <span class="hl">rote memorization is sufficient</span>, I firmly believe it is genuinely crucial. This view is supported by three key considerations.<br><br>First, this approach is indispensable because it directly helps tackle <span class="hl">misinformation</span>. A recent study from Stanford has shown that it contributes to <span class="hl">better decision-making</span>. As a result, it plays a pivotal role in <span class="hl">improving public welfare</span>.<br><br>Second, this practice has proved highly effective in real-world settings. <span class="hl">Finland</span> offers a compelling example, where its adoption improved <span class="hl">literacy rates</span> by 40%. Comparable results have emerged in other regions, suggesting that its benefits are broadly applicable rather than confined to a single context.<br><br>Finally, the long-term consequences must not be underestimated. As <span class="hl">misinformation</span> grows into an ever more pressing problem, a failure to act would allow it to deepen further, gradually undermining <span class="hl">public trust</span>. By contrast, a sustained commitment to addressing it would help secure <span class="hl">a fairer society</span> for generations to come.<br><br>In conclusion, the evidence strongly indicates that such efforts are essential for lasting societal development. Although certain challenges remain, they can be addressed through <span class="hl">continued investment and education</span>. Therefore, ongoing support for it should be actively encouraged.</div>
+  </div>
+  </div>
+</section>
+
+<section class="panel" id="speaking">
+  <nav class="subtabs2">
+    <button class="stab2 active" data-sub="s-temp">テンプレ</button>
+    <button class="stab2" data-sub="s-ans">解答例</button>
+    <button class="stab2" data-sub="s-flow">流れ</button>
+  </nav>
+  <div class="subpanel active" id="s-temp">
+  <div class="card" style="background:var(--brand-soft);border-color:#dfe2fb">
+    <p class="muted" style="margin:0">🎤 面接スピーチも下の <b>A〜H型</b> で。準備1分 → スピーチ2分を時間を計って。理由は2つでOK、各3〜4文で展開しましょう。</p>
+  </div>
+
   <div class="card">
     <h2>エッセイ・テンプレート（英検1級 standard）</h2>
     <p class="muted">黄色の <b>A・B・C〜H</b> を話題に合わせて差し替える2理由型。<b>A</b>＝自分の主張／<b>B</b>＝譲歩（S+V）／<b>C〜H</b>＝下の表から選択。<br>※ Aは冒頭で1回だけ。以降は <b>it / this approach / this practice / such a measure</b> 等で言い換え、同語反復を回避。</p>
@@ -184,7 +297,7 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
       <p><span class="pill">Body 2｜Pattern B（Example）</span> <span class="muted" style="font-size:.72rem">ex.「先進国 → 途上国の成長を後押し」のような実例</span><br>
       <span class="conn">Second,</span> <span class="slot">this practice</span> has proved beneficial in real-world settings. <span class="slot">F</span> provides a compelling example, where its implementation has produced positive outcomes, improving <span class="slot">H</span> by 40%. Similar results have also been observed in other countries and regions, indicating that its advantages are widely applicable rather than limited to a particular context.</p>
       <p><span class="pill teal">Conclusion</span><br>
-      <span class="conn">In conclusion,</span> the evidence strongly suggests that <span class="slot">such a measure</span> is essential for long-term societal development. Although certain <span class="slot">ethical / cost / technological / political / regulatory …</span> <span class="slot">challenges / obstacles / backlashes</span> remain, they can be addressed through <span class="slot">G</span>. Given that <span class="slot">X</span> is now undeniable, continued efforts to promote it should be encouraged.</p>
+      <span class="conn">In conclusion,</span> the evidence strongly suggests that <span class="slot">such a measure</span> is essential for long-term societal development. Although certain <span class="slot">ethical / cost / technological / political / regulatory …</span> <span class="slot">challenges / obstacles / backlashes</span> remain, they can be addressed through <span class="slot">G</span>. <span class="slot">{Given that X is now undeniable ／ The complete understanding of X demands patience and time}</span>, continued efforts to promote it should be encouraged.</p>
     </div>
     <h3 style="margin-top:16px">🔁 C〜H の候補（/ 区切り・話題に合わせて選択）</h3>
     <table class="swaptbl">
@@ -199,6 +312,44 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
     <p class="muted" style="margin-top:10px">💡 各「模範解答例」の<b>テンプレ対応表</b>で当てはめ方を確認できます。数値・研究・具体例が説得力の核。</p>
   </div>
 
+  <div class="card">
+    <p class="muted">📚 <b>言い換え意識</b><br>
+      ・主張＝it / this approach / this practice / such a measure / such efforts<br>
+      ・重要＝crucial / pivotal / valuable / essential（連発しない）<br>
+      ・long-term＝forward-looking / lasting / enduring / sustained / for generations to come</p>
+  </div>
+  </div>
+  <div class="subpanel" id="s-ans">
+  <div class="card">
+    <h2>模範解答例</h2>
+    <p class="muted">過去6回×全コース＝計60問＋公式サンプル10問を<b>テーマ別カテゴリー</b>で収録。上のサブタブで分野を切替。各例はテンプレで作成し、<b>キーワード・テンプレ対応表・Q&A</b>付き（タイトルをタップで開きます）。</p>
+    <div class="tpl" style="margin-bottom:8px">
+      <b>Q&A攻略のコツ（4分・5問程度）</b><br>
+      <span class="muted">① 質問の意図を一言で受ける（That's a good point. / Yes, I think so.）→ ② 理由を1つ→ ③ 具体例や言い換えで補強、を <b>3〜4文</b>で。<br>
+      反論・弱点を突かれても、勝ち負けではなく語学の試験。<b>That's a good point, but…</b> と受けてから自分の立場を述べればOK。詰まったら <b>Well, … / Let me see.</b> で間をつなぐ。</span>
+    </div>
+    <div class="subtabs" id="model-subtabs"></div>
+    <details class="kwsummary" id="kw-summary" open>
+      <summary>📌 このカテゴリーのキーワード集</summary>
+      <div id="kw-summary-body"></div>
+    </details>
+    <div id="model-list"></div>
+  </div>
+  </div>
+  <div class="subpanel" id="s-flow">
+  <div class="card">
+    <h2>二次試験の流れ</h2>
+    <ul class="flow" style="list-style:none;padding:0;margin:0" id="flow-list"></ul>
+  </div>
+  <div class="card">
+    <h2>そのまま使えるフレーズ集</h2>
+    <div id="phrase-list"></div>
+    <p class="muted" style="margin-top:8px">※ wanna / gonna / Yeah などの口語は避け、明瞭でフォーマルな話し方を。</p>
+  </div>
+  </div>
+</section>
+
+<section class="panel" id="expr">
   <div class="card">
     <h2>重複回避パラフレーズ（テンプレ頻出語・各5）</h2>
     <p class="muted">同じ語の連発は減点要因。特に <b>essential</b> は多用しがちなので要注意。話すたびに下から選んで変化を。</p>
@@ -252,43 +403,11 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
       <tr><td>aware（気づいて）</td><td>conscious ／ mindful ／ cognizant ／ alert to ／ informed of</td></tr>
     </table>
   </div>
-</section>
 
-<section class="panel" id="model">
-  <div class="card">
-    <h2>模範解答例</h2>
-    <p class="muted">過去6回×全コース＝計60問＋公式サンプル10問を<b>テーマ別カテゴリー</b>で収録。上のサブタブで分野を切替。各例はテンプレで作成し、<b>キーワード・テンプレ対応表・Q&A</b>付き（タイトルをタップで開きます）。</p>
-    <div class="tpl" style="margin-bottom:8px">
-      <b>Q&A攻略のコツ（4分・5問程度）</b><br>
-      <span class="muted">① 質問の意図を一言で受ける（That's a good point. / Yes, I think so.）→ ② 理由を1つ→ ③ 具体例や言い換えで補強、を <b>3〜4文</b>で。<br>
-      反論・弱点を突かれても、勝ち負けではなく語学の試験。<b>That's a good point, but…</b> と受けてから自分の立場を述べればOK。詰まったら <b>Well, … / Let me see.</b> で間をつなぐ。</span>
-    </div>
-    <div class="subtabs" id="model-subtabs"></div>
-    <details class="kwsummary" id="kw-summary" open>
-      <summary>📌 このカテゴリーのキーワード集</summary>
-      <div id="kw-summary-body"></div>
-    </details>
-    <div id="model-list"></div>
-  </div>
-</section>
-
-<section class="panel" id="expr">
   <div class="card">
     <h2>英語表現集（言い換えストック）</h2>
     <p class="muted">スピーチ・Q&Aで表現の幅を出すための言い換え集。番号は下の「使い分け」の目安に対応します。</p>
     <div id="expr-list"></div>
-  </div>
-</section>
-
-<section class="panel" id="ref">
-  <div class="card">
-    <h2>二次試験の流れ</h2>
-    <ul class="flow" style="list-style:none;padding:0;margin:0" id="flow-list"></ul>
-  </div>
-  <div class="card">
-    <h2>そのまま使えるフレーズ集</h2>
-    <div id="phrase-list"></div>
-    <p class="muted" style="margin-top:8px">※ wanna / gonna / Yeah などの口語は避け、明瞭でフォーマルな話し方を。</p>
   </div>
 </section>
 
@@ -307,26 +426,25 @@ document.querySelectorAll('.tab').forEach(function(t){
     document.getElementById(t.dataset.tab).classList.add('active');
   });
 });
-
-(function(){
-  var tId=null, remain=0;
-  var disp=document.getElementById('tb-disp');
-  var bar=document.getElementById('timerbar');
-  function pad(n){return String(n).padStart(2,'0');}
-  function beep(freq,dur){try{var AC=window.AudioContext||window.webkitAudioContext;var ac=new AC();var o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.frequency.value=freq;o.type='sine';g.gain.setValueAtTime(.0001,ac.currentTime);g.gain.exponentialRampToValueAtTime(.3,ac.currentTime+.02);g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+dur);o.start();o.stop(ac.currentTime+dur);}catch(e){}}
-  function show(){disp.textContent=Math.floor(remain/60)+':'+pad(remain%60);}
-  function reset(){clearInterval(tId);tId=null;bar.classList.remove('prep','speech');}
-  function start(sec,kind){
-    clearInterval(tId);remain=sec;show();
-    bar.classList.remove('prep','speech');bar.classList.add(kind);
-    beep(kind==='prep'?660:880,.15);
-    tId=setInterval(function(){remain--;show();if(remain<=0){clearInterval(tId);tId=null;beep(440,.5);}},1000);
-  }
-  document.querySelectorAll('.tbtn[data-sec]').forEach(function(b){
-    b.addEventListener('click',function(){start(parseInt(b.dataset.sec,10),b.dataset.kind);});
+document.querySelectorAll('.stab2').forEach(function(b){
+  b.addEventListener('click', function(){
+    var sec=b.closest('section.panel');
+    sec.querySelectorAll('.stab2').forEach(function(x){x.classList.remove('active');});
+    sec.querySelectorAll('.subpanel').forEach(function(x){x.classList.remove('active');});
+    b.classList.add('active');
+    document.getElementById(b.dataset.sub).classList.add('active');
   });
-  var st=document.getElementById('tb-stop');
-  if(st) st.addEventListener('click',function(){reset();remain=0;show();});
+});
+(function(){
+  var t=0,id=null;
+  var tm=document.getElementById('sw-time'),tg=document.getElementById('sw-toggle'),rs=document.getElementById('sw-reset');
+  if(!tm) return;
+  function fmt(){var m=Math.floor(t/60),x=t%60;tm.textContent=m+':'+String(x).padStart(2,'0');}
+  tg.addEventListener('click',function(){
+    if(id){clearInterval(id);id=null;tg.textContent='▶';}
+    else{id=setInterval(function(){t++;fmt();},1000);tg.textContent='⏸';}
+  });
+  rs.addEventListener('click',function(){clearInterval(id);id=null;t=0;fmt();tg.textContent='▶';});
 })();
 
 var MODELS=[
