@@ -169,18 +169,18 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
 <section class="panel active" id="tpl">
   <div class="card">
     <h2>エッセイ・テンプレート（英検1級 standard）</h2>
-    <p class="muted">黄色の <b>A・B・C〜G</b> を話題に合わせて差し替える2理由型。<b>A</b>＝自分の主張／<b>B</b>＝譲歩（S+V）／<b>C〜G</b>＝下の表から選択。<br>※ Aは冒頭で1回だけ。以降は <b>it / this approach / this practice / such a measure</b> 等で言い換え、同語反復を回避。</p>
+    <p class="muted">黄色の <b>A・B・C〜H</b> を話題に合わせて差し替える2理由型。<b>A</b>＝自分の主張／<b>B</b>＝譲歩（S+V）／<b>C〜H</b>＝下の表から選択。<br>※ Aは冒頭で1回だけ。以降は <b>it / this approach / this practice / such a measure</b> 等で言い換え、同語反復を回避。</p>
     <div class="tpl">
       <p><span class="pill amber">Introduction</span><br>
       The importance of <span class="slot">A</span> has become increasingly evident in recent years, giving rise to considerable debate. While some argue that <span class="slot">B（S+V）</span>, I believe it is genuinely crucial. This view is supported by two key considerations.</p>
       <p><span class="pill">Body 1｜Pattern A（Reason / Research）</span><br>
-      <span class="conn">First,</span> <span class="slot">this approach</span> is indispensable because it helps tackle <span class="slot">C</span>. Numerous studies have highlighted that it contributes to <span class="slot">D</span>. Therefore, it plays a vital role in <span class="slot">E</span>.</p>
+      <span class="conn">First,</span> <span class="slot">this approach</span> is indispensable because it helps tackle <span class="slot">C</span>. A recent study from UCLA has highlighted that it contributes to <span class="slot">D</span>. Therefore, it plays a vital role in <span class="slot">E</span>.</p>
       <p><span class="pill">Body 2｜Pattern B（Example）</span><br>
-      <span class="conn">Second,</span> <span class="slot">this practice</span> has proved beneficial in real-world settings. <span class="slot">F</span> provides a compelling example, where its implementation has produced positive outcomes. Similar results have also been observed in other countries and regions, indicating that its advantages are widely applicable rather than limited to a particular context.</p>
+      <span class="conn">Second,</span> <span class="slot">this practice</span> has proved beneficial in real-world settings. <span class="slot">F</span> provides a compelling example, where its implementation has produced positive outcomes, improving <span class="slot">H</span> by 40%. Similar results have also been observed in other countries and regions, indicating that its advantages are widely applicable rather than limited to a particular context.</p>
       <p><span class="pill teal">Conclusion</span><br>
       <span class="conn">In conclusion,</span> the evidence strongly suggests that <span class="slot">such a measure</span> is essential for long-term societal development. Although certain challenges remain, they can be addressed through <span class="slot">G</span>. Therefore, continued efforts to promote it should be encouraged.</p>
     </div>
-    <h3 style="margin-top:16px">🔁 C〜G の候補（/// 区切り・話題に合わせて選択）</h3>
+    <h3 style="margin-top:16px">🔁 C〜H の候補（/ 区切り・話題に合わせて選択）</h3>
     <table class="swaptbl">
       <tr><th>記号</th><th>候補（多数・自由に選択）</th></tr>
       <tr><td>C（課題）</td><td>social inequality / environmental problems / economic challenges / public health concerns / structural barriers</td></tr>
@@ -188,6 +188,7 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
       <tr><td>E（役割・目標）</td><td>building a fairer society / promoting sustainable development / improving public welfare</td></tr>
       <tr><td>F（国名）</td><td>Singapore / Finland / Sweden / Germany / Canada / Japan</td></tr>
       <tr><td>G（手段）</td><td>effective policymaking and public cooperation / continued investment and education / international cooperation and innovation / deliberate policymaking that reflects a wide range of public opinion / inclusive policymaking that takes diverse perspectives into account / evidence-based policymaking and meaningful public engagement</td></tr>
+      <tr><td>H（指標）</td><td>performance / GDP / efficiency / the employment rate / public satisfaction / literacy rates</td></tr>
     </table>
     <p class="muted" style="margin-top:10px">💡 各「模範解答例」の<b>テンプレ対応表</b>で当てはめ方を確認できます。数値・研究・具体例が説得力の核。</p>
   </div>
@@ -427,7 +428,7 @@ var MODELS=[
 function _hl(x){return '<span class="hl">'+x+'</span>';}
 function _mk(A,B,ch,num,alt,ctx,app,ex,res,dom){
  var a=_hl(A);
- return "The importance of "+a+" has become increasingly evident in recent years, giving rise to considerable debate. While some argue that "+_hl(B)+", I believe it is genuinely crucial. This view is supported by two key considerations.\n\nFirst, "+_hl('this approach')+" is indispensable because it helps tackle "+_hl(ch)+". Numerous studies have highlighted that it contributes to "+_hl(ctx)+". Therefore, it plays a vital role in "+_hl(dom)+".\n\nSecond, "+_hl('this practice')+" has proved beneficial in real-world settings. "+_hl('Singapore')+" provides a compelling example, where its implementation has produced positive outcomes. Similar results have also been observed in other countries and regions, indicating that its advantages are widely applicable rather than limited to a particular context.\n\nIn conclusion, the evidence strongly suggests that "+_hl('such a measure')+" is essential for long-term societal development. Although certain challenges remain, they can be addressed through "+_hl('effective policymaking and public cooperation')+". Therefore, continued efforts to promote it should be encouraged.";
+ return "The importance of "+a+" has become increasingly evident in recent years, giving rise to considerable debate. While some argue that "+_hl(B)+", I believe it is genuinely crucial. This view is supported by two key considerations.\n\nFirst, "+_hl('this approach')+" is indispensable because it helps tackle "+_hl(ch)+". A recent study from UCLA has highlighted that it contributes to "+_hl(ctx)+". Therefore, it plays a vital role in "+_hl(dom)+".\n\nSecond, "+_hl('this practice')+" has proved beneficial in real-world settings. "+_hl('Singapore')+" provides a compelling example, where its implementation has produced positive outcomes, improving "+_hl('key indicators')+" by 40%. Similar results have also been observed in other countries and regions, indicating that its advantages are widely applicable rather than limited to a particular context.\n\nIn conclusion, the evidence strongly suggests that "+_hl('such a measure')+" is essential for long-term societal development. Although certain challenges remain, they can be addressed through "+_hl('effective policymaking and public cooperation')+". Therefore, continued efforts to promote it should be encouraged.";
 }
 function _map(A,B,ch,num,alt,ctx,app,ex,res,dom){
  return [["A（主張）",A],["B（譲歩・対立意見）",B],["C（課題）",ch],["D（効果・貢献）",ctx],["E（役割・目標）",dom]];
