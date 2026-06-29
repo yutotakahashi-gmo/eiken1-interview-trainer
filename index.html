@@ -114,6 +114,12 @@ details.qa p{margin:0 0 12px;font-size:.93rem;}
 .expr-ol .ja{color:var(--sub);font-size:.85rem;}
 .expr-group .tip{background:var(--amber-soft);color:#7c4a06;border-radius:8px;padding:8px 12px;font-size:.85rem;margin-top:6px;}
 .expr-group .note{color:var(--sub);font-size:.85rem;margin-top:6px;}
+.expr-acc{border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:10px;margin:10px 0;padding:0 16px;background:var(--card);}
+.expr-acc>summary{cursor:pointer;font-weight:700;font-size:1rem;color:var(--brand);padding:12px 0;list-style:none;}
+.expr-acc>summary::-webkit-details-marker{display:none;}
+.expr-acc>summary::before{content:"\25B8 ";}
+.expr-acc[open]>summary::before{content:"\25BE ";}
+.expr-acc[open]>summary{border-bottom:1px solid var(--line);margin-bottom:8px;}
 .maptbl{width:100%;border-collapse:collapse;font-size:.85rem;margin:4px 0 10px;}
 .maptbl th{text-align:left;color:var(--brand);font-weight:700;padding:3px 8px;white-space:nowrap;vertical-align:top;width:32%;}
 .maptbl td{padding:3px 8px;color:var(--ink);}
@@ -633,15 +639,15 @@ var EXPR=[
 ];
 var el=document.getElementById('expr-list');
 EXPR.forEach(function(g){
-  var d=document.createElement('div');d.className='expr-group';
+  var det=document.createElement('details');det.className='expr-acc';
   var lis=g.items.map(function(it){return '<li><span class="en">'+it[0]+'</span><span class="ja">'+it[1]+'</span></li>';}).join('');
-  var html='<div class="gt">'+g.head+'</div>';
-  if(g.sub) html+='<div class="muted" style="margin-bottom:4px">'+g.sub+'</div>';
-  html+='<ol class="expr-ol">'+lis+'</ol>';
-  if(g.tip) html+='<div class="tip">💡 使い分け： '+g.tip+'</div>';
-  if(g.note) html+='<div class="note">'+g.note+'</div>';
-  d.innerHTML=html;
-  el.appendChild(d);
+  var inner='';
+  if(g.sub) inner+='<div class="muted" style="margin:4px 0">'+g.sub+'</div>';
+  inner+='<ol class="expr-ol">'+lis+'</ol>';
+  if(g.tip) inner+='<div class="tip">💡 使い分け： '+g.tip+'</div>';
+  if(g.note) inner+='<div class="note">'+g.note+'</div>';
+  det.innerHTML='<summary>'+g.head+'</summary>'+inner;
+  el.appendChild(det);
 });
 </script>
 </body>
