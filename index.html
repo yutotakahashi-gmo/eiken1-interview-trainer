@@ -55,6 +55,7 @@ header.top p{margin:0;color:var(--sub);font-size:.9rem;}
 .tpl{background:var(--bg);border-radius:12px;padding:14px 16px;font-size:.95rem;}
 .tpl .slot{background:#fff8d6;border-bottom:2px solid var(--amber);padding:0 4px;border-radius:3px;font-weight:600;font-style:italic;}
 .tpl .conn{color:var(--brand);font-weight:700;}
+.hl{background:#fff3bf;border-radius:3px;padding:0 2px;}
 label.fld{display:block;font-size:.82rem;font-weight:700;color:var(--sub);margin:12px 0 4px;}
 textarea,input.txt,select{width:100%;border:1px solid var(--line);border-radius:10px;
   padding:10px 12px;font-size:.95rem;font-family:inherit;background:#fff;color:var(--ink);resize:vertical;}
@@ -182,11 +183,11 @@ footer.foot{text-align:center;color:var(--sub);font-size:.78rem;margin-top:24px;
     <h3 style="margin-top:16px">🔁 C〜G の候補（/// 区切り・話題に合わせて選択）</h3>
     <table class="swaptbl">
       <tr><th>記号</th><th>候補（多数・自由に選択）</th></tr>
-      <tr><td>C（課題）</td><td>social inequality /// environmental problems /// economic challenges /// public health concerns /// structural barriers</td></tr>
-      <tr><td>D（効果・貢献）</td><td>public trust /// social stability /// economic growth /// equal opportunities /// civic participation</td></tr>
-      <tr><td>E（役割・目標）</td><td>building a fairer society /// promoting sustainable development /// improving public welfare</td></tr>
-      <tr><td>F（国名）</td><td>Singapore /// Finland /// Sweden /// Germany /// Canada /// Japan</td></tr>
-      <tr><td>G（手段）</td><td>effective policymaking and public cooperation /// continued investment and education /// international cooperation and innovation /// deliberate policymaking that reflects a wide range of public opinion /// inclusive policymaking that takes diverse perspectives into account /// evidence-based policymaking and meaningful public engagement</td></tr>
+      <tr><td>C（課題）</td><td>social inequality / environmental problems / economic challenges / public health concerns / structural barriers</td></tr>
+      <tr><td>D（効果・貢献）</td><td>public trust / social stability / economic growth / equal opportunities / civic participation</td></tr>
+      <tr><td>E（役割・目標）</td><td>building a fairer society / promoting sustainable development / improving public welfare</td></tr>
+      <tr><td>F（国名）</td><td>Singapore / Finland / Sweden / Germany / Canada / Japan</td></tr>
+      <tr><td>G（手段）</td><td>effective policymaking and public cooperation / continued investment and education / international cooperation and innovation / deliberate policymaking that reflects a wide range of public opinion / inclusive policymaking that takes diverse perspectives into account / evidence-based policymaking and meaningful public engagement</td></tr>
     </table>
     <p class="muted" style="margin-top:10px">💡 各「模範解答例」の<b>テンプレ対応表</b>で当てはめ方を確認できます。数値・研究・具体例が説得力の核。</p>
   </div>
@@ -423,8 +424,10 @@ var MODELS=[
  ]}
 ];
 
+function _hl(x){return '<span class="hl">'+x+'</span>';}
 function _mk(A,B,ch,num,alt,ctx,app,ex,res,dom){
- return "The importance of "+A+" has become increasingly evident in recent years, giving rise to considerable debate. While some argue that "+B+", I believe "+A+" is fundamentally essential. This view is supported by two key considerations.\n\nFirst, "+A+" is indispensable because it helps tackle "+ch+". Numerous studies have highlighted that "+A+" contributes to "+ctx+". Therefore, "+A+" plays a vital role in "+dom+".\n\nSecond, "+A+" has proved beneficial in practice. Singapore provides a compelling example, where its implementation has produced positive outcomes. Similar results have also been observed in other countries and regions, indicating that the advantages of "+A+" are widely applicable rather than limited to a particular context.\n\nIn conclusion, the evidence strongly suggests that "+A+" is essential for long-term societal development. Although certain challenges remain, they can be addressed through effective policymaking and public cooperation. Therefore, continued efforts to promote "+A+" should be encouraged.";
+ var a=_hl(A);
+ return "The importance of "+a+" has become increasingly evident in recent years, giving rise to considerable debate. While some argue that "+_hl(B)+", I believe "+a+" is fundamentally essential. This view is supported by two key considerations.\n\nFirst, "+a+" is indispensable because it helps tackle "+_hl(ch)+". Numerous studies have highlighted that "+a+" contributes to "+_hl(ctx)+". Therefore, "+a+" plays a vital role in "+_hl(dom)+".\n\nSecond, "+a+" has proved beneficial in practice. "+_hl('Singapore')+" provides a compelling example, where its implementation has produced positive outcomes. Similar results have also been observed in other countries and regions, indicating that the advantages of "+a+" are widely applicable rather than limited to a particular context.\n\nIn conclusion, the evidence strongly suggests that "+a+" is essential for long-term societal development. Although certain challenges remain, they can be addressed through "+_hl('effective policymaking and public cooperation')+". Therefore, continued efforts to promote "+a+" should be encouraged.";
 }
 function _map(A,B,ch,num,alt,ctx,app,ex,res,dom){
  return [["A（主張）",A],["B（譲歩・対立意見）",B],["C（課題）",ch],["D（効果・貢献）",ctx],["E（役割・目標）",dom]];
@@ -510,14 +513,12 @@ function renderModels(cat){
     sb.innerHTML = top.length ? ('<p class="ks-note">「'+cat+'」の頻出キーワード（厳選'+top.length+'語）</p><div class="kwbox">'+top.map(function(k){return '<span class="kw">'+k+'</span>';}).join('')+'</div>') : '<p class="ks-note">このカテゴリーにはキーワード集がありません。</p>';
   })();
   DATA.filter(function(d){return d.cat===cat;}).forEach(function(m){
-    var wc=(m.body.match(/[A-Za-z'-]+/g)||[]).length;
+    var wc=(m.body.replace(/<[^>]+>/g,'').match(/[A-Za-z'-]+/g)||[]).length;
     var det=document.createElement('details');det.className='model-acc';
     var qaHtml=m.qa.map(function(p){return '<details class="qa"><summary>Q&amp;A例: '+p[0]+'</summary><p>'+p[1]+'</p></details>';}).join('');
-    var mapHtml='';
-    if(m.map){var rows=m.map.map(function(r){return '<tr><th>'+r[0]+'</th><td>'+r[1]+'</td></tr>';}).join('');mapHtml='<details class="qa"><summary>テンプレ対応表（当てはめ）</summary><table class="maptbl">'+rows+'</table></details>';}
     var kwHtml='';
     if(m.kw){kwHtml='<div class="kwbox"><span class="kwlabel">キーワード</span>'+m.kw.map(function(k){return '<span class="kw">'+k+'</span>';}).join('')+'</div>';}
-    det.innerHTML='<summary>'+m.q+'</summary>'+kwHtml+mapHtml+'<div class="body">'+m.body.replace(/\n/g,'<br>')+'</div><div class="meta">約 '+wc+' words</div>'+qaHtml;
+    det.innerHTML='<summary>'+m.q+'</summary>'+kwHtml+'<div class="body">'+m.body.replace(/\n/g,'<br>')+'</div><div class="meta">約 '+wc+' words</div>'+qaHtml;
     ml.appendChild(det);
   });
 }
